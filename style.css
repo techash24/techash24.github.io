@@ -1,1346 +1,1382 @@
-/* ==========================================
-   TECHASH24 v3.0
-   Part 1
-   Global • Loader • Navbar • Hero
-========================================== */
+    /* ==========================================
+    TECHASH24 v3.0
+    Part 1
+    Global • Loader • Navbar • Hero
+    ========================================== */
 
-/* Google Font */
+    /* Google Font */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-/* Reset */
+    /* Reset */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
 
-/* Variables */
+    /* Variables */
 
-:root{
+    :root{
 
-    --bg:#050816;
+        --bg:#050816;
 
-    --card:#081120;
+        --card:#081120;
 
-    --primary:#00d9ff;
+        --primary:#00d9ff;
 
-    --primary-light:#4be8ff;
+        --primary-light:#4be8ff;
 
-    --white:#ffffff;
+        --white:#ffffff;
 
-    --gray:#bfc9d4;
+        --gray:#bfc9d4;
 
-    --transition:.35s ease;
-
-}
-
-/* Smooth Scroll */
-
-html{
-
-    scroll-behavior:smooth;
-
-}
-
-/* Body */
-
-body{
-
-    font-family:'Poppins',sans-serif;
-
-    background:
-    radial-gradient(circle at top,#10284f,#050816 60%);
-
-    color:var(--white);
-
-    overflow-x:hidden;
-
-}
-
-/* Selection */
-
-::selection{
-
-    background:var(--primary);
-
-    color:#000;
-
-}
-
-/* Scrollbar */
-
-::-webkit-scrollbar{
-
-    width:10px;
-
-}
-
-::-webkit-scrollbar-track{
-
-    background:#07101f;
-
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:var(--primary);
-
-    border-radius:50px;
-
-}
-
-::-webkit-scrollbar-thumb:hover{
-
-    background:var(--primary-light);
-
-}
-
-/* ==========================
-   PARTICLES
-========================== */
-
-#particles-js{
-
-    position:fixed;
-
-    inset:0;
-
-    width:100%;
-
-    height:100%;
-
-    z-index:-1;
-
-}
-
-/* ==========================
-   LOADER
-========================== */
-
-#loader{
-
-    position:fixed;
-
-    inset:0;
-
-    background:#02040f;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    flex-direction:column;
-
-    z-index:9999;
-
-}
-
-#loader h1{
-
-    font-size:60px;
-
-    color:var(--primary);
-
-    text-shadow:0 0 25px cyan;
-
-    margin-bottom:25px;
-
-}
-
-#loading-text{
-
-    color:var(--gray);
-
-    margin-bottom:20px;
-
-    font-size:18px;
-
-    letter-spacing:1px;
-
-}
-
-.loader-progress{
-
-    width:330px;
-
-    height:8px;
-
-    background:#16233b;
-
-    border-radius:50px;
-
-    overflow:hidden;
-
-}
-
-.loader-progress-bar{
-
-    width:0;
-
-    height:100%;
-
-    background:var(--primary);
-
-    box-shadow:0 0 15px cyan;
-
-    animation:loader 3s linear forwards;
-
-}
-
-@keyframes loader{
-
-    from{
-
-        width:0;
+        --transition:.35s ease;
 
     }
 
-    to{
+    /* Smooth Scroll */
+
+    html{
+
+        scroll-behavior:smooth;
+
+    }
+
+    /* Body */
+
+    body{
+
+        font-family:'Poppins',sans-serif;
+
+        background:
+        radial-gradient(circle at top,#10284f,#050816 60%);
+
+        color:var(--white);
+
+        overflow-x:hidden;
+
+    }
+
+    /* Selection */
+
+    ::selection{
+
+        background:var(--primary);
+
+        color:#000;
+
+    }
+
+    /* Scrollbar */
+
+    ::-webkit-scrollbar{
+
+        width:10px;
+
+    }
+
+    ::-webkit-scrollbar-track{
+
+        background:#07101f;
+
+    }
+
+    ::-webkit-scrollbar-thumb{
+
+        background:var(--primary);
+
+        border-radius:50px;
+
+    }
+
+    ::-webkit-scrollbar-thumb:hover{
+
+        background:var(--primary-light);
+
+    }
+
+    /* ==========================
+    PARTICLES
+    ========================== */
+
+    #particles-js{
+
+        position:fixed;
+
+        inset:0;
 
         width:100%;
 
-    }
+        height:100%;
 
-}
-
-/* ==========================
-   HEADER
-========================== */
-
-header{
-
-    position:fixed;
-
-    width:100%;
-
-    top:0;
-
-    left:0;
-
-    z-index:999;
-
-}
-
-/* ==========================
-   NAVBAR
-========================== */
-
-.navbar{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:22px 70px;
-
-    background:rgba(8,17,32,.85);
-
-    backdrop-filter:blur(12px);
-
-    border-bottom:1px solid rgba(0,217,255,.2);
-
-}
-
-.logo{
-
-    font-size:28px;
-
-    font-weight:700;
-
-    color:var(--primary);
-
-    letter-spacing:2px;
-
-    text-shadow:0 0 20px cyan;
-
-}
-
-.nav-links{
-
-    display:flex;
-
-    gap:35px;
-
-    list-style:none;
-
-}
-
-.nav-links a{
-
-    color:var(--white);
-
-    text-decoration:none;
-
-    transition:var(--transition);
-
-    font-weight:500;
-
-}
-
-.nav-links a:hover{
-
-    color:var(--primary);
-
-}
-
-/* ==========================
-   HERO
-========================== */
-
-.hero{
-
-    min-height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    padding:120px 20px 60px;
-
-}
-
-.hero-content{
-
-    max-width:850px;
-
-}
-
-.welcome{
-
-    color:var(--primary);
-
-    font-size:18px;
-
-    margin-bottom:18px;
-
-}
-
-.hero h1{
-
-    font-size:82px;
-
-    color:var(--primary);
-
-    text-shadow:0 0 25px cyan;
-
-    margin-bottom:18px;
-
-}
-
-.hero h2{
-
-    font-size:34px;
-
-    margin-bottom:30px;
-
-}
-
-#typing{
-
-    color:white;
-
-    border-right:3px solid cyan;
-
-    padding-right:5px;
-
-}
-
-.hero-text{
-
-    color:var(--gray);
-
-    font-size:20px;
-
-    line-height:1.9;
-
-    margin-bottom:45px;
-
-}
-
-/* ==========================
-   BUTTONS
-========================== */
-
-.buttons{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:20px;
-
-    flex-wrap:wrap;
-
-}
-
-.btn{
-
-    padding:15px 35px;
-
-    border-radius:10px;
-
-    background:var(--primary);
-
-    color:#07111f;
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    transition:var(--transition);
-
-}
-
-.btn:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:0 0 25px cyan;
-
-}
-
-.outline{
-
-    background:transparent;
-
-    color:var(--primary);
-
-    border:2px solid var(--primary);
-
-}
-
-.outline:hover{
-
-    background:var(--primary);
-
-    color:#07111f;
-
-}
-
-/* ==========================
-   SECTION TITLE
-========================== */
-
-.section-title{
-
-    text-align:center;
-
-    font-size:42px;
-
-    color:var(--primary);
-
-    margin-bottom:60px;
-
-    text-shadow:0 0 18px cyan;
-
-}
-/* ==========================================
-   TECHASH24 v3.0
-   Part 2
-   ABOUT • SKILLS • PROJECTS
-==========================================*/
-
-/* ==========================
-   ABOUT SECTION
-========================== */
-
-.about{
-
-    padding:120px 10%;
-
-}
-
-.about-container{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:70px;
-
-    flex-wrap:wrap;
-
-}
-
-.profile-card{
-
-    width:320px;
-
-    background:rgba(8,17,32,.85);
-
-    backdrop-filter:blur(12px);
-
-    border:1px solid rgba(0,217,255,.3);
-
-    border-radius:25px;
-
-    padding:35px;
-
-    text-align:center;
-
-    transition:.4s;
-
-}
-
-.profile-card:hover{
-
-    transform:translateY(-10px);
-
-    box-shadow:0 0 30px rgba(0,217,255,.4);
-
-}
-
-.profile-image{
-
-    width:220px;
-
-    height:220px;
-
-    margin:auto;
-
-    margin-bottom:25px;
-
-    overflow:hidden;
-
-    border-radius:20px;
-
-}
-
-.profile-image img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-}
-
-.profile-card h3{
-
-    color:var(--primary);
-
-    margin-bottom:10px;
-
-}
-
-.profile-card p{
-
-    color:var(--gray);
-
-}
-
-.about-text{
-
-    max-width:650px;
-
-}
-
-.about-text h3{
-
-    font-size:38px;
-
-    margin-bottom:20px;
-
-    color:var(--primary);
-
-}
-
-.about-text p{
-
-    color:var(--gray);
-
-    line-height:1.9;
-
-    margin-bottom:20px;
-
-    font-size:18px;
-
-}
-
-/* ==========================
-   STATS
-========================== */
-
-.stats{
-
-    display:flex;
-
-    gap:20px;
-
-    margin-top:40px;
-
-    flex-wrap:wrap;
-
-}
-
-.stat-box{
-
-    flex:1;
-
-    min-width:150px;
-
-    background:rgba(8,17,32,.9);
-
-    border:1px solid rgba(0,217,255,.25);
-
-    border-radius:18px;
-
-    padding:25px;
-
-    text-align:center;
-
-    transition:.35s;
-
-}
-
-.stat-box:hover{
-
-    transform:translateY(-6px);
-
-    box-shadow:0 0 25px rgba(0,217,255,.35);
-
-}
-
-.stat-box h4{
-
-    font-size:40px;
-
-    color:var(--primary);
-
-}
-
-.stat-box p{
-
-    margin-top:10px;
-
-    color:var(--gray);
-
-}
-
-/* ==========================
-   SKILLS
-========================== */
-
-.skills{
-
-    padding:120px 10%;
-
-}
-
-.skills-subtitle{
-
-    text-align:center;
-
-    color:var(--gray);
-
-    margin-bottom:55px;
-
-    font-size:18px;
-
-}
-
-.skills-container{
-
-    max-width:900px;
-
-    margin:auto;
-
-}
-
-.skill-card{
-
-    background:rgba(8,17,32,.85);
-
-    border:1px solid rgba(0,217,255,.25);
-
-    border-radius:18px;
-
-    padding:22px;
-
-    margin-bottom:28px;
-
-    transition:.35s;
-
-}
-
-.skill-card:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 0 20px rgba(0,217,255,.35);
-
-}
-
-.skill-card h3{
-
-    margin-bottom:12px;
-
-    color:var(--primary);
-
-}
-
-.progress{
-
-    width:100%;
-
-    height:15px;
-
-    background:#14233b;
-
-    border-radius:50px;
-
-    overflow:hidden;
-
-}
-
-.progress-fill{
-
-    height:100%;
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    align-items:center;
-
-    padding-right:10px;
-
-    color:white;
-
-    font-size:12px;
-
-    font-weight:600;
-
-    animation:grow 2s ease forwards;
-
-}
-
-.html{
-
-    width:95%;
-
-    background:#ff5722;
-
-}
-
-.css{
-
-    width:90%;
-
-    background:#2196f3;
-
-}
-
-.js{
-
-    width:70%;
-
-    background:#f7df1e;
-
-    color:black;
-
-}
-
-.java{
-
-    width:75%;
-
-    background:#ff9800;
-
-}
-
-.github{
-
-    width:65%;
-
-    background:var(--primary);
-
-}
-
-@keyframes grow{
-
-    from{
-
-        width:0;
+        z-index:-1;
 
     }
 
-}
+    /* ==========================
+    LOADER
+    ========================== */
 
-/* ==========================
-   PROJECTS
-========================== */
+    #loader{
 
-.projects{
+        position:fixed;
 
-    padding:120px 10%;
+        inset:0;
 
-}
+        background:#02040f;
 
-.project-subtitle{
-
-    text-align:center;
-
-    color:var(--gray);
-
-    margin-bottom:60px;
-
-}
-
-.project-container{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-
-    gap:35px;
-
-}
-
-.project-card{
-
-    background:rgba(8,17,32,.85);
-
-    backdrop-filter:blur(12px);
-
-    border:1px solid rgba(0,217,255,.25);
-
-    border-radius:22px;
-
-    padding:30px;
-
-    transition:.35s;
-
-}
-
-.project-card:hover{
-
-    transform:translateY(-10px);
-
-    box-shadow:0 0 30px rgba(0,217,255,.35);
-
-}
-
-.project-card h3{
-
-    color:var(--primary);
-
-    margin-bottom:18px;
-
-}
-
-.project-card p{
-
-    color:var(--gray);
-
-    line-height:1.8;
-
-}
-
-.tech{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:10px;
-
-    margin:25px 0;
-
-}
-
-.tech span{
-
-    background:#12233d;
-
-    color:var(--primary);
-
-    padding:8px 15px;
-
-    border-radius:50px;
-
-    font-size:14px;
-
-}
-
-.project-buttons{
-
-    display:flex;
-
-    gap:15px;
-
-    margin-top:25px;
-
-}
-
-.project-buttons a{
-
-    flex:1;
-
-    text-align:center;
-
-    padding:12px;
-
-    text-decoration:none;
-
-    background:var(--primary);
-
-    color:#07111f;
-
-    border-radius:10px;
-
-    font-weight:600;
-
-    transition:.3s;
-
-}
-
-.project-buttons a:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 0 18px cyan;
-
-}
-/* ==========================================
-   TECHASH24 v3.0
-   Part 3
-   CONTACT • FOOTER • RESPONSIVE
-==========================================*/
-
-/* ==========================
-   CONTACT
-========================== */
-
-.contact{
-
-    padding:120px 10%;
-
-}
-
-.contact-container{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-
-    gap:30px;
-
-    margin-top:50px;
-
-}
-
-.contact-card{
-
-    background:rgba(8,17,32,.88);
-
-    border:1px solid rgba(0,217,255,.25);
-
-    backdrop-filter:blur(12px);
-
-    border-radius:20px;
-
-    padding:35px;
-
-    text-align:center;
-
-    transition:.35s;
-
-}
-
-.contact-card:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:0 0 25px rgba(0,217,255,.35);
-
-}
-
-.contact-card h3{
-
-    color:var(--primary);
-
-    margin-bottom:15px;
-
-    font-size:24px;
-
-}
-
-.contact-card p{
-    color: var(--gray);
-    font-size: 17px;
-    line-height: 1.8;
-
-    white-space: nowrap;
-}
-
-/* ==========================
-   FOOTER
-========================== */
-
-footer{
-
-    padding:35px 20px;
-
-    text-align:center;
-
-    border-top:1px solid rgba(0,217,255,.15);
-
-    background:#06101d;
-
-}
-
-footer p{
-
-    color:var(--gray);
-
-    font-size:15px;
-
-}
-
-/* ==========================
-   FADE ANIMATION
-========================== */
-
-.hero,
-.about,
-.skills,
-.projects,
-.contact{
-
-    animation:fadeUp .8s ease;
-
-}
-
-@keyframes fadeUp{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(30px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-/* ==========================
-   IMAGE HOVER
-========================== */
-
-.profile-image img{
-
-    transition:.5s;
-
-}
-
-.profile-image:hover img{
-
-    transform:scale(1.08);
-
-}
-
-/* ==========================
-   LINK HOVER
-========================== */
-
-a{
-
-    transition:.3s;
-
-}
-
-/* ==========================
-   RESPONSIVE TABLET
-========================== */
-
-@media(max-width:992px){
-
-    .navbar{
-
-        padding:20px 35px;
-
-    }
-
-    .hero h1{
-
-        font-size:60px;
-
-    }
-
-    .hero h2{
-
-        font-size:28px;
-
-    }
-
-    .about-container{
-
-        flex-direction:column;
-
-        text-align:center;
-
-    }
-
-    .stats{
+        display:flex;
 
         justify-content:center;
-
-    }
-
-}
-
-/* ==========================
-   RESPONSIVE MOBILE
-========================== */
-
-@media(max-width:768px){
-
-    .navbar{
-
-        flex-direction:column;
-
-        gap:20px;
-
-        padding:20px;
-
-    }
-
-    .nav-links{
-
-        flex-wrap:wrap;
-
-        justify-content:center;
-
-        gap:18px;
-
-    }
-
-    .hero{
-
-        padding-top:180px;
-
-    }
-
-    .hero h1{
-
-        font-size:48px;
-
-    }
-
-    .hero h2{
-
-        font-size:24px;
-
-    }
-
-    .hero-text{
-
-        font-size:17px;
-
-    }
-
-    .buttons{
-
-        flex-direction:column;
 
         align-items:center;
 
-    }
-
-    .btn{
-
-        width:220px;
-
-        text-align:center;
-
-    }
-
-    .profile-card{
-
-        width:100%;
-
-        max-width:330px;
-
-    }
-
-    .profile-image{
-
-        width:180px;
-
-        height:180px;
-
-    }
-
-    .stats{
-
         flex-direction:column;
 
-    }
-
-    .project-buttons{
-
-        flex-direction:column;
-
-    }
-
-}
-
-/* ==========================
-   SMALL MOBILE
-========================== */
-
-@media(max-width:480px){
-
-    .hero h1{
-
-        font-size:38px;
-
-    }
-
-    .hero h2{
-
-        font-size:20px;
-
-    }
-
-    .section-title{
-
-        font-size:32px;
-
-    }
-
-    .loader-progress{
-
-        width:240px;
+        z-index:9999;
 
     }
 
     #loader h1{
 
-        font-size:42px;
+        font-size:60px;
+
+        color:var(--primary);
+
+        text-shadow:0 0 25px cyan;
+
+        margin-bottom:25px;
 
     }
 
+    #loading-text{
+
+        color:var(--gray);
+
+        margin-bottom:20px;
+
+        font-size:18px;
+
+        letter-spacing:1px;
+
+    }
+
+    .loader-progress{
+
+        width:330px;
+
+        height:8px;
+
+        background:#16233b;
+
+        border-radius:50px;
+
+        overflow:hidden;
+
+    }
+
+    .loader-progress-bar{
+
+        width:0;
+
+        height:100%;
+
+        background:var(--primary);
+
+        box-shadow:0 0 15px cyan;
+
+        animation:loader 3s linear forwards;
+
+    }
+
+    @keyframes loader{
+
+        from{
+
+            width:0;
+
+        }
+
+        to{
+
+            width:100%;
+
+        }
+
+    }
+
+    /* ==========================
+    HEADER
+    ========================== */
+
+    header{
+
+        position:fixed;
+
+        width:100%;
+
+        top:0;
+
+        left:0;
+
+        z-index:999;
+
+    }
+
+    /* ==========================
+    NAVBAR
+    ========================== */
+
+    .navbar{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+        padding:22px 70px;
+
+        background:rgba(8,17,32,.85);
+
+        backdrop-filter:blur(12px);
+
+        border-bottom:1px solid rgba(0,217,255,.2);
+
+    }
+
+    .logo{
+
+        font-size:28px;
+
+        font-weight:700;
+
+        color:var(--primary);
+
+        letter-spacing:2px;
+
+        text-shadow:0 0 20px cyan;
+
+    }
+
+    .nav-links{
+
+        display:flex;
+
+        gap:35px;
+
+        list-style:none;
+
+    }
+
+    .nav-links a{
+
+        color:var(--white);
+
+        text-decoration:none;
+
+        transition:var(--transition);
+
+        font-weight:500;
+
+    }
+
+    .nav-links a:hover{
+
+        color:var(--primary);
+
+    }
+
+    /* ==========================
+    HERO
+    ========================== */
+
+    .hero{
+
+        min-height:100vh;
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        text-align:center;
+
+        padding:120px 20px 60px;
+
+    }
+
+    .hero-content{
+
+        max-width:850px;
+
+    }
+
+    .welcome{
+
+        color:var(--primary);
+
+        font-size:18px;
+
+        margin-bottom:18px;
+
+    }
+
+    .hero h1{
+
+        font-size:82px;
+
+        color:var(--primary);
+
+        text-shadow:0 0 25px cyan;
+
+        margin-bottom:18px;
+
+    }
+
+    .hero h2{
+
+        font-size:34px;
+
+        margin-bottom:30px;
+
+    }
+
+    #typing{
+
+        color:white;
+
+        border-right:3px solid cyan;
+
+        padding-right:5px;
+
+    }
+
+    .hero-text{
+
+        color:var(--gray);
+
+        font-size:20px;
+
+        line-height:1.9;
+
+        margin-bottom:45px;
+
+    }
+
+    /* ==========================
+    BUTTONS
+    ========================== */
+
+    .buttons{
+
+        display:flex;
+
+        justify-content:center;
+
+        gap:20px;
+
+        flex-wrap:wrap;
+
+    }
+
+    .btn{
+
+        padding:15px 35px;
+
+        border-radius:10px;
+
+        background:var(--primary);
+
+        color:#07111f;
+
+        text-decoration:none;
+
+        font-weight:600;
+
+        transition:var(--transition);
+
+    }
+
+    .btn:hover{
+
+        transform:translateY(-4px);
+
+        box-shadow:0 0 25px cyan;
+
+    }
+
+    .outline{
+
+        background:transparent;
+
+        color:var(--primary);
+
+        border:2px solid var(--primary);
+
+    }
+
+    .outline:hover{
+
+        background:var(--primary);
+
+        color:#07111f;
+
+    }
+
+    /* ==========================
+    SECTION TITLE
+    ========================== */
+
+    .section-title{
+
+        text-align:center;
+
+        font-size:42px;
+
+        color:var(--primary);
+
+        margin-bottom:60px;
+
+        text-shadow:0 0 18px cyan;
+
+    }
+    /* ==========================================
+    TECHASH24 v3.0
+    Part 2
+    ABOUT • SKILLS • PROJECTS
+    ==========================================*/
+
+    /* ==========================
+    ABOUT SECTION
+    ========================== */
+
+    .about{
+
+        padding:120px 10%;
+
+    }
+
+    .about-container{
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        gap:70px;
+
+        flex-wrap:wrap;
+
+    }
+
+    .profile-card{
+
+        width:320px;
+
+        background:rgba(8,17,32,.85);
+
+        backdrop-filter:blur(12px);
+
+        border:1px solid rgba(0,217,255,.3);
+
+        border-radius:25px;
+
+        padding:35px;
+
+        text-align:center;
+
+        transition:.4s;
+
+    }
+
+    .profile-card:hover{
+
+        transform:translateY(-10px);
+
+        box-shadow:0 0 30px rgba(0,217,255,.4);
+
+    }
+
+    .profile-image{
+
+        width:220px;
+
+        height:220px;
+
+        margin:auto;
+
+        margin-bottom:25px;
+
+        overflow:hidden;
+
+        border-radius:20px;
+
+    }
+
+    .profile-image img{
+
+        width:100%;
+
+        height:100%;
+
+        object-fit:cover;
+
+    }
+
+    .profile-card h3{
+
+        color:var(--primary);
+
+        margin-bottom:10px;
+
+    }
+
+    .profile-card p{
+
+        color:var(--gray);
+
+    }
+
+    .about-text{
+
+        max-width:650px;
+
+    }
+
+    .about-text h3{
+
+        font-size:38px;
+
+        margin-bottom:20px;
+
+        color:var(--primary);
+
+    }
+
+    .about-text p{
+
+        color:var(--gray);
+
+        line-height:1.9;
+
+        margin-bottom:20px;
+
+        font-size:18px;
+
+    }
+
+    /* ==========================
+    STATS
+    ========================== */
+
+    .stats{
+
+        display:flex;
+
+        gap:20px;
+
+        margin-top:40px;
+
+        flex-wrap:wrap;
+
+    }
+
+    .stat-box{
+
+        flex:1;
+
+        min-width:150px;
+
+        background:rgba(8,17,32,.9);
+
+        border:1px solid rgba(0,217,255,.25);
+
+        border-radius:18px;
+
+        padding:25px;
+
+        text-align:center;
+
+        transition:.35s;
+
+    }
+
+    .stat-box:hover{
+
+        transform:translateY(-6px);
+
+        box-shadow:0 0 25px rgba(0,217,255,.35);
+
+    }
+
+    .stat-box h4{
+
+        font-size:40px;
+
+        color:var(--primary);
+
+    }
+
+    .stat-box p{
+
+        margin-top:10px;
+
+        color:var(--gray);
+
+    }
+
+    /* ==========================
+    SKILLS
+    ========================== */
+
+    .skills{
+
+        padding:120px 10%;
+
+    }
+
+    .skills-subtitle{
+
+        text-align:center;
+
+        color:var(--gray);
+
+        margin-bottom:55px;
+
+        font-size:18px;
+
+    }
+
+    .skills-container{
+
+        max-width:900px;
+
+        margin:auto;
+
+    }
+
+    .skill-card{
+
+        background:rgba(8,17,32,.85);
+
+        border:1px solid rgba(0,217,255,.25);
+
+        border-radius:18px;
+
+        padding:22px;
+
+        margin-bottom:28px;
+
+        transition:.35s;
+
+    }
+
+    .skill-card:hover{
+
+        transform:translateY(-5px);
+
+        box-shadow:0 0 20px rgba(0,217,255,.35);
+
+    }
+
+    .skill-card h3{
+
+        margin-bottom:12px;
+
+        color:var(--primary);
+
+    }
+
+    .progress{
+
+        width:100%;
+
+        height:15px;
+
+        background:#14233b;
+
+        border-radius:50px;
+
+        overflow:hidden;
+
+    }
+
+    .progress-fill{
+
+        height:100%;
+
+        display:flex;
+
+        justify-content:flex-end;
+
+        align-items:center;
+
+        padding-right:10px;
+
+        color:white;
+
+        font-size:12px;
+
+        font-weight:600;
+
+        animation:grow 2s ease forwards;
+
+    }
+
+    .html{
+
+        width:95%;
+
+        background:#ff5722;
+
+    }
+
+    .css{
+
+        width:90%;
+
+        background:#2196f3;
+
+    }
+
+    .js{
+
+        width:70%;
+
+        background:#f7df1e;
+
+        color:black;
+
+    }
+
+    .java{
+
+        width:75%;
+
+        background:#ff9800;
+
+    }
+
+    .github{
+
+        width:65%;
+
+        background:var(--primary);
+
+    }
+
+    @keyframes grow{
+
+        from{
+
+            width:0;
+
+        }
+
+    }
+
+    /* ==========================
+    PROJECTS
+    ========================== */
+
+    .projects{
+
+        padding:120px 10%;
+
+    }
+
+    .project-subtitle{
+
+        text-align:center;
+
+        color:var(--gray);
+
+        margin-bottom:60px;
+
+    }
+
+    .project-container{
+
+        display:grid;
+
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+        gap:35px;
+
+    }
+
+    .project-card{
+
+        background:rgba(8,17,32,.85);
+
+        backdrop-filter:blur(12px);
+
+        border:1px solid rgba(0,217,255,.25);
+
+        border-radius:22px;
+
+        padding:30px;
+
+        transition:.35s;
+
+    }
+
+    .project-card:hover{
+
+        transform:translateY(-10px);
+
+        box-shadow:0 0 30px rgba(0,217,255,.35);
+
+    }
+
+    .project-card h3{
+
+        color:var(--primary);
+
+        margin-bottom:18px;
+
+    }
+
+    .project-card p{
+
+        color:var(--gray);
+
+        line-height:1.8;
+
+    }
+
+    .tech{
+
+        display:flex;
+
+        flex-wrap:wrap;
+
+        gap:10px;
+
+        margin:25px 0;
+
+    }
+
+    .tech span{
+
+        background:#12233d;
+
+        color:var(--primary);
+
+        padding:8px 15px;
+
+        border-radius:50px;
+
+        font-size:14px;
+
+    }
+
+    .project-buttons{
+
+        display:flex;
+
+        gap:15px;
+
+        margin-top:25px;
+
+    }
+
+    .project-buttons a{
+
+        flex:1;
+
+        text-align:center;
+
+        padding:12px;
+
+        text-decoration:none;
+
+        background:var(--primary);
+
+        color:#07111f;
+
+        border-radius:10px;
+
+        font-weight:600;
+
+        transition:.3s;
+
+    }
+
+    .project-buttons a:hover{
+
+        transform:translateY(-3px);
+
+        box-shadow:0 0 18px cyan;
+
+    }
+    /* ==========================================
+    TECHASH24 v3.0
+    Part 3
+    CONTACT • FOOTER • RESPONSIVE
+    ==========================================*/
+
+    /* ==========================
+    CONTACT
+    ========================== */
+
+    .contact{
+
+        padding:120px 10%;
+
+    }
+
+    .contact-container{
+
+        display:grid;
+
+        grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+        gap:30px;
+
+        margin-top:50px;
+
+    }
+
+    .contact-card{
+
+        background:rgba(8,17,32,.88);
+
+        border:1px solid rgba(0,217,255,.25);
+
+        backdrop-filter:blur(12px);
+
+        border-radius:20px;
+
+        padding:35px;
+
+        text-align:center;
+
+        transition:.35s;
+
+    }
+
+    .contact-card:hover{
+
+        transform:translateY(-8px);
+
+        box-shadow:0 0 25px rgba(0,217,255,.35);
+
+    }
+
+    .contact-card h3{
+
+        color:var(--primary);
+
+        margin-bottom:15px;
+
+        font-size:24px;
+
+    }
+
+    .contact-card p{
+        color: var(--gray);
+        font-size: 17px;
+        line-height: 1.8;
+
+        white-space: nowrap;
+    }
+
+    /* ==========================
+    FOOTER
+    ========================== */
+
+    footer{
+
+        padding:35px 20px;
+
+        text-align:center;
+
+        border-top:1px solid rgba(0,217,255,.15);
+
+        background:#06101d;
+
+    }
+
+    footer p{
+
+        color:var(--gray);
+
+        font-size:15px;
+
+    }
+
+    /* ==========================
+    FADE ANIMATION
+    ========================== */
+
+    .hero,
+    .about,
+    .skills,
+    .projects,
+    .contact{
+
+        animation:fadeUp .8s ease;
+
+    }
+
+    @keyframes fadeUp{
+
+        from{
+
+            opacity:0;
+
+            transform:translateY(30px);
+
+        }
+
+        to{
+
+            opacity:1;
+
+            transform:translateY(0);
+
+        }
+
+    }
+
+    /* ==========================
+    IMAGE HOVER
+    ========================== */
+
+    .profile-image img{
+
+        transition:.5s;
+
+    }
+
+    .profile-image:hover img{
+
+        transform:scale(1.08);
+
+    }
+
+    /* ==========================
+    LINK HOVER
+    ========================== */
+
+    a{
+
+        transition:.3s;
+
+    }
+
+    /* ==========================
+    RESPONSIVE TABLET
+    ========================== */
+
+    @media(max-width:992px){
+
+        .navbar{
+
+            padding:20px 35px;
+
+        }
+
+        .hero h1{
+
+            font-size:60px;
+
+        }
+
+        .hero h2{
+
+            font-size:28px;
+
+        }
+
+        .about-container{
+
+            flex-direction:column;
+
+            text-align:center;
+
+        }
+
+        .stats{
+
+            justify-content:center;
+
+        }
+
+    }
+
+    /* ==========================
+    RESPONSIVE MOBILE
+    ========================== */
+
+    @media(max-width:768px){
+
+        .navbar{
+
+            flex-direction:column;
+
+            gap:20px;
+
+            padding:20px;
+
+        }
+
+        .nav-links{
+
+            flex-wrap:wrap;
+
+            justify-content:center;
+
+            gap:18px;
+
+        }
+
+        .hero{
+
+            padding-top:180px;
+
+        }
+
+        .hero h1{
+
+            font-size:48px;
+
+        }
+
+        .hero h2{
+
+            font-size:24px;
+
+        }
+
+        .hero-text{
+
+            font-size:17px;
+
+        }
+
+        .buttons{
+
+            flex-direction:column;
+
+            align-items:center;
+
+        }
+
+        .btn{
+
+            width:220px;
+
+            text-align:center;
+
+        }
+
+        .profile-card{
+
+            width:100%;
+
+            max-width:330px;
+
+        }
+
+        .profile-image{
+
+            width:180px;
+
+            height:180px;
+
+        }
+
+        .stats{
+
+            flex-direction:column;
+
+        }
+
+        .project-buttons{
+
+            flex-direction:column;
+
+        }
+
+    }
+
+    /* ==========================
+    SMALL MOBILE
+    ========================== */
+
+    @media(max-width:480px){
+
+        .hero h1{
+
+            font-size:38px;
+
+        }
+
+        .hero h2{
+
+            font-size:20px;
+
+        }
+
+        .section-title{
+
+            font-size:32px;
+
+        }
+
+        .loader-progress{
+
+            width:240px;
+
+        }
+
+        #loader h1{
+
+            font-size:42px;
+
+        }
+
+    }
+    /* ==========================
+    CONTACT POPUP
+    ========================== */
+
+    .modal{
+
+        display:none;
+
+        position:fixed;
+
+        left:0;
+        top:0;
+
+        width:100%;
+        height:100%;
+
+        background:rgba(0,0,0,.75);
+
+        justify-content:center;
+        align-items:center;
+
+        z-index:99999;
+
+    }
+
+    .modal-content{
+
+        width:90%;
+        max-width:600px;
+
+        background:#081120;
+
+        border:1px solid cyan;
+
+        border-radius:20px;
+
+        padding:35px;
+
+        position:relative;
+
+        box-shadow:0 0 35px cyan;
+
+    }
+
+    .modal-content h2{
+
+        color:#00d9ff;
+
+        margin-bottom:25px;
+
+        text-align:center;
+
+    }
+
+    .modal-content input,
+    .modal-content textarea{
+
+        width:100%;
+
+        padding:15px;
+
+        margin-bottom:18px;
+
+        border:none;
+
+        border-radius:10px;
+
+        background:#10213b;
+
+        color:white;
+
+    }
+
+    .close{
+
+        position:absolute;
+
+        right:20px;
+
+        top:15px;
+
+        font-size:32px;
+
+        cursor:pointer;
+
+        color:white;
+
+    }
+
+    .contact-card a{
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: .3s;
+    }
+
+    .contact-card a:hover{
+        color: white;
+        text-shadow: 0 0 10px cyan;
+    }
+    /* Contact Form */
+#contactForm{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
 }
-/* ==========================
-   CONTACT POPUP
-========================== */
 
-.modal{
-
-    display:none;
-
-    position:fixed;
-
-    left:0;
-    top:0;
-
+#contactForm input,
+#contactForm textarea{
     width:100%;
-    height:100%;
-
-    background:rgba(0,0,0,.75);
-
-    justify-content:center;
-    align-items:center;
-
-    z-index:99999;
-
-}
-
-.modal-content{
-
-    width:90%;
-    max-width:600px;
-
-    background:#081120;
-
-    border:1px solid cyan;
-
-    border-radius:20px;
-
-    padding:35px;
-
-    position:relative;
-
-    box-shadow:0 0 35px cyan;
-
-}
-
-.modal-content h2{
-
-    color:#00d9ff;
-
-    margin-bottom:25px;
-
-    text-align:center;
-
-}
-
-.modal-content input,
-.modal-content textarea{
-
-    width:100%;
-
     padding:15px;
-
-    margin-bottom:18px;
-
     border:none;
-
     border-radius:10px;
-
     background:#10213b;
-
-    color:white;
-
+    color:#fff;
+    font-size:16px;
+    outline:none;
 }
 
-.close{
-
-    position:absolute;
-
-    right:20px;
-
-    top:15px;
-
-    font-size:32px;
-
-    cursor:pointer;
-
-    color:white;
-
+#contactForm textarea{
+    resize:none;
 }
 
-.contact-card a{
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-    transition: .3s;
+#contactForm .btn{
+    width:100%;
+}
+.project-card img{
+    width:100%;
+    display:block;
+    border-radius:18px;
+    margin-bottom:20px;
 }
 
-.contact-card a:hover{
-    color: white;
-    text-shadow: 0 0 10px cyan;
+.project-content{
+    padding-top:5px;
 }
