@@ -689,144 +689,86 @@ if(scrollTopBtn){
 
 
 /* ==========================
-   EMAILJS CONTACT FORM
+   CONTACT POPUP
 ========================== */
 
+const modal = document.getElementById("contactModal");
+const openBtn = document.getElementById("openContact");
+const closeBtn = document.querySelector(".close");
 
+if (openBtn && modal && closeBtn) {
 
-const contactForm =
-document.getElementById("contactForm");
+    openBtn.onclick = () => {
+        modal.style.display = "flex";
+    };
 
+    closeBtn.onclick = () => {
+        modal.style.display = "none";
+    };
 
+    window.onclick = (e) => {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+const contactForm = document.getElementById("contactForm");
 
-if(contactForm){
+if (contactForm) {
 
-
-
-    contactForm.addEventListener("submit",(e)=>{
-
+    contactForm.addEventListener("submit", function(e) {
 
         e.preventDefault();
 
-
-
-        const button =
-        contactForm.querySelector("button");
-
-
-
-        if(button){
-
-
-            button.innerHTML="Sending...";
-
-            button.disabled=true;
-
-
-        }
-
-
-
-
-
-        const templateParams = {
-
-
-            from_name:
-            document.getElementById("from_name").value,
-
-
-            from_email:
-            document.getElementById("from_email").value,
-
-
-            subject:
-            document.getElementById("subject").value,
-
-
-            message:
-            document.getElementById("message").value
-
-
-        };
-
-
-
-
-
         emailjs.send(
-
             "service_va6hvnq",
-
             "template_07ne8tk",
-
-            templateParams
-
-
+            {
+                from_name: document.getElementById("from_name").value,
+                from_email: document.getElementById("from_email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            }
         )
 
-        .then(()=>{
+        .then(function() {
 
-
-            alert("✅ Message sent successfully!");
-
+            alert("✅ Message Sent Successfully!");
 
             contactForm.reset();
 
-
-
-            if(button){
-
-
-                button.innerHTML="🚀 Send Message";
-
-
-                button.disabled=false;
-
-
-            }
-
-
+            document.getElementById("contactModal").style.display = "none";
 
         })
 
+        .catch(function(error) {
 
+            console.log(error);
 
-        .catch((error)=>{
-
-
-            console.error(
-                "EmailJS Error:",
-                error
-            );
-
-
-
-            alert(
-                "❌ Failed to send message. Check console."
-            );
-
-
-
-            if(button){
-
-
-                button.innerHTML="🚀 Send Message";
-
-
-                button.disabled=false;
-
-
-            }
-
-
+            alert("❌ Failed to send message.");
 
         });
 
-
-
     });
 
-
-
 }
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        from_name: document.getElementById("from_name").value,
+        from_email: document.getElementById("from_email").value,
+        subject: document.getElementById("subject").value,
+        message: document.getElementById("message").value,
+        time: new Date().toLocaleString()
+    })
+    .then(function () {
+        alert("Message Sent Successfully!");
+        document.getElementById("contactForm").reset();
+        document.getElementById("contactModal").style.display = "none";
+    })
+    .catch(function (error) {
+        alert("Failed to send message.");
+        console.log(error);
+    });
+});
