@@ -1,145 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Calculator</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f1f5f9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-        }
 
-        .calculator {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 320px;
-        }
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-        #display {
-            width: 100%;
-            height: 60px;
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1.8rem;
-            text-align: right;
-            padding: 10px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            color: #1e293b;
-        }
+    <title>TECHASH24 Calculator</title>
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-        button {
-            padding: 18px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            background-color: #f1f5f9;
-            color: #334155;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
-        button:hover {
-            background-color: #e2e8f0;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
-        button:active {
-            transform: scale(0.95);
-        }
+    <link rel="stylesheet"
+          href="style.css">
 
-        .operator {
-            background-color: #ffedd5;
-            color: #c2410c;
-        }
-
-        .operator:hover {
-            background-color: #fed7aa;
-        }
-
-        .equal {
-            background-color: #22c55e;
-            color: white;
-            grid-column: span 2;
-        }
-
-        .equal:hover {
-            background-color: #16a34a;
-        }
-
-        .clear {
-            background-color: #fee2e2;
-            color: #dc2626;
-        }
-
-        .clear:hover {
-            background-color: #fecaca;
-        }
-    </style>
 </head>
+
 <body>
 
-    <div class="calculator">
-        <input type="text" id="display" readonly>
-        <div class="buttons">
-            <button class="clear" onclick="clearDisplay()">C</button>
-            <button onclick="appendValue('/')" class="operator">/</button>
-            <button onclick="appendValue('*')" class="operator">*</button>
-            <button onclick="appendValue('-')" class="operator">-</button>
-            
-            <button onclick="appendValue('7')">7</button>
-            <button onclick="appendValue('8')">8</button>
-            <button onclick="appendValue('9')">9</button>
-            <button onclick="appendValue('+')" class="operator">+</button>
-            
-            <button onclick="appendValue('4')">4</button>
-            <button onclick="appendValue('5')">5</button>
-            <button onclick="appendValue('6')">6</button>
-            <button onclick="appendValue('1')">1</button>
-            
-            <button onclick="appendValue('2')">2</button>
-            <button onclick="appendValue('3')">3</button>
-            <button onclick="appendValue('0')" style="grid-column: span 2;">0</button>
-            
-            <button onclick="appendValue('.')">.</button>
-            <button onclick="calculate()" class="equal">=</button>
-        </div>
+<div class="background"></div>
+
+<div class="calculator">
+
+    <div class="title">
+        <h1>TECHASH24</h1>
+        <p>Futuristic Calculator</p>
     </div>
 
-    <script>
-        const display = document.getElementById('display');
+    <div class="display">
 
-        function appendValue(value) {
-            display.value += value;
-        }
+        <div id="history"></div>
 
-        function clearDisplay() {
-            display.value = '';
-        }
+        <input
+            type="text"
+            id="display"
+            readonly
+            placeholder="0">
 
-        function calculate() {
-            try {
-                // Using JavaScript's built-in eval function to compute the arithmetic expression safely within this context
-                display.value = eval(display.value);
-            } catch (error) {
-                display.value = 'Error';
-            }
-        }
-    </script>
+    </div>
+
+    <div class="buttons">
+
+        <button class="clear" onclick="clearDisplay()">AC</button>
+
+        <button class="special" onclick="deleteLast()">⌫</button>
+
+        <button class="special" onclick="appendValue('%')">%</button>
+
+        <button class="operator" onclick="appendValue('/')">÷</button>
+
+
+        <button onclick="appendValue('7')">7</button>
+
+        <button onclick="appendValue('8')">8</button>
+
+        <button onclick="appendValue('9')">9</button>
+
+        <button class="operator" onclick="appendValue('*')">×</button>
+
+
+        <button onclick="appendValue('4')">4</button>
+
+        <button onclick="appendValue('5')">5</button>
+
+        <button onclick="appendValue('6')">6</button>
+
+        <button class="operator" onclick="appendValue('-')">−</button>
+
+
+        <button onclick="appendValue('1')">1</button>
+
+        <button onclick="appendValue('2')">2</button>
+
+        <button onclick="appendValue('3')">3</button>
+
+        <button class="operator" onclick="appendValue('+')">+</button>
+
+
+        <button onclick="toggleSign()">±</button>
+
+        <button onclick="appendValue('0')">0</button>
+
+        <button onclick="appendValue('.')">.</button>
+
+        <button class="equal"
+                onclick="calculate()">=</button>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+<div class="cursor"></div>
 </body>
+
 </html>
