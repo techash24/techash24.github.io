@@ -585,10 +585,6 @@ if(sections.length > 0 && navLinks.length > 0){
 
 }
 
-
-
-
-
 /* ==========================
    MOBILE MENU
 ========================== */
@@ -616,11 +612,6 @@ if(menuBtn && navMenu){
 
 
 }
-
-
-
-
-
 
 /* ==========================
    SCROLL TO TOP
@@ -652,46 +643,19 @@ if(scrollTopBtn){
 
             scrollTopBtn.classList.remove("show");
 
-
         }
 
-
     });
-
-
-
 
     scrollTopBtn.addEventListener("click",()=>{
 
-
         window.scrollTo({
-
-
             top:0,
 
-
             behavior:"smooth"
-
-
         });
-
-
     });
-
-
-
 }
-
-
-
-
-
-
-
-/* ==========================
-   CONTACT POPUP
-========================== */
-
 const modal = document.getElementById("contactModal");
 const openBtn = document.getElementById("openContact");
 const closeBtn = document.querySelector(".close");
@@ -711,12 +675,18 @@ if (openBtn && modal && closeBtn) {
             modal.style.display = "none";
         }
     };
+
 }
+
+/* ==========================
+   CONTACT FORM (EMAILJS)
+========================== */
+
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
 
-    contactForm.addEventListener("submit", function(e) {
+    contactForm.addEventListener("submit", function (e) {
 
         e.preventDefault();
 
@@ -727,23 +697,24 @@ if (contactForm) {
                 from_name: document.getElementById("from_name").value,
                 from_email: document.getElementById("from_email").value,
                 subject: document.getElementById("subject").value,
-                message: document.getElementById("message").value
+                message: document.getElementById("message").value,
+                time: new Date().toLocaleString()
             }
         )
 
-        .then(function() {
+        .then(function () {
 
             alert("✅ Message Sent Successfully!");
 
             contactForm.reset();
 
-            document.getElementById("contactModal").style.display = "none";
+            modal.style.display = "none";
 
         })
 
-        .catch(function(error) {
+        .catch(function (error) {
 
-            console.log(error);
+            console.error(error);
 
             alert("❌ Failed to send message.");
 
@@ -752,23 +723,3 @@ if (contactForm) {
     });
 
 }
-document.getElementById("contactForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-        from_name: document.getElementById("from_name").value,
-        from_email: document.getElementById("from_email").value,
-        subject: document.getElementById("subject").value,
-        message: document.getElementById("message").value,
-        time: new Date().toLocaleString()
-    })
-    .then(function () {
-        alert("Message Sent Successfully!");
-        document.getElementById("contactForm").reset();
-        document.getElementById("contactModal").style.display = "none";
-    })
-    .catch(function (error) {
-        alert("Failed to send message.");
-        console.log(error);
-    });
-});
