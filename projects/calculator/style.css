@@ -1,5 +1,6 @@
 /* ==========================================
-   TECHASH24 Calculator
+   TECHASH24 Calculator v4.0
+   style.css
 ========================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -11,43 +12,103 @@
     font-family:'Poppins',sans-serif;
 }
 
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#020817,#081120,#0b1d35);
-    overflow:hidden;
+:root{
+
+    --primary:#00d9ff;
+    --primary-light:#4be8ff;
+    --success:#00ff88;
+    --danger:#ff3b5f;
+    --warning:#ffb400;
+
+    --bg1:#020817;
+    --bg2:#081120;
+    --bg3:#0b1d35;
+
+    --text:#ffffff;
+    --gray:#9db5c9;
+
 }
 
-/* Background Glow */
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        var(--bg1),
+        var(--bg2),
+        var(--bg3)
+    );
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+/* ==========================
+   Animated Background
+========================== */
 
 .background{
+
     position:fixed;
+
     inset:0;
+
+    z-index:-2;
+
     background:
-    radial-gradient(circle at top left,#00d9ff30,transparent 35%),
-    radial-gradient(circle at bottom right,#00ff8850,transparent 35%);
-    animation:bgMove 8s linear infinite alternate;
+
+    radial-gradient(circle at top left,
+    rgba(0,217,255,.22),
+    transparent 35%),
+
+    radial-gradient(circle at bottom right,
+    rgba(0,255,136,.15),
+    transparent 35%);
+
+    animation:bgMove 10s linear infinite alternate;
+
 }
 
 @keyframes bgMove{
 
     from{
+
         transform:scale(1);
+
     }
 
     to{
-        transform:scale(1.2);
+
+        transform:scale(1.15);
+
     }
 
 }
 
-/* Calculator */
+/* ==========================
+   Calculator
+========================== */
 
 .calculator{
 
-    width:380px;
+    width:390px;
+
+    padding:25px;
+
+    border-radius:25px;
 
     background:rgba(255,255,255,.08);
 
@@ -55,16 +116,17 @@ body{
 
     border:1px solid rgba(255,255,255,.15);
 
-    border-radius:25px;
-
-    padding:25px;
-
     box-shadow:
-    0 0 40px rgba(0,217,255,.35);
+
+        0 0 35px rgba(0,217,255,.35),
+
+        0 25px 45px rgba(0,0,0,.45);
 
 }
 
-/* Title */
+/* ==========================
+   Title
+========================== */
 
 .title{
 
@@ -76,25 +138,27 @@ body{
 
 .title h1{
 
-    color:#00d9ff;
+    color:var(--primary);
 
-    font-size:32px;
+    font-size:40px;
 
     letter-spacing:2px;
 
-    text-shadow:0 0 15px cyan;
+    text-shadow:0 0 18px cyan;
 
 }
 
 .title p{
 
-    color:#d0d7e5;
+    color:var(--gray);
 
-    font-size:14px;
+    margin-top:5px;
 
 }
 
-/* Display */
+/* ==========================
+   Display
+========================== */
 
 .display{
 
@@ -102,17 +166,49 @@ body{
 
 }
 
-#history{
+.display-top{
 
-    min-height:24px;
+    display:flex;
 
-    text-align:right;
+    justify-content:flex-end;
 
-    color:#7aa7c7;
+    margin-bottom:10px;
 
-    margin-bottom:8px;
+}
 
-    font-size:15px;
+.history-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    border:2px solid var(--primary);
+
+    background:#11243f;
+
+    color:var(--primary);
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.3s;
+
+}
+
+.history-btn:hover{
+
+    background:var(--primary);
+
+    color:#081120;
+
+}
+
+.display-box{
+
+    position:relative;
 
 }
 
@@ -120,31 +216,38 @@ body{
 
     width:100%;
 
-    height:75px;
+    height:80px;
 
     border:none;
 
     outline:none;
 
-    background:#081120;
+    background:#06111f;
 
-    border:2px solid #00d9ff;
+    color:var(--primary);
 
-    border-radius:15px;
+    border-radius:18px;
 
-    color:#00d9ff;
+    border:2px solid var(--primary);
 
     text-align:right;
 
-    font-size:34px;
+    font-size:36px;
 
-    padding:15px;
+    padding:20px;
 
-    box-shadow:0 0 15px rgba(0,217,255,.4);
+    box-shadow:
+
+    inset 0 0 15px rgba(0,217,255,.15),
+
+    0 0 20px rgba(0,217,255,.25);
+
+    caret-color:transparent;
 
 }
-
-/* Buttons */
+/* ==========================
+   BUTTON GRID
+========================== */
 
 .buttons{
 
@@ -156,15 +259,21 @@ body{
 
 }
 
-button{
+/* ==========================
+   BUTTONS
+========================== */
+
+.buttons button{
 
     height:70px;
 
     border:none;
 
-    border-radius:15px;
+    border-radius:18px;
 
-    font-size:22px;
+    font-size:24px;
+
+    font-weight:600;
 
     cursor:pointer;
 
@@ -176,69 +285,79 @@ button{
 
 }
 
-button:hover{
+.buttons button:hover{
 
-    transform:translateY(-3px);
+    transform:translateY(-4px);
 
-    box-shadow:0 0 20px cyan;
+    box-shadow:0 0 18px rgba(0,217,255,.45);
 
 }
 
-button:active{
+.buttons button:active{
 
     transform:scale(.95);
 
 }
 
-/* Number Buttons */
-
-button{
-
-    background:#11243f;
-
-}
-
-/* Operator */
+/* ==========================
+   OPERATOR BUTTONS
+========================== */
 
 .operator{
 
-    background:#00d9ff;
+    background:linear-gradient(
+        135deg,
+        #00d9ff,
+        #00a8ff
+    ) !important;
 
-    color:#081120;
+    color:#06111f !important;
+
+}
+
+.operator:hover{
+
+    box-shadow:0 0 22px cyan;
+
+}
+
+/* ==========================
+   EQUAL BUTTON
+========================== */
+
+.equal{
+
+    background:linear-gradient(
+        135deg,
+        #00ff88,
+        #00d76f
+    ) !important;
+
+    color:#000 !important;
+
+    font-size:30px;
 
     font-weight:700;
 
 }
 
-/* Equal */
-
-.equal{
-
-    background:#00ff88;
-
-    color:#000;
-
-    font-size:28px;
-
-    font-weight:bold;
-
-    box-shadow:0 0 20px #00ff88;
-
-}
-
 .equal:hover{
 
-    box-shadow:0 0 30px #00ff88;
+    box-shadow:0 0 25px #00ff88;
 
 }
 
-/* AC */
+/* ==========================
+   CLEAR
+========================== */
 
 .clear{
 
-    background:#ff3b5f;
-
-    color:white;
+    background:linear-gradient(
+        135deg,
+        #ff3b5f,
+        #ff1845
+    ) !important;
 
 }
 
@@ -248,93 +367,185 @@ button{
 
 }
 
-/* Special */
+/* ==========================
+   SPECIAL
+========================== */
 
 .special{
 
-    background:#ffb400;
+    background:linear-gradient(
+        135deg,
+        #ffb400,
+        #ff9800
+    ) !important;
 
-    color:black;
-
-}
-
-/* Responsive */
-
-@media(max-width:450px){
-
-    .calculator{
-
-        width:95%;
-
-        padding:20px;
-
-    }
-
-    button{
-
-        height:60px;
-
-        font-size:20px;
-
-    }
-
-    #display{
-
-        height:65px;
-
-        font-size:28px;
-
-    }
-
-    .title h1{
-
-        font-size:28px;
-
-    }
+    color:#000 !important;
 
 }
+
 /* ==========================
-   CUSTOM CURSOR
+   HISTORY POPUP
 ========================== */
 
-body{
-    cursor:none;
-}
-
-.cursor{
+.history-popup{
 
     position:fixed;
 
-    width:18px;
+    right:25px;
 
-    height:18px;
+    top:50%;
 
-    border:2px solid #00d9ff;
+    transform:translateY(-50%);
 
-    border-radius:50%;
+    width:300px;
 
-    pointer-events:none;
+    height:420px;
 
-    transform:translate(-50%,-50%);
+    background:#081120;
 
-    box-shadow:
-    0 0 10px #00d9ff,
-    0 0 20px #00d9ff;
+    border:2px solid var(--primary);
 
-    z-index:99999;
+    border-radius:20px;
 
-    transition:
-    width .2s,
-    height .2s,
-    background .2s;
+    box-shadow:0 0 25px cyan;
+
+    display:none;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    z-index:9999;
+
 }
 
+.history-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    background:#10213b;
+
+}
+
+.history-header h3{
+
+    color:var(--primary);
+
+}
+
+#clearHistory{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ff3b5f;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+#historyList{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:15px;
+
+}
+
+.history-item{
+
+    padding:12px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    background:#10213b;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.history-item:hover{
+
+    background:#00d9ff;
+
+    color:#06111f;
+
+}
+
+.empty-history{
+
+    color:#8ba6c2;
+
+    text-align:center;
+
+    margin-top:30px;
+
+}
+
+/* ==========================
+   CUSTOM CURSOR
+========================== */
 .cursor.active{
 
-    width:35px;
+    width:34px;
 
-    height:35px;
+    height:34px;
 
     background:rgba(0,217,255,.2);
+
+}
+
+/* ==========================
+   BLINKING CURSOR
+========================== */
+
+#fakeCursor{
+
+    position:absolute;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:2px;
+
+    height:36px;
+
+    background:#00d9ff;
+
+    animation:blink 1s infinite;
+
+}
+
+@keyframes blink{
+
+    50%{
+
+        opacity:0;
+
+    }
 
 }
