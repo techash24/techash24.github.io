@@ -27,80 +27,183 @@
 
 <body>
 
-<div class="background"></div>
+    <!-- Animated Background -->
+    <div class="background"></div>
 
-<div class="calculator">
+    <!-- Custom Cursor -->
 
-    <div class="title">
-        <h1>TECHASH24</h1>
-        <p>Futuristic Calculator</p>
+    <!-- Calculator -->
+    <div class="calculator">
+
+        <div class="title">
+
+            <h1>TECHASH24</h1>
+
+            <p>Futuristic Calculator</p>
+
+        </div>
+
+        <!-- Display -->
+
+        <div class="display">
+
+            <div class="display-top">
+
+                <button id="historyBtn"
+                        class="history-btn"
+                        title="History">
+
+                    🕒
+
+                </button>
+
+            </div>
+
+            <div class="display-box">
+
+                <span id="fakeCursor"></span>
+
+                <input
+                    type="text"
+                    id="display"
+                    placeholder="0"
+                    autocomplete="off">
+
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+
+        <div class="buttons">
+
+            <button class="clear"
+                    onclick="clearDisplay()">
+
+                AC
+
+            </button>
+
+            <button class="special"
+                    onclick="deleteLast()">
+
+                ⌫
+
+            </button>
+
+            <button class="special"
+                    onclick="appendValue('%')">
+
+                %
+
+            </button>
+
+            <button class="operator"
+                    onclick="appendValue('/')">
+
+                ÷
+
+            </button>
+
+            <button onclick="appendValue('7')">7</button>
+
+            <button onclick="appendValue('8')">8</button>
+
+            <button onclick="appendValue('9')">9</button>
+
+            <button class="operator"
+                    onclick="appendValue('*')">
+
+                ×
+
+            </button>
+
+            <button onclick="appendValue('4')">4</button>
+
+            <button onclick="appendValue('5')">5</button>
+
+            <button onclick="appendValue('6')">6</button>
+
+            <button class="operator"
+                    onclick="appendValue('-')">
+
+                −
+
+            </button>
+
+            <button onclick="appendValue('1')">1</button>
+
+            <button onclick="appendValue('2')">2</button>
+
+            <button onclick="appendValue('3')">3</button>
+
+            <button class="operator"
+                    onclick="appendValue('+')">
+
+                +
+
+            </button>
+
+            <button onclick="toggleSign()">
+
+                ±
+
+            </button>
+
+            <button onclick="appendValue('0')">
+
+                0
+
+            </button>
+
+            <button onclick="appendValue('.')">
+
+                .
+
+            </button>
+
+            <button class="equal"
+                    onclick="calculate()">
+
+                =
+
+            </button>
+
+        </div>
+
     </div>
 
-    <div class="display">
+    <!-- History Popup -->
 
-        <div id="history"></div>
+    <div id="historyPopup"
+         class="history-popup">
 
-        <input
-            type="text"
-            id="display"
-            readonly
-            placeholder="0">
+        <div class="history-header">
 
-    </div>
+            <h3>Calculation History</h3>
 
-    <div class="buttons">
+            <button id="clearHistory">
 
-        <button class="clear" onclick="clearDisplay()">AC</button>
+                🗑
 
-        <button class="special" onclick="deleteLast()">⌫</button>
+            </button>
 
-        <button class="special" onclick="appendValue('%')">%</button>
+        </div>
 
-        <button class="operator" onclick="appendValue('/')">÷</button>
+        <div id="historyList">
 
+            <p class="empty-history">
 
-        <button onclick="appendValue('7')">7</button>
+                No history yet
 
-        <button onclick="appendValue('8')">8</button>
+            </p>
 
-        <button onclick="appendValue('9')">9</button>
-
-        <button class="operator" onclick="appendValue('*')">×</button>
-
-
-        <button onclick="appendValue('4')">4</button>
-
-        <button onclick="appendValue('5')">5</button>
-
-        <button onclick="appendValue('6')">6</button>
-
-        <button class="operator" onclick="appendValue('-')">−</button>
-
-
-        <button onclick="appendValue('1')">1</button>
-
-        <button onclick="appendValue('2')">2</button>
-
-        <button onclick="appendValue('3')">3</button>
-
-        <button class="operator" onclick="appendValue('+')">+</button>
-
-
-        <button onclick="toggleSign()">±</button>
-
-        <button onclick="appendValue('0')">0</button>
-
-        <button onclick="appendValue('.')">.</button>
-
-        <button class="equal"
-                onclick="calculate()">=</button>
+        </div>
 
     </div>
 
-</div>
+    <script src="script.js"></script>
 
-<script src="script.js"></script>
-<div class="cursor"></div>
 </body>
 
 </html>
