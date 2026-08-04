@@ -1,0 +1,340 @@
+/* ==========================================
+   TECHASH24 Calculator
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#020817,#081120,#0b1d35);
+    overflow:hidden;
+}
+
+/* Background Glow */
+
+.background{
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top left,#00d9ff30,transparent 35%),
+    radial-gradient(circle at bottom right,#00ff8850,transparent 35%);
+    animation:bgMove 8s linear infinite alternate;
+}
+
+@keyframes bgMove{
+
+    from{
+        transform:scale(1);
+    }
+
+    to{
+        transform:scale(1.2);
+    }
+
+}
+
+/* Calculator */
+
+.calculator{
+
+    width:380px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:25px;
+
+    padding:25px;
+
+    box-shadow:
+    0 0 40px rgba(0,217,255,.35);
+
+}
+
+/* Title */
+
+.title{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.title h1{
+
+    color:#00d9ff;
+
+    font-size:32px;
+
+    letter-spacing:2px;
+
+    text-shadow:0 0 15px cyan;
+
+}
+
+.title p{
+
+    color:#d0d7e5;
+
+    font-size:14px;
+
+}
+
+/* Display */
+
+.display{
+
+    margin-bottom:25px;
+
+}
+
+#history{
+
+    min-height:24px;
+
+    text-align:right;
+
+    color:#7aa7c7;
+
+    margin-bottom:8px;
+
+    font-size:15px;
+
+}
+
+#display{
+
+    width:100%;
+
+    height:75px;
+
+    border:none;
+
+    outline:none;
+
+    background:#081120;
+
+    border:2px solid #00d9ff;
+
+    border-radius:15px;
+
+    color:#00d9ff;
+
+    text-align:right;
+
+    font-size:34px;
+
+    padding:15px;
+
+    box-shadow:0 0 15px rgba(0,217,255,.4);
+
+}
+
+/* Buttons */
+
+.buttons{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:15px;
+
+}
+
+button{
+
+    height:70px;
+
+    border:none;
+
+    border-radius:15px;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    background:#10213b;
+
+    color:white;
+
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 20px cyan;
+
+}
+
+button:active{
+
+    transform:scale(.95);
+
+}
+
+/* Number Buttons */
+
+button{
+
+    background:#11243f;
+
+}
+
+/* Operator */
+
+.operator{
+
+    background:#00d9ff;
+
+    color:#081120;
+
+    font-weight:700;
+
+}
+
+/* Equal */
+
+.equal{
+
+    background:#00ff88;
+
+    color:#000;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    box-shadow:0 0 20px #00ff88;
+
+}
+
+.equal:hover{
+
+    box-shadow:0 0 30px #00ff88;
+
+}
+
+/* AC */
+
+.clear{
+
+    background:#ff3b5f;
+
+    color:white;
+
+}
+
+.clear:hover{
+
+    box-shadow:0 0 20px #ff3b5f;
+
+}
+
+/* Special */
+
+.special{
+
+    background:#ffb400;
+
+    color:black;
+
+}
+
+/* Responsive */
+
+@media(max-width:450px){
+
+    .calculator{
+
+        width:95%;
+
+        padding:20px;
+
+    }
+
+    button{
+
+        height:60px;
+
+        font-size:20px;
+
+    }
+
+    #display{
+
+        height:65px;
+
+        font-size:28px;
+
+    }
+
+    .title h1{
+
+        font-size:28px;
+
+    }
+
+}
+/* ==========================
+   CUSTOM CURSOR
+========================== */
+
+body{
+    cursor:none;
+}
+
+.cursor{
+
+    position:fixed;
+
+    width:18px;
+
+    height:18px;
+
+    border:2px solid #00d9ff;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    transform:translate(-50%,-50%);
+
+    box-shadow:
+    0 0 10px #00d9ff,
+    0 0 20px #00d9ff;
+
+    z-index:99999;
+
+    transition:
+    width .2s,
+    height .2s,
+    background .2s;
+}
+
+.cursor.active{
+
+    width:35px;
+
+    height:35px;
+
+    background:rgba(0,217,255,.2);
+
+}
