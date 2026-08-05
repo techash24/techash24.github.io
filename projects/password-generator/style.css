@@ -1,45 +1,39 @@
 /* ==========================================
-   TECHASH24 Password Generator v2.0
-   Part 1
+   TECHASH24 Calculator v4.0
+   style.css
 ========================================== */
 
-/* Google Font */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-/* Reset */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
-
-/* Variables */
 
 :root{
 
     --primary:#00d9ff;
+    --primary-light:#4be8ff;
+    --success:#00ff88;
+    --danger:#ff3b5f;
+    --warning:#ffb400;
 
-    --primary-light:#43e9ff;
-
-    --background:#050816;
-
-    --card:rgba(12,20,40,.82);
+    --bg1:#020817;
+    --bg2:#081120;
+    --bg3:#0b1d35;
 
     --text:#ffffff;
-
-    --gray:#c5d2df;
-
-    --border:rgba(0,217,255,.25);
+    --gray:#9db5c9;
 
 }
 
-/* Body */
+html{
+    scroll-behavior:smooth;
+}
 
 body{
-
-    font-family:'Poppins',sans-serif;
 
     min-height:100vh;
 
@@ -49,351 +43,219 @@ body{
 
     align-items:center;
 
+    background:linear-gradient(
+        135deg,
+        var(--bg1),
+        var(--bg2),
+        var(--bg3)
+    );
+
     overflow:hidden;
 
-    background:
-    radial-gradient(circle at top,#16376b,#050816 70%);
-
-    color:var(--text);
+    position:relative;
 
 }
 
-/* Animated Background */
+/* ==========================
+   Animated Background
+========================== */
 
-body::before{
+.background{
 
-    content:"";
-
-    position:absolute;
+    position:fixed;
 
     inset:0;
 
+    z-index:-2;
+
     background:
-    radial-gradient(circle,#00d9ff22 1px,transparent 1px);
 
-    background-size:40px 40px;
+    radial-gradient(circle at top left,
+    rgba(0,217,255,.22),
+    transparent 35%),
 
-    animation:moveBackground 18s linear infinite;
+    radial-gradient(circle at bottom right,
+    rgba(0,255,136,.15),
+    transparent 35%);
 
-    opacity:.35;
+    animation:bgMove 10s linear infinite alternate;
 
 }
 
-@keyframes moveBackground{
+@keyframes bgMove{
 
     from{
 
-        transform:translateY(0);
+        transform:scale(1);
 
     }
 
     to{
 
-        transform:translateY(40px);
+        transform:scale(1.15);
 
     }
 
 }
 
-/* Container */
+/* ==========================
+   Calculator
+========================== */
 
-.container{
+.calculator{
 
-    width:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    width:390px;
 
     padding:25px;
 
-    position:relative;
+    border-radius:25px;
 
-    z-index:2;
-
-}
-
-/* Card */
-
-.card{
-
-    width:100%;
-
-    max-width:560px;
-
-    background:var(--card);
+    background:rgba(255,255,255,.08);
 
     backdrop-filter:blur(18px);
 
-    border:1px solid var(--border);
+    border:1px solid rgba(255,255,255,.15);
 
-    border-radius:25px;
+    box-shadow:
 
-    padding:40px;
+        0 0 35px rgba(0,217,255,.35),
 
-    box-shadow:0 0 45px rgba(0,217,255,.15);
+        0 25px 45px rgba(0,0,0,.45);
 
 }
 
-/* Heading */
+/* ==========================
+   Title
+========================== */
 
-.card h1{
+.title{
 
     text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.title h1{
 
     color:var(--primary);
 
-    font-size:36px;
-
-    margin-bottom:12px;
-
-    text-shadow:0 0 20px cyan;
-
-}
-
-/* Subtitle */
-
-.subtitle{
-
-    text-align:center;
-
-    color:var(--gray);
-
-    margin-bottom:35px;
-
-}
-
-/* Password Box */
-
-.password-box{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin-bottom:30px;
-
-}
-
-.password-box input{
-
-    flex:1;
-
-    padding:18px;
-
-    border:none;
-
-    outline:none;
-
-    border-radius:12px;
-
-    background:#0b162c;
-
-    color:white;
-
-    font-size:18px;
+    font-size:40px;
 
     letter-spacing:2px;
 
-}
-
-.password-box button{
-
-    width:60px;
-
-    height:58px;
-
-    border:none;
-
-    cursor:pointer;
-
-    border-radius:12px;
-
-    background:var(--primary);
-
-    font-size:22px;
-
-    transition:.3s;
+    text-shadow:0 0 18px cyan;
 
 }
 
-.password-box button:hover{
+.title p{
 
-    transform:scale(1.08);
+    color:var(--gray);
 
-}
-
-/* Strength */
-
-.strength{
-
-    margin-bottom:30px;
+    margin-top:5px;
 
 }
 
-.strength span{
+/* ==========================
+   Display
+========================== */
 
-    display:block;
+.display{
+
+    margin-bottom:25px;
+
+}
+
+.display-top{
+
+    display:flex;
+
+    justify-content:flex-end;
 
     margin-bottom:10px;
 
 }
 
-.strength-bar{
+.history-btn{
 
-    width:100%;
+    width:42px;
 
-    height:12px;
-
-    background:#12233d;
-
-    border-radius:50px;
-
-    overflow:hidden;
-
-}
-
-#strengthFill{
-
-    width:0;
-
-    height:100%;
-
-    border-radius:50px;
-
-    background:#00ff66;
-
-    transition:.4s;
-
-}
-
-#strengthText{
-
-    margin-top:12px;
-
-    color:var(--gray);
-
-    font-weight:600;
-
-}
-
-/* Length */
-
-.length{
-
-    margin-bottom:30px;
-
-}
-
-.length label{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin-bottom:12px;
-
-}
-
-#length{
-
-    width:100%;
-
-    cursor:pointer;
-
-}
-
-/* Slider */
-
-#length::-webkit-slider-thumb{
-
-    appearance:none;
-
-    width:20px;
-
-    height:20px;
+    height:42px;
 
     border-radius:50%;
 
-    background:var(--primary);
+    border:2px solid var(--primary);
+
+    background:#11243f;
+
+    color:var(--primary);
 
     cursor:pointer;
 
-}
-
-#length::-webkit-slider-runnable-track{
-
-    height:8px;
-
-    border-radius:50px;
-
-    background:#12233d;
-
-}
-/* ==========================================
-   TECHASH24 Password Generator v2.0
-   Part 2
-========================================== */
-
-/* ==========================
-   OPTIONS
-========================== */
-
-.options{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-    margin-bottom:35px;
-
-}
-
-.options label{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    padding:14px;
-
-    background:#0b162c;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:12px;
-
-    cursor:pointer;
+    font-size:18px;
 
     transition:.3s;
 
-    user-select:none;
+}
+
+.history-btn:hover{
+
+    background:var(--primary);
+
+    color:#081120;
 
 }
 
-.options label:hover{
+.display-box{
 
-    border-color:#00d9ff;
-
-    transform:translateY(-3px);
+    position:relative;
 
 }
 
-.options input{
+#display{
 
-    width:18px;
+    width:100%;
 
-    height:18px;
+    height:80px;
 
-    accent-color:#00d9ff;
+    border:none;
+
+    outline:none;
+
+    background:#06111f;
+
+    color:var(--primary);
+
+    border-radius:18px;
+
+    border:2px solid var(--primary);
+
+    text-align:right;
+
+    font-size:36px;
+
+    padding:20px;
+
+    box-shadow:
+
+    inset 0 0 15px rgba(0,217,255,.15),
+
+    0 0 20px rgba(0,217,255,.25);
+
+    caret-color:transparent;
+
+}
+/* ==========================
+   BUTTON GRID
+========================== */
+
+.buttons{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:15px;
 
 }
 
@@ -401,268 +263,289 @@ body::before{
    BUTTONS
 ========================== */
 
-.buttons{
-
-    display:flex;
-
-    gap:15px;
-
-    margin-top:10px;
-
-}
-
 .buttons button{
 
-    flex:1;
-
-    padding:16px;
+    height:70px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:18px;
+
+    font-size:24px;
+
+    font-weight:600;
 
     cursor:pointer;
 
-    font-size:17px;
+    transition:.25s;
 
-    font-weight:600;
-
-    transition:.35s;
-
-}
-
-#generate{
-
-    background:#00d9ff;
-
-    color:#05111f;
-
-    box-shadow:0 0 20px rgba(0,217,255,.35);
-
-}
-
-#generate:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:0 0 35px cyan;
-
-}
-
-#copy{
-
-    background:#132642;
+    background:#10213b;
 
     color:white;
 
-    border:1px solid rgba(0,217,255,.25);
-
 }
 
-#copy:hover{
+.buttons button:hover{
 
-    background:#00d9ff;
-
-    color:#06111d;
-
-}
-
-/* ==========================
-   ENTROPY
-========================== */
-
-.entropy{
-
-    margin-top:28px;
-
-    text-align:center;
-
-    font-size:18px;
-
-    color:#c7d6e4;
-
-}
-
-#entropy{
-
-    color:#00d9ff;
-
-    font-weight:bold;
-
-}
-
-/* ==========================
-   TOAST
-========================== */
-
-#toast{
-
-    position:fixed;
-
-    bottom:35px;
-
-    right:35px;
-
-    background:#00d9ff;
-
-    color:#05111f;
-
-    padding:15px 25px;
-
-    border-radius:10px;
-
-    font-weight:600;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    transform:translateY(30px);
-
-    transition:.4s;
-
-    box-shadow:0 0 25px cyan;
-
-}
-
-#toast.show{
-
-    opacity:1;
-
-    transform:translateY(0);
-
-}
-
-/* ==========================
-   GLOW ANIMATION
-========================== */
-
-.card{
-
-    animation:glow 3s ease-in-out infinite;
-
-}
-
-@keyframes glow{
-
-    0%{
-
-        box-shadow:0 0 20px rgba(0,217,255,.15);
-
-    }
-
-    50%{
-
-        box-shadow:0 0 45px rgba(0,217,255,.35);
-
-    }
-
-    100%{
-
-        box-shadow:0 0 20px rgba(0,217,255,.15);
-
-    }
-
-}
-
-/* ==========================
-   INPUT FOCUS
-========================== */
-
-.password-box input:focus{
+    transform:translateY(-4px);
 
     box-shadow:0 0 18px rgba(0,217,255,.45);
 
 }
 
+.buttons button:active{
+
+    transform:scale(.95);
+
+}
+
 /* ==========================
-   RESPONSIVE
+   OPERATOR BUTTONS
 ========================== */
 
-@media(max-width:768px){
+.operator{
 
-    .card{
+    background:linear-gradient(
+        135deg,
+        #00d9ff,
+        #00a8ff
+    ) !important;
 
-        padding:28px;
+    color:#06111f !important;
 
-    }
+}
 
-    .card h1{
+.operator:hover{
 
-        font-size:30px;
+    box-shadow:0 0 22px cyan;
 
-    }
+}
 
-    .options{
+/* ==========================
+   EQUAL BUTTON
+========================== */
 
-        grid-template-columns:1fr;
+.equal{
 
-    }
+    background:linear-gradient(
+        135deg,
+        #00ff88,
+        #00d76f
+    ) !important;
 
-    .buttons{
+    color:#000 !important;
 
-        flex-direction:column;
+    font-size:30px;
 
-    }
+    font-weight:700;
 
-    .password-box{
+}
 
-        flex-direction:column;
+.equal:hover{
 
-    }
+    box-shadow:0 0 25px #00ff88;
 
-    .password-box button{
+}
 
-        width:100%;
+/* ==========================
+   CLEAR
+========================== */
 
-        height:55px;
+.clear{
+
+    background:linear-gradient(
+        135deg,
+        #ff3b5f,
+        #ff1845
+    ) !important;
+
+}
+
+.clear:hover{
+
+    box-shadow:0 0 20px #ff3b5f;
+
+}
+
+/* ==========================
+   SPECIAL
+========================== */
+
+.special{
+
+    background:linear-gradient(
+        135deg,
+        #ffb400,
+        #ff9800
+    ) !important;
+
+    color:#000 !important;
+
+}
+
+/* ==========================
+   HISTORY POPUP
+========================== */
+
+.history-popup{
+
+    position:fixed;
+
+    right:25px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:300px;
+
+    height:420px;
+
+    background:#081120;
+
+    border:2px solid var(--primary);
+
+    border-radius:20px;
+
+    box-shadow:0 0 25px cyan;
+
+    display:none;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+    z-index:9999;
+
+}
+
+.history-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    background:#10213b;
+
+}
+
+.history-header h3{
+
+    color:var(--primary);
+
+}
+
+#clearHistory{
+
+    width:40px;
+
+    height:40px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#ff3b5f;
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+#historyList{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:15px;
+
+}
+
+.history-item{
+
+    padding:12px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    background:#10213b;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.history-item:hover{
+
+    background:#00d9ff;
+
+    color:#06111f;
+
+}
+
+.empty-history{
+
+    color:#8ba6c2;
+
+    text-align:center;
+
+    margin-top:30px;
+
+}
+
+/* ==========================
+   CUSTOM CURSOR
+========================== */
+.cursor.active{
+
+    width:34px;
+
+    height:34px;
+
+    background:rgba(0,217,255,.2);
+
+}
+
+/* ==========================
+   BLINKING CURSOR
+========================== */
+
+#fakeCursor{
+
+    position:absolute;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:2px;
+
+    height:36px;
+
+    background:#00d9ff;
+
+    animation:blink 1s infinite;
+
+}
+
+@keyframes blink{
+
+    50%{
+
+        opacity:0;
 
     }
 
 }
-
-@media(max-width:480px){
-
-    .card{
-
-        padding:22px;
-
-    }
-
-    .card h1{
-
-        font-size:26px;
-
-    }
-
-    .subtitle{
-
-        font-size:14px;
-
-    }
-
-    .password-box input{
-
-        font-size:16px;
-
-        letter-spacing:1px;
-
-    }
-
-    #toast{
-
-        right:15px;
-
-        left:15px;
-
-        bottom:20px;
-
-        text-align:center;
-
-    }
-
-}
-
-/* ==========================================
-   END OF STYLE.CSS
-========================================== */
