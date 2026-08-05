@@ -1,624 +1,725 @@
 /* ==========================================
-   TECHASH24 Password Generator v4.0
-   PART 1
+   TECHASH24 v3.0
+   script.js
 ========================================== */
 
-/* ===============================
-   ELEMENTS
-================================= */
 
-const passwordInput = document.getElementById("password");
-const lengthSlider = document.getElementById("length");
-const lengthValue = document.getElementById("lengthValue");
+/* ==========================
+   LOADER
+========================== */
 
-const uppercase = document.getElementById("uppercase");
-const lowercase = document.getElementById("lowercase");
-const numbers = document.getElementById("numbers");
-const symbols = document.getElementById("symbols");
 
-const generateBtn = document.getElementById("generate");
-const copyBtn = document.getElementById("copy");
-const toggleBtn = document.getElementById("togglePassword");
+const loadingMessages = [
+    "Initializing...",
+    "Loading Portfolio...",
+    "Loading Assets...",
+    "Connecting Modules...",
+    "Starting Experience...",
+    "Access Granted..."
+];
 
-const strengthFill = document.getElementById("strengthFill");
-const strengthText = document.getElementById("strengthText");
-const entropy = document.getElementById("entropy");
-const toast = document.getElementById("toast");
 
-/* ===============================
-   CHARACTER SETS
-================================= */
+const loadingText = document.getElementById("loading-text");
+const loader = document.getElementById("loader");
 
-const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const LOWER = "abcdefghijklmnopqrstuvwxyz";
-const NUMBER = "0123456789";
-const SYMBOL = "!@#$%^&*()_-+=[]{}<>?/";
 
-/* ===============================
-   SECURE RANDOM
-================================= */
+if(loadingText && loader){
 
-function random(max){
 
-    if(max <= 0) return 0;
+    let messageIndex = 0;
 
-    if(window.crypto && window.crypto.getRandomValues){
 
-        const array = new Uint32Array(1);
+    const messageInterval = setInterval(()=>{
 
-        window.crypto.getRandomValues(array);
 
-        return array[0] % max;
+        messageIndex++;
 
-    }
 
-    console.warn("Crypto API unavailable. Using Math.random().");
+        if(messageIndex < loadingMessages.length){
 
-    return Math.floor(Math.random() * max);
+            loadingText.textContent =
+            loadingMessages[messageIndex];
 
-}
+        }
 
-function getRandomCharacter(chars){
 
-    return chars[random(chars.length)];
+    },500);
 
-}
 
-/* ===============================
-   SHUFFLE
-================================= */
 
-function shuffle(text){
+    window.addEventListener("load",()=>{
 
-    const arr = text.split("");
 
-    for(let i = arr.length - 1; i > 0; i--){
+        setTimeout(()=>{
 
-        const j = random(i + 1);
 
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+            clearInterval(messageInterval);
 
-    }
 
-    return arr.join("");
+            loader.style.opacity="0";
+
+
+
+            setTimeout(()=>{
+
+
+                loader.style.display="none";
+
+
+            },600);
+
+
+
+        },3000);
+
+
+
+    });
+
 
 }
 
-/* ===============================
-   PASSWORD GENERATOR
-================================= */
 
-function generatePassword(){
 
-    let available = "";
-    let password = "";
 
-    if(uppercase.checked) available += UPPER;
-    if(lowercase.checked) available += LOWER;
-    if(numbers.checked) available += NUMBER;
-    if(symbols.checked) available += SYMBOL;
+/* ==========================
+   TYPING EFFECT
+========================== */
 
-    if(available.length === 0){
 
-        passwordInput.value = "";
+const words = [
 
-        strengthFill.style.width = "0%";
+    "Web Developer",
 
-        strengthFill.style.background = "#ff3b30";
+    "Frontend Developer",
 
-        strengthText.textContent = "Select at least one option";
+    "Future Ethical Hacker",
 
-        entropy.textContent = "0 bits";
+    "Java Programmer",
 
-        generateBtn.disabled = true;
+    "Problem Solver"
 
-        return;
+];
 
-    }
 
-    generateBtn.disabled = false;
+const typing = document.getElementById("typing");
 
-    if(uppercase.checked)
-        password += getRandomCharacter(UPPER);
 
-    if(lowercase.checked)
-        password += getRandomCharacter(LOWER);
+let wordIndex = 0;
+let letterIndex = 0;
+let deleting = false;
 
-    if(numbers.checked)
-        password += getRandomCharacter(NUMBER);
 
-    if(symbols.checked)
-        password += getRandomCharacter(SYMBOL);
 
-    const length = Number(lengthSlider.value);
+function typingEffect(){
 
-    while(password.length < length){
 
-        password += getRandomCharacter(available);
+    if(!typing) return;
 
-    }
 
-    password = shuffle(password);
+    const currentWord = words[wordIndex];
 
-    passwordInput.value = password;
 
-    updateStrength(password, available);
 
-}
+    if(!deleting){
 
-/* ===============================
-   PASSWORD STRENGTH
-================================= */
 
-function updateStrength(password, available){
+        typing.textContent =
+        currentWord.substring(0,letterIndex);
 
-    let score = 0;
 
-    if(password.length >= 8) score++;
-    if(password.length >= 12) score++;
 
-    if(/[A-Z]/.test(password)) score++;
-    if(/[a-z]/.test(password)) score++;
-    if(/[0-9]/.test(password)) score++;
-    if(/[^A-Za-z0-9]/.test(password)) score++;
+        letterIndex++;
 
-    const percent = (score / 6) * 100;
 
-    strengthFill.style.width = percent + "%";
 
-    if(score <= 2){
+        if(letterIndex > currentWord.length){
 
-        strengthFill.style.background = "#ff3b30";
 
-        strengthText.textContent = "Weak 🔴";
+            deleting = true;
 
-    }
 
-    else if(score <= 4){
+            setTimeout(typingEffect,1500);
 
-        strengthFill.style.background = "#ffc107";
 
-        strengthText.textContent = "Medium 🟡";
+            return;
+
+
+        }
+
 
     }
 
     else{
 
-        strengthFill.style.background = "#00ff66";
 
-        strengthText.textContent = "Strong 🟢";
+        typing.textContent =
+        currentWord.substring(0,letterIndex);
 
-    }
 
-    const bits = Math.round(
-        password.length * Math.log2(available.length)
-    );
 
-    entropy.textContent = bits + " bits";
+        letterIndex--;
 
-}
-/* ==========================================
-   TECHASH24 Password Generator v4.0
-   PART 2
-========================================== */
 
-/* ===============================
-   COPY PASSWORD
-================================= */
 
-copyBtn.addEventListener("click", async () => {
+        if(letterIndex < 0){
 
-    if (!passwordInput.value) return;
 
-    try {
+            deleting=false;
 
-        if (navigator.clipboard && window.isSecureContext) {
 
-            await navigator.clipboard.writeText(passwordInput.value);
+            wordIndex++;
 
-        } else {
 
-            passwordInput.type = "text";
 
-            passwordInput.removeAttribute("readonly");
+            if(wordIndex >= words.length){
 
-            passwordInput.select();
+                wordIndex=0;
 
-            passwordInput.setSelectionRange(0, 99999);
+            }
 
-            document.execCommand("copy");
 
-            passwordInput.setAttribute("readonly", true);
+            letterIndex=0;
 
-            passwordInput.type = "password";
 
         }
 
-        copyBtn.textContent = "✔ Copied";
-
-        toast.classList.add("show");
-
-        setTimeout(() => {
-
-            copyBtn.textContent = "📋 Copy";
-
-            toast.classList.remove("show");
-
-        }, 2000);
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Unable to copy password.");
 
     }
 
-});
 
-/* ===============================
-   SHOW / HIDE PASSWORD
-================================= */
 
-toggleBtn.addEventListener("click", () => {
+    setTimeout(
+        typingEffect,
+        deleting ? 60 : 120
+    );
 
-    if (passwordInput.type === "password") {
-
-        passwordInput.type = "text";
-
-        toggleBtn.textContent = "🙈";
-
-    } else {
-
-        passwordInput.type = "password";
-
-        toggleBtn.textContent = "👁";
-
-    }
-
-});
-
-/* ===============================
-   LENGTH SLIDER
-================================= */
-
-lengthSlider.addEventListener("input", () => {
-
-    lengthValue.textContent = lengthSlider.value;
-
-    generatePassword();
-
-});
-
-/* ===============================
-   OPTIONS
-================================= */
-
-const options = document.querySelectorAll(".options input");
-
-options.forEach(option => {
-
-    option.addEventListener("change", () => {
-
-        generatePassword();
-
-    });
-
-});
-
-/* ===============================
-   GENERATE BUTTON
-================================= */
-
-generateBtn.addEventListener("click", () => {
-
-    generatePassword();
-
-    if (generateBtn.animate) {
-
-        generateBtn.animate(
-
-            [
-
-                {
-                    transform: "scale(1)"
-                },
-
-                {
-                    transform: "scale(.92)"
-                },
-
-                {
-                    transform: "scale(1)"
-                }
-
-            ],
-
-            {
-
-                duration: 180,
-
-                easing: "ease"
-
-            }
-
-        );
-
-    }
-
-});
-
-/* ===============================
-   DOUBLE CLICK PASSWORD
-================================= */
-
-passwordInput.addEventListener("dblclick", () => {
-
-    generatePassword();
-
-});
-
-/* ===============================
-   KEYBOARD SHORTCUTS
-================================= */
-
-document.addEventListener("keydown", (e) => {
-
-    if (e.ctrlKey && e.key === "Enter") {
-
-        e.preventDefault();
-
-        generatePassword();
-
-    }
-
-    if (e.key === "F5") {
-
-        e.preventDefault();
-
-        generatePassword();
-
-    }
-
-});
-
-/* ===============================
-   INITIAL LOAD
-================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    lengthValue.textContent = lengthSlider.value;
-
-    generatePassword();
-
-});
-
-/* ===============================
-   PREVENT FORM SUBMIT
-================================= */
-
-document.addEventListener("submit", (e) => {
-
-    e.preventDefault();
-
-});
-/* ==========================================
-   TECHASH24 Password Generator v4.0
-   PART 3
-========================================== */
-
-/* ===============================
-   DOWNLOAD PASSWORD
-================================= */
-
-const downloadBtn = document.createElement("button");
-
-downloadBtn.id = "download";
-downloadBtn.innerHTML = "💾 Download";
-
-document.querySelector(".buttons").appendChild(downloadBtn);
-
-downloadBtn.addEventListener("click", () => {
-
-    if (!passwordInput.value) return;
-
-    try {
-
-        const blob = new Blob(
-            [passwordInput.value],
-            { type: "text/plain;charset=utf-8" }
-        );
-
-        const url = URL.createObjectURL(blob);
-
-        const link = document.createElement("a");
-
-        link.href = url;
-        link.download = "TECHASH24-Password.txt";
-
-        document.body.appendChild(link);
-
-        link.click();
-
-        document.body.removeChild(link);
-
-        URL.revokeObjectURL(url);
-
-    } catch (err) {
-
-        console.error(err);
-
-        alert("Unable to download password.");
-
-    }
-
-});
-
-/* ===============================
-   PASSWORD HISTORY
-================================= */
-
-const history = [];
-
-function saveHistory(password){
-
-    if(!password) return;
-
-    if(history[0] === password) return;
-
-    history.unshift(password);
-
-    if(history.length > 10){
-
-        history.pop();
-
-    }
 
 }
 
-const originalGeneratePassword = generatePassword;
 
-generatePassword = function(){
+typingEffect();
+/* ==========================
+   PARTICLES BACKGROUND
+========================== */
 
-    originalGeneratePassword();
 
-    if(passwordInput.value){
+if(document.getElementById("particles-js")){
 
-        saveHistory(passwordInput.value);
 
-    }
+    if(typeof particlesJS !== "undefined"){
 
-};
 
-/* ===============================
-   RANDOM GLOW EFFECT
-================================= */
+        particlesJS("particles-js",{
 
-setInterval(() => {
 
-    if(generateBtn.animate){
+            particles:{
 
-        generateBtn.animate(
 
-            [
+                number:{
 
-                {
 
-                    boxShadow:"0 0 10px cyan"
+                    value:80,
+
+
+                    density:{
+
+
+                        enable:true,
+
+
+                        value_area:800
+
+
+                    }
+
 
                 },
 
-                {
 
-                    boxShadow:"0 0 35px cyan"
+                color:{
+
+
+                    value:"#00d9ff"
+
 
                 },
 
-                {
 
-                    boxShadow:"0 0 10px cyan"
+                shape:{
+
+
+                    type:"circle"
+
+
+                },
+
+
+                opacity:{
+
+
+                    value:0.5
+
+
+                },
+
+
+                size:{
+
+
+                    value:3,
+
+
+                    random:true
+
+
+                },
+
+
+                line_linked:{
+
+
+                    enable:true,
+
+
+                    distance:150,
+
+
+                    color:"#00d9ff",
+
+
+                    opacity:0.3,
+
+
+                    width:1
+
+
+                },
+
+
+                move:{
+
+
+                    enable:true,
+
+
+                    speed:2
+
 
                 }
 
-            ],
 
-            {
+            },
 
-                duration:1500,
 
-                easing:"ease-in-out"
 
-            }
+            interactivity:{
 
-        );
+
+                detect_on:"canvas",
+
+
+                events:{
+
+
+                    onhover:{
+
+
+                        enable:true,
+
+
+                        mode:"grab"
+
+
+                    },
+
+
+                    onclick:{
+
+
+                        enable:true,
+
+
+                        mode:"push"
+
+
+                    }
+
+
+                },
+
+
+                modes:{
+
+
+                    grab:{
+
+
+                        distance:180,
+
+
+                        line_linked:{
+
+
+                            opacity:0.8
+
+
+                        }
+
+
+                    },
+
+
+                    push:{
+
+
+                        particles_nb:4
+
+
+                    }
+
+
+                }
+
+
+            },
+
+
+            retina_detect:true
+
+
+        });
+
 
     }
 
-},4000);
 
-/* ===============================
-   CARD HOVER EFFECT
-================================= */
+}
 
-const card = document.querySelector(".card");
 
-if(window.matchMedia("(hover:hover)").matches){
 
-    card.addEventListener("mouseenter",()=>{
 
-        card.style.transform="translateY(-8px)";
+
+
+/* ==========================
+   ANIMATED COUNTERS
+========================== */
+
+
+const counters = document.querySelectorAll(".counter");
+
+
+if(counters.length > 0){
+
+
+
+    const counterObserver = new IntersectionObserver((entries)=>{
+
+
+
+        entries.forEach(entry=>{
+
+
+
+            if(entry.isIntersecting){
+
+
+
+                const counter = entry.target;
+
+
+                const target =
+                Number(counter.dataset.target);
+
+
+
+                let count = 0;
+
+
+
+                const increment =
+                Math.ceil(target / 80);
+
+
+
+                function updateCounter(){
+
+
+
+                    count += increment;
+
+
+
+                    if(count < target){
+
+
+                        counter.innerText=count;
+
+
+                        requestAnimationFrame(updateCounter);
+
+
+                    }
+
+                    else{
+
+
+                        counter.innerText=target;
+
+
+                    }
+
+
+                }
+
+
+
+                updateCounter();
+
+
+
+                counterObserver.unobserve(counter);
+
+
+
+            }
+
+
+
+        });
+
+
+
+    },{
+
+
+        threshold:0.5
+
 
     });
 
-    card.addEventListener("mouseleave",()=>{
 
-        card.style.transform="translateY(0)";
+
+
+    counters.forEach(counter=>{
+
+
+        counterObserver.observe(counter);
+
+
+    });
+
+
+
+}
+/* ==========================
+   ACTIVE NAVIGATION
+========================== */
+
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+
+if(sections.length > 0 && navLinks.length > 0){
+
+
+    window.addEventListener("scroll",()=>{
+
+
+        let current = "";
+
+
+        sections.forEach(section=>{
+
+
+            const sectionTop =
+            section.offsetTop - 150;
+
+
+            const sectionHeight =
+            section.clientHeight;
+
+
+
+            if(
+                window.scrollY >= sectionTop &&
+                window.scrollY < sectionTop + sectionHeight
+            ){
+
+
+                current = section.getAttribute("id");
+
+
+            }
+
+
+        });
+
+
+
+        navLinks.forEach(link=>{
+
+
+            link.classList.remove("active");
+
+
+            if(
+                link.getAttribute("href") === "#" + current
+            ){
+
+
+                link.classList.add("active");
+
+
+            }
+
+
+        });
+
+
+
+    });
+
+
+
+}
+
+/* ==========================
+   MOBILE MENU
+========================== */
+
+
+const menuBtn =
+document.getElementById("menu-btn");
+
+
+const navMenu =
+document.querySelector(".nav-links");
+
+
+
+if(menuBtn && navMenu){
+
+
+    menuBtn.addEventListener("click",()=>{
+
+
+        navMenu.classList.toggle("show");
+
+
+    });
+
+
+}
+
+/* ==========================
+   SCROLL TO TOP
+========================== */
+
+
+const scrollTopBtn =
+document.getElementById("scrollTop");
+
+
+
+if(scrollTopBtn){
+
+
+
+    window.addEventListener("scroll",()=>{
+
+
+        if(window.scrollY > 400){
+
+
+            scrollTopBtn.classList.add("show");
+
+
+        }
+
+        else{
+
+
+            scrollTopBtn.classList.remove("show");
+
+        }
+
+    });
+
+    scrollTopBtn.addEventListener("click",()=>{
+
+        window.scrollTo({
+            top:0,
+
+            behavior:"smooth"
+        });
+    });
+}
+const modal = document.getElementById("contactModal");
+const openBtn = document.getElementById("openContact");
+const closeBtn = document.querySelector(".close");
+
+if (openBtn && modal && closeBtn) {
+
+    openBtn.onclick = () => {
+        modal.style.display = "flex";
+    };
+
+    closeBtn.onclick = () => {
+        modal.style.display = "none";
+    };
+
+    window.onclick = (e) => {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+}
+
+/* ==========================
+   CONTACT FORM (EMAILJS)
+========================== */
+
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+
+    contactForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        emailjs.send(
+            "service_va6hvnq",
+            "template_07ne8tk",
+            {
+                from_name: document.getElementById("from_name").value,
+                from_email: document.getElementById("from_email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value,
+                time: new Date().toLocaleString()
+            }
+        )
+
+        .then(function () {
+
+            alert("✅ Message Sent Successfully!");
+
+            contactForm.reset();
+
+            modal.style.display = "none";
+
+        })
+
+        .catch(function (error) {
+
+            console.error(error);
+
+            alert("❌ Failed to send message.");
+
+        });
 
     });
 
 }
-
-/* ===============================
-   WINDOW RESIZE
-================================= */
-
-window.addEventListener("resize", () => {
-
-    lengthValue.textContent = lengthSlider.value;
-
-});
-
-/* ===============================
-   ONLINE / OFFLINE STATUS
-================================= */
-
-window.addEventListener("offline", () => {
-
-    console.warn("You are offline.");
-
-});
-
-window.addEventListener("online", () => {
-
-    console.log("Back online.");
-
-});
-
-/* ===============================
-   CONSOLE MESSAGE
-================================= */
-
-if(window.console){
-
-    console.clear();
-
-    console.log(
-        "%cTECHASH24 Password Generator",
-        "color:#00d9ff;font-size:22px;font-weight:bold;"
-    );
-
-    console.log(
-        "%cVersion 4.0",
-        "color:#00ff66;font-size:16px;"
-    );
-
-    console.log(
-        "%cDeveloped by TECHASH24 🚀",
-        "color:white;font-size:15px;"
-    );
-
-    console.log(
-        "%cCross-platform Compatible",
-        "color:#00d9ff;font-size:14px;"
-    );
-
-    console.log("Application Loaded Successfully.");
-
-}
-
-/* ===============================
-   FINISHED
-================================= */
-
-console.log("Ready ✅");
