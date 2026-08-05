@@ -1,5 +1,5 @@
 /* ==========================================
-   TECHASH24 Password Generator v3.0
+   TECHASH24 Password Generator v4.0
    PART 1
 ========================================== */
 
@@ -22,26 +22,17 @@ const toggleBtn = document.getElementById("togglePassword");
 
 const strengthFill = document.getElementById("strengthFill");
 const strengthText = document.getElementById("strengthText");
-
 const entropy = document.getElementById("entropy");
-
 const toast = document.getElementById("toast");
 
 /* ===============================
    CHARACTER SETS
 ================================= */
 
-const UPPER =
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-const LOWER =
-"abcdefghijklmnopqrstuvwxyz";
-
-const NUMBER =
-"0123456789";
-
-const SYMBOL =
-"!@#$%^&*()_-+=[]{}<>?/";
+const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const LOWER = "abcdefghijklmnopqrstuvwxyz";
+const NUMBER = "0123456789";
+const SYMBOL = "!@#$%^&*()_-+=[]{}<>?/";
 
 /* ===============================
    SECURE RANDOM
@@ -49,11 +40,21 @@ const SYMBOL =
 
 function random(max){
 
-    const array = new Uint32Array(1);
+    if(max <= 0) return 0;
 
-    crypto.getRandomValues(array);
+    if(window.crypto && window.crypto.getRandomValues){
 
-    return array[0] % max;
+        const array = new Uint32Array(1);
+
+        window.crypto.getRandomValues(array);
+
+        return array[0] % max;
+
+    }
+
+    console.warn("Crypto API unavailable. Using Math.random().");
+
+    return Math.floor(Math.random() * max);
 
 }
 
@@ -69,13 +70,13 @@ function getRandomCharacter(chars){
 
 function shuffle(text){
 
-    let arr = text.split("");
+    const arr = text.split("");
 
-    for(let i = arr.length-1; i>0; i--){
+    for(let i = arr.length - 1; i > 0; i--){
 
-        const j = random(i+1);
+        const j = random(i + 1);
 
-        [arr[i],arr[j]] = [arr[j],arr[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
 
     }
 
@@ -90,34 +91,32 @@ function shuffle(text){
 function generatePassword(){
 
     let available = "";
-
     let password = "";
 
-    if(uppercase.checked)
-        available += UPPER;
+    if(uppercase.checked) available += UPPER;
+    if(lowercase.checked) available += LOWER;
+    if(numbers.checked) available += NUMBER;
+    if(symbols.checked) available += SYMBOL;
 
-    if(lowercase.checked)
-        available += LOWER;
+    if(available.length === 0){
 
-    if(numbers.checked)
-        available += NUMBER;
+        passwordInput.value = "";
 
-    if(symbols.checked)
-        available += SYMBOL;
+        strengthFill.style.width = "0%";
 
-    if(available===""){
+        strengthFill.style.background = "#ff3b30";
 
-        passwordInput.value="";
+        strengthText.textContent = "Select at least one option";
 
-        strengthFill.style.width="0%";
+        entropy.textContent = "0 bits";
 
-        strengthText.textContent="Select Options";
-
-        entropy.textContent="0 bits";
+        generateBtn.disabled = true;
 
         return;
 
     }
+
+    generateBtn.disabled = false;
 
     if(uppercase.checked)
         password += getRandomCharacter(UPPER);
@@ -131,7 +130,7 @@ function generatePassword(){
     if(symbols.checked)
         password += getRandomCharacter(SYMBOL);
 
-    const length = parseInt(lengthSlider.value);
+    const length = Number(lengthSlider.value);
 
     while(password.length < length){
 
@@ -143,71 +142,63 @@ function generatePassword(){
 
     passwordInput.value = password;
 
-    updateStrength(password);
+    updateStrength(password, available);
 
 }
 
 /* ===============================
-   STRENGTH
+   PASSWORD STRENGTH
 ================================= */
 
-function updateStrength(password){
+function updateStrength(password, available){
 
     let score = 0;
 
-    if(password.length >= 8)
-        score++;
+    if(password.length >= 8) score++;
+    if(password.length >= 12) score++;
 
-    if(password.length >= 12)
-        score++;
+    if(/[A-Z]/.test(password)) score++;
+    if(/[a-z]/.test(password)) score++;
+    if(/[0-9]/.test(password)) score++;
+    if(/[^A-Za-z0-9]/.test(password)) score++;
 
-    if(/[A-Z]/.test(password))
-        score++;
-
-    if(/[a-z]/.test(password))
-        score++;
-
-    if(/[0-9]/.test(password))
-        score++;
-
-    if(/[^A-Za-z0-9]/.test(password))
-        score++;
-
-    const percent = (score/6)*100;
+    const percent = (score / 6) * 100;
 
     strengthFill.style.width = percent + "%";
 
-    if(score<=2){
+    if(score <= 2){
 
-        strengthFill.style.background="#ff3b30";
+        strengthFill.style.background = "#ff3b30";
 
-        strengthText.textContent="Weak 🔴";
+        strengthText.textContent = "Weak 🔴";
 
     }
 
-    else if(score<=4){
+    else if(score <= 4){
 
-        strengthFill.style.background="#ffc107";
+        strengthFill.style.background = "#ffc107";
 
-        strengthText.textContent="Medium 🟡";
+        strengthText.textContent = "Medium 🟡";
 
     }
 
     else{
 
-        strengthFill.style.background="#00ff66";
+        strengthFill.style.background = "#00ff66";
 
-        strengthText.textContent="Strong 🟢";
+        strengthText.textContent = "Strong 🟢";
 
     }
 
-    const bits = Math.round(password.length*Math.log2(94));
+    const bits = Math.round(
+        password.length * Math.log2(available.length)
+    );
 
     entropy.textContent = bits + " bits";
 
 }
 /* ==========================================
-   TECHASH24 Password Generator v3.0
+   TECHASH24 Password Generator v4.0
    PART 2
 ========================================== */
 
@@ -217,11 +208,31 @@ function updateStrength(password){
 
 copyBtn.addEventListener("click", async () => {
 
-    if(passwordInput.value === "") return;
+    if (!passwordInput.value) return;
 
-    try{
+    try {
 
-        await navigator.clipboard.writeText(passwordInput.value);
+        if (navigator.clipboard && window.isSecureContext) {
+
+            await navigator.clipboard.writeText(passwordInput.value);
+
+        } else {
+
+            passwordInput.type = "text";
+
+            passwordInput.removeAttribute("readonly");
+
+            passwordInput.select();
+
+            passwordInput.setSelectionRange(0, 99999);
+
+            document.execCommand("copy");
+
+            passwordInput.setAttribute("readonly", true);
+
+            passwordInput.type = "password";
+
+        }
 
         copyBtn.textContent = "✔ Copied";
 
@@ -233,11 +244,13 @@ copyBtn.addEventListener("click", async () => {
 
             toast.classList.remove("show");
 
-        },2000);
+        }, 2000);
 
-    }catch{
+    } catch (err) {
 
-        alert("Failed to copy password.");
+        console.error(err);
+
+        alert("Unable to copy password.");
 
     }
 
@@ -247,31 +260,29 @@ copyBtn.addEventListener("click", async () => {
    SHOW / HIDE PASSWORD
 ================================= */
 
-toggleBtn.addEventListener("click",()=>{
+toggleBtn.addEventListener("click", () => {
 
-    if(passwordInput.type==="password"){
+    if (passwordInput.type === "password") {
 
-        passwordInput.type="text";
+        passwordInput.type = "text";
 
-        toggleBtn.textContent="🙈";
+        toggleBtn.textContent = "🙈";
 
-    }
+    } else {
 
-    else{
+        passwordInput.type = "password";
 
-        passwordInput.type="password";
-
-        toggleBtn.textContent="👁";
+        toggleBtn.textContent = "👁";
 
     }
 
 });
 
 /* ===============================
-   SLIDER
+   LENGTH SLIDER
 ================================= */
 
-lengthSlider.addEventListener("input",()=>{
+lengthSlider.addEventListener("input", () => {
 
     lengthValue.textContent = lengthSlider.value;
 
@@ -280,14 +291,18 @@ lengthSlider.addEventListener("input",()=>{
 });
 
 /* ===============================
-   CHECKBOXES
+   OPTIONS
 ================================= */
 
 const options = document.querySelectorAll(".options input");
 
-options.forEach(option=>{
+options.forEach(option => {
 
-    option.addEventListener("change",generatePassword);
+    option.addEventListener("change", () => {
+
+        generatePassword();
+
+    });
 
 });
 
@@ -295,29 +310,41 @@ options.forEach(option=>{
    GENERATE BUTTON
 ================================= */
 
-generateBtn.addEventListener("click",()=>{
+generateBtn.addEventListener("click", () => {
 
     generatePassword();
 
-    generateBtn.animate([
+    if (generateBtn.animate) {
 
-        {
-            transform:"scale(1)"
-        },
+        generateBtn.animate(
 
-        {
-            transform:"scale(.92)"
-        },
+            [
 
-        {
-            transform:"scale(1)"
-        }
+                {
+                    transform: "scale(1)"
+                },
 
-    ],{
+                {
+                    transform: "scale(.92)"
+                },
 
-        duration:180
+                {
+                    transform: "scale(1)"
+                }
 
-    });
+            ],
+
+            {
+
+                duration: 180,
+
+                easing: "ease"
+
+            }
+
+        );
+
+    }
 
 });
 
@@ -325,7 +352,7 @@ generateBtn.addEventListener("click",()=>{
    DOUBLE CLICK PASSWORD
 ================================= */
 
-passwordInput.addEventListener("dblclick",()=>{
+passwordInput.addEventListener("dblclick", () => {
 
     generatePassword();
 
@@ -335,9 +362,17 @@ passwordInput.addEventListener("dblclick",()=>{
    KEYBOARD SHORTCUTS
 ================================= */
 
-document.addEventListener("keydown",(e)=>{
+document.addEventListener("keydown", (e) => {
 
-    if(e.ctrlKey && e.key==="Enter"){
+    if (e.ctrlKey && e.key === "Enter") {
+
+        e.preventDefault();
+
+        generatePassword();
+
+    }
+
+    if (e.key === "F5") {
 
         e.preventDefault();
 
@@ -348,18 +383,28 @@ document.addEventListener("keydown",(e)=>{
 });
 
 /* ===============================
-   INITIAL PASSWORD
+   INITIAL LOAD
 ================================= */
 
-window.addEventListener("load",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
     lengthValue.textContent = lengthSlider.value;
 
     generatePassword();
 
 });
+
+/* ===============================
+   PREVENT FORM SUBMIT
+================================= */
+
+document.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+});
 /* ==========================================
-   TECHASH24 Password Generator v3.0
+   TECHASH24 Password Generator v4.0
    PART 3
 ========================================== */
 
@@ -370,34 +415,43 @@ window.addEventListener("load",()=>{
 const downloadBtn = document.createElement("button");
 
 downloadBtn.id = "download";
-
 downloadBtn.innerHTML = "💾 Download";
 
 document.querySelector(".buttons").appendChild(downloadBtn);
 
-downloadBtn.addEventListener("click",()=>{
+downloadBtn.addEventListener("click", () => {
 
-    if(passwordInput.value==="") return;
+    if (!passwordInput.value) return;
 
-    const blob = new Blob(
+    try {
 
-        [passwordInput.value],
+        const blob = new Blob(
+            [passwordInput.value],
+            { type: "text/plain;charset=utf-8" }
+        );
 
-        {type:"text/plain"}
+        const url = URL.createObjectURL(blob);
 
-    );
+        const link = document.createElement("a");
 
-    const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = "TECHASH24-Password.txt";
 
-    const link = document.createElement("a");
+        document.body.appendChild(link);
 
-    link.href = url;
+        link.click();
 
-    link.download = "TECHASH24-Password.txt";
+        document.body.removeChild(link);
 
-    link.click();
+        URL.revokeObjectURL(url);
 
-    URL.revokeObjectURL(url);
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Unable to download password.");
+
+    }
 
 });
 
@@ -409,9 +463,13 @@ const history = [];
 
 function saveHistory(password){
 
+    if(!password) return;
+
+    if(history[0] === password) return;
+
     history.unshift(password);
 
-    if(history.length>10){
+    if(history.length > 10){
 
         history.pop();
 
@@ -419,13 +477,13 @@ function saveHistory(password){
 
 }
 
-const originalGenerate = generatePassword;
+const originalGeneratePassword = generatePassword;
 
 generatePassword = function(){
 
-    originalGenerate();
+    originalGeneratePassword();
 
-    if(passwordInput.value!==""){
+    if(passwordInput.value){
 
         saveHistory(passwordInput.value);
 
@@ -437,33 +495,45 @@ generatePassword = function(){
    RANDOM GLOW EFFECT
 ================================= */
 
-setInterval(()=>{
+setInterval(() => {
 
-    generateBtn.animate([
+    if(generateBtn.animate){
 
-        {
+        generateBtn.animate(
 
-            boxShadow:"0 0 10px cyan"
+            [
 
-        },
+                {
 
-        {
+                    boxShadow:"0 0 10px cyan"
 
-            boxShadow:"0 0 35px cyan"
+                },
 
-        },
+                {
 
-        {
+                    boxShadow:"0 0 35px cyan"
 
-            boxShadow:"0 0 10px cyan"
+                },
 
-        }
+                {
 
-    ],{
+                    boxShadow:"0 0 10px cyan"
 
-        duration:1500
+                }
 
-    });
+            ],
+
+            {
+
+                duration:1500,
+
+                easing:"ease-in-out"
+
+            }
+
+        );
+
+    }
 
 },4000);
 
@@ -473,15 +543,45 @@ setInterval(()=>{
 
 const card = document.querySelector(".card");
 
-card.addEventListener("mouseenter",()=>{
+if(window.matchMedia("(hover:hover)").matches){
 
-    card.style.transform="translateY(-8px)";
+    card.addEventListener("mouseenter",()=>{
+
+        card.style.transform="translateY(-8px)";
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.transform="translateY(0)";
+
+    });
+
+}
+
+/* ===============================
+   WINDOW RESIZE
+================================= */
+
+window.addEventListener("resize", () => {
+
+    lengthValue.textContent = lengthSlider.value;
 
 });
 
-card.addEventListener("mouseleave",()=>{
+/* ===============================
+   ONLINE / OFFLINE STATUS
+================================= */
 
-    card.style.transform="translateY(0)";
+window.addEventListener("offline", () => {
+
+    console.warn("You are offline.");
+
+});
+
+window.addEventListener("online", () => {
+
+    console.log("Back online.");
 
 });
 
@@ -489,19 +589,36 @@ card.addEventListener("mouseleave",()=>{
    CONSOLE MESSAGE
 ================================= */
 
-console.clear();
+if(window.console){
 
-console.log("%cTECHASH24 Password Generator",
-"color:#00d9ff;font-size:22px;font-weight:bold;");
+    console.clear();
 
-console.log("%cVersion 3.0",
-"color:#00ff66;font-size:16px;");
+    console.log(
+        "%cTECHASH24 Password Generator",
+        "color:#00d9ff;font-size:22px;font-weight:bold;"
+    );
 
-console.log("%cDeveloped by TECHASH24 🚀",
-"color:white;font-size:15px;");
+    console.log(
+        "%cVersion 4.0",
+        "color:#00ff66;font-size:16px;"
+    );
+
+    console.log(
+        "%cDeveloped by TECHASH24 🚀",
+        "color:white;font-size:15px;"
+    );
+
+    console.log(
+        "%cCross-platform Compatible",
+        "color:#00d9ff;font-size:14px;"
+    );
+
+    console.log("Application Loaded Successfully.");
+
+}
 
 /* ===============================
    FINISHED
 ================================= */
 
-console.log("Application Loaded Successfully.");
+console.log("Ready ✅");
