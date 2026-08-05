@@ -5,134 +5,753 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>TECHASH24 Password Generator</title>
+    <title>TECHASH24 | Portfolio</title>
 
-    <link rel="stylesheet" href="style.css">
+    <!-- Google Font -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
 <body>
 
-<div id="particles"></div>
+<!-- ===========================
+        PARTICLES
+=========================== -->
 
-<div class="container">
+<div id="particles-js"></div>
 
-    <div class="card">
+<!-- ===========================
+        LOADER
+=========================== -->
 
-        <h1>🔐 Password Generator</h1>
+<div id="loader">
 
-        <p class="subtitle">
-            Create secure passwords instantly
-        </p>
+    <h1>TECHASH24</h1>
 
-        <div class="password-box">
+    <p id="loading-text">
 
-            <input
-                type="password"
-                id="password"
-                readonly
-            >
+        Initializing...
 
-            <button id="togglePassword">
-                👁
-            </button>
+    </p>
 
-        </div>
+    <div class="loader-progress">
 
-        <div class="strength">
-
-            <span>Password Strength</span>
-
-            <div class="strength-bar">
-
-                <div id="strengthFill"></div>
-
-            </div>
-
-            <p id="strengthText">Strong</p>
-
-        </div>
-
-        <div class="length">
-
-            <label>
-                Password Length:
-                <span id="lengthValue">16</span>
-            </label>
-
-            <input
-                type="range"
-                id="length"
-                min="8"
-                max="64"
-                value="16"
-            >
-
-        </div>
-
-        <div class="options">
-
-            <label>
-                <input type="checkbox" id="uppercase" checked>
-                Uppercase
-            </label>
-
-            <label>
-                <input type="checkbox" id="lowercase" checked>
-                Lowercase
-            </label>
-
-            <label>
-                <input type="checkbox" id="numbers" checked>
-                Numbers
-            </label>
-
-            <label>
-                <input type="checkbox" id="symbols" checked>
-                Symbols
-            </label>
-
-        </div>
-
-        <div class="buttons">
-
-            <button id="generate">
-                ⚡ Generate
-            </button>
-
-            <button id="copy">
-                📋 Copy
-            </button>
-
-        </div>
-
-        <div class="entropy">
-
-            Entropy:
-            <span id="entropy">
-                0 bits
-            </span>
-
-        </div>
+        <div class="loader-progress-bar"></div>
 
     </div>
 
 </div>
 
-<div id="toast">
-    Password Copied!
+<!-- ===========================
+        HEADER
+=========================== -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            TECHASH24
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="#home">Home</a>
+            </li>
+
+            <li>
+                <a href="#about">About</a>
+            </li>
+
+            <li>
+                <a href="#skills">Skills</a>
+            </li>
+
+            <li>
+                <a href="#projects">Projects</a>
+            </li>
+
+            <li>
+                <a href="#contact">Contact</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- ===========================
+        HERO
+=========================== -->
+
+<section class="hero"
+         id="home">
+
+    <div class="hero-content">
+
+        <p class="welcome">
+
+            👋 Welcome to my Portfolio
+
+        </p>
+
+        <h1>
+
+            Ashwani Maurya
+
+        </h1>
+
+        <h2>
+
+            <span id="typing"></span>
+
+        </h2>
+
+        <p class="hero-text">
+
+            Hi, I'm <strong>Ashwani Maurya</strong>,
+            a passionate Class 11 student from India.
+
+            I love creating beautiful websites,
+            learning Full Stack Development,
+            Cybersecurity,
+            and Ethical Hacking.
+
+            My goal is to build modern web applications
+            and become a professional Ethical Hacker.
+
+        </p>
+
+        <div class="buttons">
+
+            <a href="#projects"
+               class="btn">
+
+                View Projects
+
+            </a>
+
+            <a href="#contact"
+               class="btn outline">
+
+                Hire Me
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===========================
+        ABOUT SECTION
+=========================== -->
+
+<section id="about" class="about">
+
+    <h2 class="section-title">About Me</h2>
+
+    <div class="about-container">
+
+        <!-- Profile Card -->
+
+        <div class="profile-card">
+
+            <div class="profile-image">
+
+                <img src="images/profile.jpg"
+                     alt="Ashwani Maurya">
+
+            </div>
+
+            <h3>TECHASH24</h3>
+
+            <p>Future Ethical Hacker</p>
+
+        </div>
+
+        <!-- About Text -->
+
+        <div class="about-text">
+
+            <h3>Hello, I'm Ashwani 👋</h3>
+
+            <p>
+
+                I'm a passionate Class 11 student from India,
+                dedicated to learning Web Development,
+                JavaScript, Java, Cybersecurity and Ethical Hacking.
+
+            </p>
+
+            <p>
+
+                I enjoy creating responsive websites,
+                solving programming problems,
+                and building projects that improve my skills.
+
+            </p>
+
+            <p>
+
+                My dream is to become a Full Stack Developer
+                and an Ethical Hacker while helping businesses
+                build modern websites.
+
+            </p>
+
+            <div class="stats">
+
+                <div class="stat-box">
+
+                    <h4 class="counter"
+                        data-target="5">0</h4>
+
+                    <p>Projects</p>
+
+                </div>
+
+                <div class="stat-box">
+
+                    <h4 class="counter"
+                        data-target="250">0</h4>
+
+                    <p>Hours Learning</p>
+
+                </div>
+
+                <div class="stat-box">
+
+                    <h4>∞</h4>
+
+                    <p>Passion</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===========================
+        SKILLS SECTION
+=========================== -->
+
+<section id="skills"
+         class="skills">
+
+    <h2 class="section-title">
+
+        My Skills
+
+    </h2>
+
+    <p class="skills-subtitle">
+
+        Technologies I'm learning and improving every day.
+
+    </p>
+
+    <div class="skills-container">
+
+        <!-- HTML -->
+
+        <div class="skill-card">
+
+            <h3>HTML</h3>
+
+            <div class="progress">
+
+                <div class="progress-fill html">
+
+                    <span>95%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CSS -->
+
+        <div class="skill-card">
+
+            <h3>CSS</h3>
+
+            <div class="progress">
+
+                <div class="progress-fill css">
+
+                    <span>90%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- JavaScript -->
+
+        <div class="skill-card">
+
+            <h3>JavaScript</h3>
+
+            <div class="progress">
+
+                <div class="progress-fill js">
+
+                    <span>80%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Java -->
+
+        <div class="skill-card">
+
+            <h3>Java</h3>
+
+            <div class="progress">
+
+                <div class="progress-fill java">
+
+                    <span>75%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Git & GitHub -->
+
+        <div class="skill-card">
+
+            <h3>Git & GitHub</h3>
+
+            <div class="progress">
+
+                <div class="progress-fill github">
+
+                    <span>70%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Cybersecurity -->
+
+        <div class="skill-card">
+
+            <h3>Cybersecurity</h3>
+
+            <div class="progress">
+
+                <div class="progress-fill cyber">
+            <span>60%</span>
+            </div>
+
+                    <span>60%</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===========================
+        PROJECTS SECTION
+=========================== -->
+
+<section id="projects" class="projects">
+
+    <h2 class="section-title">My Projects</h2>
+
+    <p class="project-subtitle">
+        Real projects I've built while learning web development.
+    </p>
+
+    <div class="project-container">
+
+        <!-- =====================
+             PASSWORD GENERATOR
+        ====================== -->
+
+        <div class="project-card">
+
+            <img src="images/password-preview.png"
+                 alt="Password Generator">
+
+            <div class="project-content">
+
+                <h3>🔐 Password Generator</h3>
+
+                <p>
+
+                    A modern password generator built using
+                    HTML, CSS and JavaScript.
+
+                    Features include secure password generation,
+                    password strength meter,
+                    copy button,
+                    dark futuristic UI
+                    and responsive design.
+
+                </p>
+
+                <div class="tech">
+
+                    <span>HTML</span>
+
+                    <span>CSS</span>
+
+                    <span>JavaScript</span>
+
+                </div>
+
+                <div class="project-buttons">
+
+                    <a href="projects/password-generator/index.html"
+                       target="_blank">
+
+                        🚀 Live Demo
+
+                    </a>
+
+                    <a href="#">
+
+                        💻 GitHub
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =====================
+              CALCULATOR
+        ====================== -->
+
+        <div class="project-card">
+
+            <img src="images/calculator-preview.png"
+                 alt="Calculator">
+
+            <div class="project-content">
+
+                <h3>🧮 Calculator</h3>
+
+                <p>
+
+                    A beautiful calculator made with
+                    HTML, CSS and JavaScript.
+
+                    Supports all basic mathematical
+                    operations with a clean UI
+                    and responsive layout.
+
+                </p>
+
+                <div class="tech">
+
+                    <span>HTML</span>
+
+                    <span>CSS</span>
+
+                    <span>JavaScript</span>
+
+                </div>
+
+                <div class="project-buttons">
+
+                    <a href="projects/calculator/index.html"
+                       target="_blank">
+
+                        🚀 Live Demo
+
+                    </a>
+
+                    <a href="#">
+
+                        💻 GitHub
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =====================
+               PORTFOLIO
+        ====================== -->
+
+        <div class="project-card">
+
+            <img src="images/portfolio-preview.png"
+                 alt="Portfolio">
+
+            <div class="project-content">
+
+                <h3>🌐 TECHASH24 Portfolio</h3>
+
+                <p>
+
+                    My personal portfolio website featuring
+                    smooth animations,
+                    futuristic UI,
+                    interactive sections,
+                    responsive design
+                    and project showcase.
+
+                </p>
+
+                <div class="tech">
+
+                    <span>HTML</span>
+
+                    <span>CSS</span>
+
+                    <span>JavaScript</span>
+
+                </div>
+
+                <div class="project-buttons">
+
+                    <a href="#home">
+
+                        🚀 Live Demo
+
+                    </a>
+
+                    <a href="#">
+
+                        💻 GitHub
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===========================
+        CONTACT SECTION
+=========================== -->
+
+<!-- ===========================
+        CONTACT SECTION
+=========================== -->
+
+<section id="contact" class="contact">
+
+    <h2 class="section-title">Contact Me</h2>
+
+    <p class="contact-subtitle">
+        Have a project in mind? Let's build something amazing together.
+    </p>
+
+    <div class="contact-container">
+
+        <div class="contact-card">
+
+    <h3>📧 Email</h3>
+
+    <p>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ashwani240912@gmail.com"
+           target="_blank">
+            ashwani240912@gmail.com
+        </a>
+    </p>
+
 </div>
 
-<script src="script.js"></script>
+        <div class="contact-card">
 
+    <h3>📱 WhatsApp</h3>
+
+    <p>
+        <a href="https://wa.me/919214556567" target="_blank">
+            +91 9214556567
+        </a>
+    </p>
+
+</div>
+
+        <div class="contact-card">
+
+            <h3>📍 Location</h3>
+
+            <p>Safedabad Barabanki </p>
+            <p>Uttar Pradesh, India</p>
+
+        </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:50px;">
+
+        <button id="openContact" class="btn">
+
+            💬 Let's Talk
+
+        </button>
+
+    </div>
+
+</section>
+<!-- ===========================
+        CONTACT POPUP
+=========================== -->
+
+<div id="contactModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close">&times;</span>
+
+        <h2>Send Message</h2>
+
+        <form id="contactForm">
+
+            <input
+                type="text"
+                id="from_name"
+                placeholder="Your Name"
+                required
+            >
+
+            <input
+                type="email"
+                id="from_email"
+                placeholder="Your Email"
+                required
+            >
+
+            <input
+                type="text"
+                id="subject"
+                placeholder="Subject"
+                required
+            >
+
+            <textarea
+                id="message"
+                rows="7"
+                placeholder="Your Message"
+                required
+            ></textarea>
+
+            <button
+                type="submit"
+                class="btn">
+
+                🚀 Send Message
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+        FOOTER
+=========================== -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <h2>TECHASH24</h2>
+
+        <p>
+
+            Designed & Developed by
+            <strong>Ashwani Maurya</strong>
+
+        </p>
+
+        <div class="social-links">
+
+    <a href="https://github.com/TECHASH24" target="_blank">
+        GitHub
+    </a>
+
+    <a href="https://www.linkedin.com/in/ashwani-maurya-a297b5427/">
+        LinkedIn
+    </a>
+
+    <a href="https://www.instagram.com/ashwani.bladexmen/" target="_blank">
+        Instagram
+    </a>
+
+</div>
+
+        <p class="copyright">
+
+            © 2026 TECHASH24.
+            All Rights Reserved.
+
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- ===========================
+        PARTICLES JS
+=========================== -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+emailjs.init({
+    publicKey: "l9diBOgu98ElOS1nW",
+});
+</script>
+
+<script src="script.js"></script>
 </body>
 
 </html>
