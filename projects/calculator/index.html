@@ -5,204 +5,133 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TECHASH24 Calculator</title>
+    <title>TECHASH24 Password Generator</title>
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="style.css">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
 
-    <!-- Animated Background -->
-    <div class="background"></div>
+<div id="particles"></div>
 
-    <!-- Custom Cursor -->
+<div class="container">
 
-    <!-- Calculator -->
-    <div class="calculator">
+    <div class="card">
 
-        <div class="title">
+        <h1>🔐 Password Generator</h1>
 
-            <h1>TECHASH24</h1>
+        <p class="subtitle">
+            Create secure passwords instantly
+        </p>
 
-            <p>Calculator</p>
+        <div class="password-box">
 
-        </div>
+            <input
+                type="password"
+                id="password"
+                readonly
+            >
 
-        <!-- Display -->
-
-        <div class="display">
-
-            <div class="display-top">
-
-                <button id="historyBtn"
-                        class="history-btn"
-                        title="History">
-
-                    🕒
-
-                </button>
-
-            </div>
-
-            <div class="display-box">
-
-                <span id="fakeCursor"></span>
-
-                <input
-                    type="text"
-                    id="display"
-                    placeholder="0"
-                    autocomplete="off">
-
-            </div>
+            <button id="togglePassword">
+                👁
+            </button>
 
         </div>
 
-        <!-- Buttons -->
+        <div class="strength">
+
+            <span>Password Strength</span>
+
+            <div class="strength-bar">
+
+                <div id="strengthFill"></div>
+
+            </div>
+
+            <p id="strengthText">Strong</p>
+
+        </div>
+
+        <div class="length">
+
+            <label>
+                Password Length:
+                <span id="lengthValue">16</span>
+            </label>
+
+            <input
+                type="range"
+                id="length"
+                min="8"
+                max="64"
+                value="16"
+            >
+
+        </div>
+
+        <div class="options">
+
+            <label>
+                <input type="checkbox" id="uppercase" checked>
+                Uppercase
+            </label>
+
+            <label>
+                <input type="checkbox" id="lowercase" checked>
+                Lowercase
+            </label>
+
+            <label>
+                <input type="checkbox" id="numbers" checked>
+                Numbers
+            </label>
+
+            <label>
+                <input type="checkbox" id="symbols" checked>
+                Symbols
+            </label>
+
+        </div>
 
         <div class="buttons">
 
-            <button class="clear"
-                    onclick="clearDisplay()">
-
-                AC
-
+            <button id="generate">
+                ⚡ Generate
             </button>
 
-            <button class="special"
-                    onclick="deleteLast()">
-
-                ⌫
-
+            <button id="copy">
+                📋 Copy
             </button>
 
-            <button class="special"
-                    onclick="appendValue('%')">
+        </div>
 
-                %
+        <div class="entropy">
 
-            </button>
-
-            <button class="operator"
-                    onclick="appendValue('/')">
-
-                ÷
-
-            </button>
-
-            <button onclick="appendValue('7')">7</button>
-
-            <button onclick="appendValue('8')">8</button>
-
-            <button onclick="appendValue('9')">9</button>
-
-            <button class="operator"
-                    onclick="appendValue('*')">
-
-                ×
-
-            </button>
-
-            <button onclick="appendValue('4')">4</button>
-
-            <button onclick="appendValue('5')">5</button>
-
-            <button onclick="appendValue('6')">6</button>
-
-            <button class="operator"
-                    onclick="appendValue('-')">
-
-                −
-
-            </button>
-
-            <button onclick="appendValue('1')">1</button>
-
-            <button onclick="appendValue('2')">2</button>
-
-            <button onclick="appendValue('3')">3</button>
-
-            <button class="operator"
-                    onclick="appendValue('+')">
-
-                +
-
-            </button>
-
-            <button onclick="toggleSign()">
-
-                ±
-
-            </button>
-
-            <button onclick="appendValue('0')">
-
-                0
-
-            </button>
-
-            <button onclick="appendValue('.')">
-
-                .
-
-            </button>
-
-            <button class="equal"
-                    onclick="calculate()">
-
-                =
-
-            </button>
+            Entropy:
+            <span id="entropy">
+                0 bits
+            </span>
 
         </div>
 
     </div>
 
-    <!-- History Popup -->
+</div>
 
-    <div id="historyPopup"
-         class="history-popup">
+<div id="toast">
+    Password Copied!
+</div>
 
-        <div class="history-header">
-
-            <h3>Calculation History</h3>
-
-            <button id="clearHistory">
-
-                🗑
-
-            </button>
-
-        </div>
-
-        <div id="historyList">
-
-            <p class="empty-history">
-
-                No history yet
-
-            </p>
-
-        </div>
-
-    </div>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 
