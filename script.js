@@ -1,685 +1,475 @@
 /* ==========================================
-   TECHASH24 v3.0
+   TECHASH24 v4.0
    script.js
+   PART 1
 ========================================== */
-
 
 /* ==========================
    LOADER
 ========================== */
-
 
 const loadingMessages = [
     "Initializing...",
     "Loading Portfolio...",
     "Loading Assets...",
     "Connecting Modules...",
-    "Starting Experience...",
+    "Preparing Interface...",
     "Access Granted..."
 ];
 
-
-const loadingText = document.getElementById("loading-text");
 const loader = document.getElementById("loader");
+const loadingText = document.getElementById("loading-text");
 
+if (loader && loadingText) {
 
-if(loadingText && loader){
+    let index = 0;
 
+    const messageInterval = setInterval(() => {
 
-    let messageIndex = 0;
+        index++;
 
-
-    const messageInterval = setInterval(()=>{
-
-
-        messageIndex++;
-
-
-        if(messageIndex < loadingMessages.length){
-
-            loadingText.textContent =
-            loadingMessages[messageIndex];
-
+        if (index < loadingMessages.length) {
+            loadingText.textContent = loadingMessages[index];
         }
 
+    }, 500);
 
-    },500);
+    window.addEventListener("load", () => {
 
-
-
-    window.addEventListener("load",()=>{
-
-
-        setTimeout(()=>{
-
+        setTimeout(() => {
 
             clearInterval(messageInterval);
 
+            loader.style.opacity = "0";
 
-            loader.style.opacity="0";
+            setTimeout(() => {
 
+                loader.style.display = "none";
 
+            }, 600);
 
-            setTimeout(()=>{
-
-
-                loader.style.display="none";
-
-
-            },600);
-
-
-
-        },3000);
-
-
+        }, 3000);
 
     });
 
-
 }
-
-
-
 
 /* ==========================
    TYPING EFFECT
 ========================== */
 
-
 const words = [
-
-    "Web Developer",
 
     "Frontend Developer",
 
-    "Future Ethical Hacker",
-
     "Java Programmer",
 
-    "Problem Solver"
+    "Future Ethical Hacker",
+
+    "Problem Solver",
+
+    "Tech Enthusiast"
 
 ];
 
-
 const typing = document.getElementById("typing");
-
 
 let wordIndex = 0;
 let letterIndex = 0;
 let deleting = false;
 
+function typeEffect() {
 
-
-function typingEffect(){
-
-
-    if(!typing) return;
-
+    if (!typing) return;
 
     const currentWord = words[wordIndex];
 
-
-
-    if(!deleting){
-
+    if (!deleting) {
 
         typing.textContent =
-        currentWord.substring(0,letterIndex);
-
-
+            currentWord.substring(0, letterIndex);
 
         letterIndex++;
 
-
-
-        if(letterIndex > currentWord.length){
-
+        if (letterIndex > currentWord.length) {
 
             deleting = true;
 
-
-            setTimeout(typingEffect,1500);
-
+            setTimeout(typeEffect, 1500);
 
             return;
-
-
         }
 
-
-    }
-
-    else{
-
+    } else {
 
         typing.textContent =
-        currentWord.substring(0,letterIndex);
-
-
+            currentWord.substring(0, letterIndex);
 
         letterIndex--;
 
+        if (letterIndex < 0) {
 
-
-        if(letterIndex < 0){
-
-
-            deleting=false;
-
+            deleting = false;
 
             wordIndex++;
 
+            if (wordIndex >= words.length) {
 
-
-            if(wordIndex >= words.length){
-
-                wordIndex=0;
+                wordIndex = 0;
 
             }
 
-
-            letterIndex=0;
-
+            letterIndex = 0;
 
         }
 
-
     }
 
-
-
-    setTimeout(
-        typingEffect,
-        deleting ? 60 : 120
-    );
-
+    setTimeout(typeEffect, deleting ? 60 : 120);
 
 }
 
+typeEffect();
 
-typingEffect();
 /* ==========================
-   PARTICLES BACKGROUND
+   PARTICLES
 ========================== */
 
+if (document.getElementById("particles-js")) {
 
-if(document.getElementById("particles-js")){
+    if (typeof particlesJS !== "undefined") {
 
+        particlesJS("particles-js", {
 
-    if(typeof particlesJS !== "undefined"){
+            particles: {
 
-
-        particlesJS("particles-js",{
-
-
-            particles:{
-
-
-                number:{
-
-
-                    value:80,
-
-
-                    density:{
-
-
-                        enable:true,
-
-
-                        value_area:800
-
-
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
                     }
+                },
 
+                color: {
+                    value: "#00d9ff"
+                },
+
+                shape: {
+                    type: "circle"
+                },
+
+                opacity: {
+                    value: 0.5
+                },
+
+                size: {
+                    value: 3,
+                    random: true
+                },
+
+                line_linked: {
+
+                    enable: true,
+
+                    distance: 150,
+
+                    color: "#00d9ff",
+
+                    opacity: 0.3,
+
+                    width: 1
 
                 },
 
+                move: {
 
-                color:{
+                    enable: true,
 
-
-                    value:"#00d9ff"
-
-
-                },
-
-
-                shape:{
-
-
-                    type:"circle"
-
-
-                },
-
-
-                opacity:{
-
-
-                    value:0.5
-
-
-                },
-
-
-                size:{
-
-
-                    value:3,
-
-
-                    random:true
-
-
-                },
-
-
-                line_linked:{
-
-
-                    enable:true,
-
-
-                    distance:150,
-
-
-                    color:"#00d9ff",
-
-
-                    opacity:0.3,
-
-
-                    width:1
-
-
-                },
-
-
-                move:{
-
-
-                    enable:true,
-
-
-                    speed:2
-
+                    speed: 2
 
                 }
 
-
             },
 
+            interactivity: {
 
+                detect_on: "canvas",
 
-            interactivity:{
+                events: {
 
+                    onhover: {
 
-                detect_on:"canvas",
+                        enable: true,
 
-
-                events:{
-
-
-                    onhover:{
-
-
-                        enable:true,
-
-
-                        mode:"grab"
-
+                        mode: "grab"
 
                     },
 
+                    onclick: {
 
-                    onclick:{
+                        enable: true,
 
-
-                        enable:true,
-
-
-                        mode:"push"
-
+                        mode: "push"
 
                     }
 
-
                 },
 
+                modes: {
 
-                modes:{
+                    grab: {
 
+                        distance: 180,
 
-                    grab:{
+                        line_linked: {
 
-
-                        distance:180,
-
-
-                        line_linked:{
-
-
-                            opacity:0.8
-
+                            opacity: 0.8
 
                         }
 
-
                     },
 
+                    push: {
 
-                    push:{
-
-
-                        particles_nb:4
-
+                        particles_nb: 4
 
                     }
 
-
                 }
-
 
             },
 
-
-            retina_detect:true
-
+            retina_detect: true
 
         });
 
-
     }
 
-
 }
-
-
-
-
-
+/* ==========================================
+   TECHASH24 v4.0
+   script.js
+   PART 2
+========================================== */
 
 /* ==========================
    ANIMATED COUNTERS
 ========================== */
 
-
 const counters = document.querySelectorAll(".counter");
 
+if (counters.length > 0) {
 
-if(counters.length > 0){
+    const counterObserver = new IntersectionObserver((entries) => {
 
+        entries.forEach(entry => {
 
-
-    const counterObserver = new IntersectionObserver((entries)=>{
-
-
-
-        entries.forEach(entry=>{
-
-
-
-            if(entry.isIntersecting){
-
-
+            if (entry.isIntersecting) {
 
                 const counter = entry.target;
 
-
-                const target =
-                Number(counter.dataset.target);
-
-
+                const target = Number(counter.dataset.target);
 
                 let count = 0;
 
+                const increment = Math.ceil(target / 80);
 
-
-                const increment =
-                Math.ceil(target / 80);
-
-
-
-                function updateCounter(){
-
-
+                function updateCounter() {
 
                     count += increment;
 
+                    if (count < target) {
 
-
-                    if(count < target){
-
-
-                        counter.innerText=count;
-
+                        counter.innerText = count;
 
                         requestAnimationFrame(updateCounter);
 
+                    } else {
+
+                        counter.innerText = target;
 
                     }
-
-                    else{
-
-
-                        counter.innerText=target;
-
-
-                    }
-
 
                 }
 
-
-
                 updateCounter();
-
-
 
                 counterObserver.unobserve(counter);
 
-
-
             }
-
-
 
         });
 
-
-
-    },{
-
-
-        threshold:0.5
-
-
+    }, {
+        threshold: 0.5
     });
 
-
-
-
-    counters.forEach(counter=>{
-
+    counters.forEach(counter => {
 
         counterObserver.observe(counter);
 
-
     });
 
-
-
 }
+
 /* ==========================
    ACTIVE NAVIGATION
 ========================== */
 
-
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-links a");
 
+window.addEventListener("scroll", () => {
 
-if(sections.length > 0 && navLinks.length > 0){
+    let current = "";
 
+    sections.forEach(section => {
 
-    window.addEventListener("scroll",()=>{
+        const sectionTop = section.offsetTop - 150;
 
+        const sectionHeight = section.clientHeight;
 
-        let current = "";
+        if (
+            window.scrollY >= sectionTop &&
+            window.scrollY < sectionTop + sectionHeight
+        ) {
 
-
-        sections.forEach(section=>{
-
-
-            const sectionTop =
-            section.offsetTop - 150;
-
-
-            const sectionHeight =
-            section.clientHeight;
-
-
-
-            if(
-                window.scrollY >= sectionTop &&
-                window.scrollY < sectionTop + sectionHeight
-            ){
-
-
-                current = section.getAttribute("id");
-
-
-            }
-
-
-        });
-
-
-
-        navLinks.forEach(link=>{
-
-
-            link.classList.remove("active");
-
-
-            if(
-                link.getAttribute("href") === "#" + current
-            ){
-
-
-                link.classList.add("active");
-
-
-            }
-
-
-        });
-
-
-
-    });
-
-
-
-}
-
-/* ==========================
-   MOBILE MENU
-========================== */
-
-
-const menuBtn =
-document.getElementById("menu-btn");
-
-
-const navMenu =
-document.querySelector(".nav-links");
-
-
-
-if(menuBtn && navMenu){
-
-
-    menuBtn.addEventListener("click",()=>{
-
-
-        navMenu.classList.toggle("show");
-
-
-    });
-
-
-}
-
-/* ==========================
-   SCROLL TO TOP
-========================== */
-
-
-const scrollTopBtn =
-document.getElementById("scrollTop");
-
-
-
-if(scrollTopBtn){
-
-
-
-    window.addEventListener("scroll",()=>{
-
-
-        if(window.scrollY > 400){
-
-
-            scrollTopBtn.classList.add("show");
-
-
-        }
-
-        else{
-
-
-            scrollTopBtn.classList.remove("show");
+            current = section.getAttribute("id");
 
         }
 
     });
 
-    scrollTopBtn.addEventListener("click",()=>{
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
+
+/* ==========================
+   SMOOTH SCROLL
+========================== */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+    anchor.addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if (target) {
+
+            target.scrollIntoView({
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+    });
+
+});
+
+/* ==========================
+   SCROLL TO TOP BUTTON
+========================== */
+
+const scrollBtn = document.getElementById("scrollTop");
+
+if (scrollBtn) {
+
+    window.addEventListener("scroll", () => {
+
+        if (window.scrollY > 400) {
+
+            scrollBtn.classList.add("show");
+
+        } else {
+
+            scrollBtn.classList.remove("show");
+
+        }
+
+    });
+
+    scrollBtn.addEventListener("click", () => {
 
         window.scrollTo({
-            top:0,
 
-            behavior:"smooth"
+            top: 0,
+
+            behavior: "smooth"
+
         });
+
     });
+
 }
+
+/* ==========================
+   CONTACT MODAL
+========================== */
+
 const modal = document.getElementById("contactModal");
 const openBtn = document.getElementById("openContact");
 const closeBtn = document.querySelector(".close");
 
-if (openBtn && modal && closeBtn) {
+if (modal && openBtn && closeBtn) {
 
     openBtn.onclick = () => {
+
         modal.style.display = "flex";
+
     };
 
     closeBtn.onclick = () => {
+
         modal.style.display = "none";
+
     };
 
     window.onclick = (e) => {
-        if (e.target == modal) {
+
+        if (e.target === modal) {
+
             modal.style.display = "none";
+
         }
+
     };
+
+}
+/* ==========================================
+   TECHASH24 v4.0
+   script.js
+   PART 3
+========================================== */
+
+/* ==========================
+   EMAILJS INITIALIZATION
+========================== */
+
+if (typeof emailjs !== "undefined") {
+
+    emailjs.init({
+        publicKey: "l9diBOgu98ElOS1nW"
+    });
 
 }
 
 /* ==========================
-   CONTACT FORM (EMAILJS)
+   CONTACT FORM
 ========================== */
 
 const contactForm = document.getElementById("contactForm");
@@ -689,6 +479,11 @@ if (contactForm) {
     contactForm.addEventListener("submit", function (e) {
 
         e.preventDefault();
+
+        const submitBtn = contactForm.querySelector("button");
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
 
         emailjs.send(
             "service_va6hvnq",
@@ -702,24 +497,74 @@ if (contactForm) {
             }
         )
 
-        .then(function () {
+        .then(() => {
 
-            alert("✅ Message Sent Successfully!");
+            alert("✅ Message sent successfully!");
 
             contactForm.reset();
 
-            modal.style.display = "none";
+            if (modal) {
+                modal.style.display = "none";
+            }
 
         })
 
-        .catch(function (error) {
+        .catch((error) => {
 
             console.error(error);
 
             alert("❌ Failed to send message.");
+
+        })
+
+        .finally(() => {
+
+            submitBtn.disabled = false;
+            submitBtn.innerText = "🚀 Send Message";
 
         });
 
     });
 
 }
+
+/* ==========================
+   NAVBAR SHADOW
+========================== */
+
+const navbar = document.querySelector(".navbar");
+
+window.addEventListener("scroll", () => {
+
+    if (!navbar) return;
+
+    if (window.scrollY > 50) {
+
+        navbar.style.boxShadow = "0 5px 25px rgba(0,217,255,.20)";
+
+    } else {
+
+        navbar.style.boxShadow = "none";
+
+    }
+
+});
+
+/* ==========================
+   PREVENT IMAGE DRAG
+========================== */
+
+document.querySelectorAll("img").forEach(img => {
+
+    img.setAttribute("draggable", "false");
+
+});
+
+/* ==========================
+   CONSOLE MESSAGE
+========================== */
+
+console.log("%cTECHASH24 Portfolio Loaded Successfully 🚀",
+    "color:#00d9ff;font-size:18px;font-weight:bold;");
+
+console.log("Designed & Developed by Ashwani Maurya");
