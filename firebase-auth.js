@@ -16,6 +16,7 @@ const signInButton = document.getElementById("googleSignIn");
 const authStatus = document.getElementById("authStatus");
 const contactForm = document.getElementById("contactForm");
 const signedInAs = document.getElementById("signedInAs");
+const signOutButton = document.getElementById("googleSignOut");
 let signedInUser = null;
 
 function showSetupMessage() {
@@ -27,7 +28,7 @@ if (!isConfigured) {
     showSetupMessage();
 } else {
     const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js");
-    const { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js");
+    const { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } = await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js");
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
@@ -62,6 +63,20 @@ if (!isConfigured) {
             }
         } finally {
             signInButton.disabled = false;
+        }
+    });
+
+    signOutButton.addEventListener("click", async () => {
+        signOutButton.disabled = true;
+
+        try {
+            await signOut(auth);
+            authStatus.textContent = "You have been signed out.";
+        } catch (error) {
+            console.error("Google sign-out failed", error);
+            authStatus.textContent = "Sign-out could not be completed. Please try again.";
+        } finally {
+            signOutButton.disabled = false;
         }
     });
 
