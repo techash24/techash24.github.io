@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECHASH24 | Portfolio</title>
+    <meta name="description" content="Portfolio of Ashwani Maurya, a student developer building polished web experiences with HTML, CSS, JavaScript, and Java.">
+    <title>Ashwani Maurya | Developer Portfolio</title>
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,11 +43,13 @@
 
         <nav class="navbar">
 
-            <div class="logo">
-                TECHASH24
-            </div>
+            <a class="logo" href="#home" aria-label="Ashwani Maurya — home">AM<span>.</span></a>
 
-            <ul class="nav-links">
+            <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul id="primary-navigation" class="nav-links">
 
                 <li><a href="#home">Home</a></li>
 
@@ -70,7 +73,7 @@
         <div class="hero-content">
 
             <p class="welcome">
-                👋 Welcome to my Portfolio
+                Available for learning opportunities and collaborations
             </p>
 
             <h1>
@@ -83,27 +86,18 @@
 
             <p class="hero-text">
 
-                Hi, I'm <strong>Ashwani Maurya</strong>,
-                a passionate Class 11 student from India.
-
-                I love creating beautiful websites,
-                learning Full Stack Development,
-                Cybersecurity,
-                and Ethical Hacking.
-
-                My goal is to become a professional
-                Full Stack Developer and Ethical Hacker.
+                I'm <strong>Ashwani Maurya</strong>, a student developer from India focused on building responsive web interfaces and sharpening my JavaScript, Java, and cybersecurity foundations.
 
             </p>
 
             <div class="buttons">
 
                 <a href="#projects" class="btn">
-                    🚀 View Projects
+                    View projects
                 </a>
 
                 <a href="#contact" class="btn outline">
-                    💬 Hire Me
+                    Get in touch
                 </a>
 
             </div>
@@ -133,11 +127,11 @@
                 </div>
 
                 <h3>
-                    TECHASH24
+                    Ashwani Maurya
                 </h3>
 
                 <p>
-                    Future Ethical Hacker
+                    Student developer · India
                 </p>
 
             </div>
@@ -147,7 +141,7 @@
             <div class="about-text">
 
                 <h3>
-                    Hello, I'm Ashwani 👋
+                    Hello, I'm Ashwani.
                 </h3>
 
                 <p>
@@ -347,12 +341,16 @@
 
             <div class="project-card">
 
-                <img src="images/password-preview.png"
-                     alt="Password Generator">
+                    <div class="project-preview password-preview" aria-label="Password Generator interface preview">
+                        <span class="browser-dots">● ● ●</span>
+                        <strong>Generate secure passwords</strong>
+                        <div class="preview-input">wR8#kP!4mQ2</div>
+                        <div class="preview-meter"><span></span></div>
+                    </div>
 
                 <div class="project-content">
 
-                    <h3>🔐 Password Generator</h3>
+                    <h3>Password Generator</h3>
 
                     <p>
                         A modern Password Generator built using
@@ -368,13 +366,13 @@
 
                     <div class="project-buttons">
 
-                        <a href="projects/password-generator/index.html"
+                        <a href="projects/Password-Generator/index.html"
                            target="_blank">
-                            🚀 Live Demo
+                            Live demo
                         </a>
 
-                        <a href="#">
-                            💻 GitHub
+                        <a href="https://github.com/TECHASH24" target="_blank" rel="noopener noreferrer">
+                            GitHub
                         </a>
 
                     </div>
@@ -387,12 +385,15 @@
 
             <div class="project-card">
 
-                <img src="images/calculator-preview.png"
-                     alt="Calculator">
+                <div class="project-preview calculator-preview" aria-label="Calculator interface preview">
+                    <span class="browser-dots">● ● ●</span>
+                    <div class="calculator-display">1,248 <small>+</small> 352</div>
+                    <div class="calculator-keys"><span>7</span><span>8</span><span>9</span><span>÷</span><span>4</span><span>5</span><span>6</span><span>×</span></div>
+                </div>
 
                 <div class="project-content">
 
-                    <h3>🧮 Calculator</h3>
+                    <h3>Calculator</h3>
 
                     <p>
                         A responsive calculator made with HTML,
@@ -408,13 +409,13 @@
 
                     <div class="project-buttons">
 
-                        <a href="projects/calculator/index.html"
+                        <a href="projects/Calculator/index.html"
                            target="_blank">
-                            🚀 Live Demo
+                            Live demo
                         </a>
 
-                        <a href="#">
-                            💻 GitHub
+                        <a href="https://github.com/TECHASH24" target="_blank" rel="noopener noreferrer">
+                            GitHub
                         </a>
 
                     </div>
@@ -427,12 +428,16 @@
 
             <div class="project-card">
 
-                <img src="images/portfolio-preview.png"
-                     alt="Portfolio">
+                <div class="project-preview portfolio-preview" aria-label="Portfolio website interface preview">
+                    <span class="browser-dots">● ● ●</span>
+                    <span class="preview-label">PORTFOLIO</span>
+                    <strong>Ashwani Maurya</strong>
+                    <div class="preview-pills"><span></span><span></span><span></span></div>
+                </div>
 
                 <div class="project-content">
 
-                    <h3>🌐 TECHASH24 Portfolio</h3>
+                    <h3>Developer Portfolio</h3>
 
                     <p>
                         My futuristic portfolio website featuring
@@ -449,11 +454,11 @@
                     <div class="project-buttons">
 
                         <a href="#home">
-                            🚀 Live Demo
+                            Live demo
                         </a>
 
-                        <a href="#">
-                            💻 GitHub
+                        <a href="https://github.com/TECHASH24" target="_blank" rel="noopener noreferrer">
+                            GitHub
                         </a>
 
                     </div>
@@ -489,8 +494,7 @@
 
                 <p>
 
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ashwani240912@gmail.com"
-                        target="_blank">
+                <a href="mailto:ashwani240912@gmail.com">
 
                         ashwani240912@gmail.com
 
@@ -509,7 +513,7 @@
                 <p>
 
                     <a href="https://wa.me/919214556567"
-                        target="_blank">
+                        target="_blank" rel="noopener noreferrer">
 
                         +91 9214556567
 
@@ -527,10 +531,10 @@
 
     <p>
 
-        <a href="https://www.google.com/maps/place/Yash+park+city/@26.9003691,81.1136823,17z/data=!3m1!4b1!4m6!3m5!1s0x39995f00236e2e63:0x27e39de17fce3935!8m2!3d26.9003643!4d81.1162572!16s%2Fg%2F11xkqs2dz1?authuser=0&entry=ttu&g_ep=EgoyMDI2MDgwMi4wIKXMDSoASAFQAw%3D%3D"
-           target="_blank">
+        <a href="https://www.google.com/maps/search/?api=1&query=India"
+           target="_blank" rel="noopener noreferrer">
 
-            My Location
+            India
 
         </a>
 
@@ -544,7 +548,7 @@
 
             <button id="openContact" class="btn">
 
-                💬 Let's Talk
+                Let's talk
 
             </button>
 
@@ -556,15 +560,25 @@
             CONTACT MODAL
     =========================== -->
 
-    <div id="contactModal" class="modal">
+    <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
 
         <div class="modal-content">
 
-            <span class="close">&times;</span>
+            <button class="close" type="button" aria-label="Close contact form">&times;</button>
 
-            <h2>Send Message</h2>
+            <h2 id="contactModalTitle">Send message</h2>
 
-            <form id="contactForm">
+            <div id="authGate" class="auth-gate">
+                <p>To protect this inbox from spam, please sign in before sending a message.</p>
+                <button id="googleSignIn" class="google-sign-in" type="button">
+                    <span aria-hidden="true">G</span> Continue with Google
+                </button>
+                <p id="authStatus" class="auth-status" role="status"></p>
+            </div>
+
+            <form id="contactForm" hidden>
+
+                <p id="signedInAs" class="signed-in-as"></p>
 
                 <input
                     type="text"
@@ -594,7 +608,7 @@
                     type="submit"
                     class="btn">
 
-                    🚀 Send Message
+                    Send message
 
                 </button>
 
@@ -612,7 +626,7 @@
 
         <div class="footer-content">
 
-            <h2>TECHASH24</h2>
+            <h2>Ashwani Maurya</h2>
 
             <p>
 
@@ -625,21 +639,21 @@
             <div class="social-links">
 
                 <a href="https://github.com/TECHASH24"
-                    target="_blank">
+                    target="_blank" rel="noopener noreferrer">
 
                     GitHub
 
                 </a>
 
                 <a href="https://www.linkedin.com/in/ashwani-maurya-a297b5427/"
-                    target="_blank">
+                    target="_blank" rel="noopener noreferrer">
 
                     LinkedIn
 
                 </a>
 
                 <a href="https://www.instagram.com/ashwani.bladexmen/"
-                    target="_blank">
+                    target="_blank" rel="noopener noreferrer">
 
                     Instagram
 
@@ -649,7 +663,7 @@
 
             <p class="copyright">
 
-                © 2026 TECHASH24.
+                © 2026 Ashwani Maurya.
                 All Rights Reserved.
 
             </p>
@@ -681,6 +695,7 @@
     <!-- Main Script -->
 
     <script src="script.js"></script>
+    <script type="module" src="firebase-auth.js"></script>
 
 </body>
 
