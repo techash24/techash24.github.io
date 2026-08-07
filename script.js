@@ -48,7 +48,7 @@ if (loader && loadingText) {
 
             }, 600);
 
-        }, 3000);
+        }, 500);
 
     });
 
@@ -424,18 +424,38 @@ if (scrollBtn) {
 const modal = document.getElementById("contactModal");
 const openBtn = document.getElementById("openContact");
 const closeBtn = document.querySelector(".close");
+const navToggle = document.querySelector(".nav-toggle");
+const navMenu = document.querySelector(".nav-links");
+
+if (navToggle && navMenu) {
+    navToggle.addEventListener("click", () => {
+        const isOpen = navMenu.classList.toggle("open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+        navToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    });
+
+    navMenu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.setAttribute("aria-label", "Open navigation menu");
+    }));
+}
 
 if (modal && openBtn && closeBtn) {
 
     openBtn.onclick = () => {
 
         modal.style.display = "flex";
+        const authButton = document.getElementById("googleSignIn");
+        const nameInput = document.getElementById("from_name");
+        (authButton && !authButton.disabled ? authButton : nameInput).focus();
 
     };
 
     closeBtn.onclick = () => {
 
         modal.style.display = "none";
+        openBtn.focus();
 
     };
 
@@ -444,10 +464,18 @@ if (modal && openBtn && closeBtn) {
         if (e.target === modal) {
 
             modal.style.display = "none";
+            openBtn.focus();
 
         }
 
     };
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.style.display === "flex") {
+            modal.style.display = "none";
+            openBtn.focus();
+        }
+    });
 
 }
 /* ==========================================
