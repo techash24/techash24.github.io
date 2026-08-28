@@ -7,16 +7,36 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260828-2">
+<link rel="stylesheet" href="style.css?v=20260828-3">
 </head>
 <body>
 <div class="background"></div>
 <div class="calculator">
-<div class="title"><h1>TECHASH24</h1><p>Futuristic Calculator</p></div>
+<div class="title"><h1>TECHASH24</h1><p>Scientific Calculator</p></div>
 <div class="display">
 <div class="display-top"><button type="button" id="historyBtn" class="history-btn" title="History">🕒</button></div>
 <div class="display-box"><span id="fakeCursor"></span><input type="text" id="display" placeholder="0" autocomplete="off" readonly></div>
 </div>
+
+<div class="buttons scientific-buttons">
+<button type="button" class="scientific" onclick="scientificFunction('sin')">sin</button>
+<button type="button" class="scientific" onclick="scientificFunction('cos')">cos</button>
+<button type="button" class="scientific" onclick="scientificFunction('tan')">tan</button>
+<button type="button" class="scientific" onclick="scientificFunction('sqrt')">√</button>
+<button type="button" class="scientific" onclick="scientificFunction('log')">log</button>
+<button type="button" class="scientific" onclick="scientificFunction('ln')">ln</button>
+<button type="button" class="scientific" onclick="scientificFunction('square')">x²</button>
+<button type="button" class="scientific" onclick="scientificFunction('inverse')">1/x</button>
+<button type="button" class="scientific" onclick="appendValue('Math.PI')">π</button>
+<button type="button" class="scientific" onclick="appendValue('Math.E')">e</button>
+<button type="button" class="scientific" onclick="appendValue('(')">(</button>
+<button type="button" class="scientific" onclick="appendValue(')')">)</button>
+<button type="button" class="scientific mode-button" id="angleMode" onclick="toggleAngleMode()">DEG</button>
+<button type="button" class="scientific" onclick="scientificFunction('abs')">|x|</button>
+<button type="button" class="scientific" onclick="scientificFunction('factorial')">x!</button>
+<button type="button" class="scientific" onclick="scientificFunction('cube')">x³</button>
+</div>
+
 <div class="buttons">
 <button type="button" class="clear" onclick="clearDisplay()">AC</button>
 <button type="button" class="special" onclick="deleteLast()">⌫</button>
@@ -40,10 +60,11 @@
 <button type="button" class="equal" onclick="calculate()">=</button>
 </div>
 </div>
+
 <div id="historyPopup" class="history-popup">
 <div class="history-header"><h3>Calculation History</h3><button type="button" id="clearHistory">🗑</button></div>
 <div id="historyList"><p class="empty-history">No history yet</p></div>
 </div>
-<script src="script.js?v=20260828-2"></script>
+<script src="script.js?v=20260828-3"></script>
 </body>
 </html>
