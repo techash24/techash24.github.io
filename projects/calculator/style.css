@@ -13,539 +13,239 @@
 }
 
 :root{
-
     --primary:#00d9ff;
     --primary-light:#4be8ff;
     --success:#00ff88;
     --danger:#ff3b5f;
     --warning:#ffb400;
-
     --bg1:#020817;
     --bg2:#081120;
     --bg3:#0b1d35;
-
     --text:#ffffff;
     --gray:#9db5c9;
-
 }
 
-html{
-    scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth;}
 
 body{
-
     min-height:100vh;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
-    background:linear-gradient(
-        135deg,
-        var(--bg1),
-        var(--bg2),
-        var(--bg3)
-    );
-
+    background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
     overflow:hidden;
-
     position:relative;
-
 }
 
-/* ==========================
-   Animated Background
-========================== */
-
 .background{
-
     position:fixed;
-
     inset:0;
-
     z-index:-2;
-
-    background:
-
-    radial-gradient(circle at top left,
-    rgba(0,217,255,.22),
-    transparent 35%),
-
-    radial-gradient(circle at bottom right,
-    rgba(0,255,136,.15),
-    transparent 35%);
-
+    background:radial-gradient(circle at top left,rgba(0,217,255,.22),transparent 35%),radial-gradient(circle at bottom right,rgba(0,255,136,.15),transparent 35%);
     animation:bgMove 10s linear infinite alternate;
-
 }
 
 @keyframes bgMove{
-
-    from{
-
-        transform:scale(1);
-
-    }
-
-    to{
-
-        transform:scale(1.15);
-
-    }
-
+    from{transform:scale(1);}
+    to{transform:scale(1.15);}
 }
-
-/* ==========================
-   Calculator
-========================== */
 
 .calculator{
-
-    width:390px;
-
-    padding:25px;
-
+    width:420px;
+    padding:28px;
     border-radius:25px;
-
     background:rgba(255,255,255,.08);
-
     backdrop-filter:blur(18px);
-
     border:1px solid rgba(255,255,255,.15);
-
-    box-shadow:
-
-        0 0 35px rgba(0,217,255,.35),
-
-        0 25px 45px rgba(0,0,0,.45);
-
+    box-shadow:0 0 35px rgba(0,217,255,.35),0 25px 45px rgba(0,0,0,.45);
 }
 
-/* ==========================
-   Title
-========================== */
-
 .title{
-
     text-align:center;
-
-    margin-bottom:25px;
-
+    margin-bottom:27px;
 }
 
 .title h1{
-
     color:var(--primary);
-
-    font-size:40px;
-
+    font-size:42px;
     letter-spacing:2px;
-
     text-shadow:0 0 18px cyan;
-
 }
 
 .title p{
-
     color:var(--gray);
-
     margin-top:5px;
-
 }
 
-/* ==========================
-   Display
-========================== */
-
-.display{
-
-    margin-bottom:25px;
-
-}
+.display{margin-bottom:27px;}
 
 .display-top{
-
     display:flex;
-
     justify-content:flex-end;
-
     margin-bottom:10px;
-
 }
 
 .history-btn{
-
-    width:42px;
-
-    height:42px;
-
+    width:44px;
+    height:44px;
     border-radius:50%;
-
     border:2px solid var(--primary);
-
     background:#11243f;
-
     color:var(--primary);
-
     cursor:pointer;
-
-    font-size:18px;
-
+    font-size:19px;
     transition:.3s;
-
 }
 
-.history-btn:hover{
+.history-btn:hover{background:var(--primary);color:#081120;}
 
-    background:var(--primary);
-
-    color:#081120;
-
-}
-
-.display-box{
-
-    position:relative;
-
-}
+.display-box{position:relative;}
 
 #display{
-
     width:100%;
-
-    height:80px;
-
+    height:88px;
     border:none;
-
     outline:none;
-
     background:#06111f;
-
     color:var(--primary);
-
     border-radius:18px;
-
     border:2px solid var(--primary);
-
     text-align:right;
-
-    font-size:36px;
-
+    font-size:39px;
     padding:20px;
-
-    box-shadow:
-
-    inset 0 0 15px rgba(0,217,255,.15),
-
-    0 0 20px rgba(0,217,255,.25);
-
+    box-shadow:inset 0 0 15px rgba(0,217,255,.15),0 0 20px rgba(0,217,255,.25);
     caret-color:transparent;
-
 }
-/* ==========================
-   BUTTON GRID
-========================== */
 
 .buttons{
-
     display:grid;
-
     grid-template-columns:repeat(4,1fr);
-
-    gap:15px;
-
+    gap:16px;
 }
 
-/* ==========================
-   BUTTONS
-========================== */
-
 .buttons button{
-
-    height:70px;
-
+    height:76px;
     border:none;
-
     border-radius:18px;
-
-    font-size:24px;
-
+    font-size:25px;
     font-weight:600;
-
     cursor:pointer;
-
     transition:.25s;
-
     background:#10213b;
-
     color:white;
-
 }
 
 .buttons button:hover{
-
     transform:translateY(-4px);
-
     box-shadow:0 0 18px rgba(0,217,255,.45);
-
 }
 
-.buttons button:active{
-
-    transform:scale(.95);
-
-}
-
-/* ==========================
-   OPERATOR BUTTONS
-========================== */
+.buttons button:active{transform:scale(.95);}
 
 .operator{
-
-    background:linear-gradient(
-        135deg,
-        #00d9ff,
-        #00a8ff
-    ) !important;
-
-    color:#06111f !important;
-
+    background:linear-gradient(135deg,#00d9ff,#00a8ff)!important;
+    color:#06111f!important;
 }
 
-.operator:hover{
-
-    box-shadow:0 0 22px cyan;
-
-}
-
-/* ==========================
-   EQUAL BUTTON
-========================== */
+.operator:hover{box-shadow:0 0 22px cyan;}
 
 .equal{
-
-    background:linear-gradient(
-        135deg,
-        #00ff88,
-        #00d76f
-    ) !important;
-
-    color:#000 !important;
-
-    font-size:30px;
-
+    background:linear-gradient(135deg,#00ff88,#00d76f)!important;
+    color:#000!important;
+    font-size:31px;
     font-weight:700;
-
 }
 
-.equal:hover{
+.equal:hover{box-shadow:0 0 25px #00ff88;}
 
-    box-shadow:0 0 25px #00ff88;
-
-}
-
-/* ==========================
-   CLEAR
-========================== */
-
-.clear{
-
-    background:linear-gradient(
-        135deg,
-        #ff3b5f,
-        #ff1845
-    ) !important;
-
-}
-
-.clear:hover{
-
-    box-shadow:0 0 20px #ff3b5f;
-
-}
-
-/* ==========================
-   SPECIAL
-========================== */
+.clear{background:linear-gradient(135deg,#ff3b5f,#ff1845)!important;}
+.clear:hover{box-shadow:0 0 20px #ff3b5f;}
 
 .special{
-
-    background:linear-gradient(
-        135deg,
-        #ffb400,
-        #ff9800
-    ) !important;
-
-    color:#000 !important;
-
+    background:linear-gradient(135deg,#ffb400,#ff9800)!important;
+    color:#000!important;
 }
 
-/* ==========================
-   HISTORY POPUP
-========================== */
-
 .history-popup{
-
     position:fixed;
-
     right:25px;
-
     top:50%;
-
     transform:translateY(-50%);
-
     width:300px;
-
     height:420px;
-
     background:#081120;
-
     border:2px solid var(--primary);
-
     border-radius:20px;
-
     box-shadow:0 0 25px cyan;
-
     display:none;
-
     flex-direction:column;
-
     overflow:hidden;
-
     z-index:9999;
-
 }
 
 .history-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     padding:15px;
-
     background:#10213b;
-
 }
 
-.history-header h3{
-
-    color:var(--primary);
-
-}
+.history-header h3{color:var(--primary);}
 
 #clearHistory{
-
     width:40px;
-
     height:40px;
-
     border:none;
-
     border-radius:10px;
-
     background:#ff3b5f;
-
     color:white;
-
     cursor:pointer;
-
 }
 
-#historyList{
-
-    flex:1;
-
-    overflow-y:auto;
-
-    padding:15px;
-
-}
+#historyList{flex:1;overflow-y:auto;padding:15px;}
 
 .history-item{
-
     padding:12px;
-
     margin-bottom:10px;
-
     border-radius:12px;
-
     background:#10213b;
-
     color:white;
-
     cursor:pointer;
-
     transition:.25s;
-
 }
 
-.history-item:hover{
+.history-item:hover{background:#00d9ff;color:#06111f;}
 
-    background:#00d9ff;
+.empty-history{color:#8ba6c2;text-align:center;margin-top:30px;}
 
-    color:#06111f;
-
-}
-
-.empty-history{
-
-    color:#8ba6c2;
-
-    text-align:center;
-
-    margin-top:30px;
-
-}
-
-/* ==========================
-   CUSTOM CURSOR
-========================== */
 .cursor.active{
-
     width:34px;
-
     height:34px;
-
     background:rgba(0,217,255,.2);
-
 }
-
-/* ==========================
-   BLINKING CURSOR
-========================== */
 
 #fakeCursor{
-
     position:absolute;
-
     right:18px;
-
     top:50%;
-
     transform:translateY(-50%);
-
     width:2px;
-
     height:36px;
-
     background:#00d9ff;
-
     animation:blink 1s infinite;
-
 }
 
-@keyframes blink{
+@keyframes blink{50%{opacity:0;}}
 
-    50%{
-
-        opacity:0;
-
+/* Slightly larger, still responsive */
+@media (max-width:480px){
+    .calculator{
+        width:calc(100vw - 24px);
+        padding:20px;
     }
-
+    .title h1{font-size:34px;}
+    .buttons{gap:11px;}
+    .buttons button{height:64px;font-size:22px;}
+    #display{height:78px;font-size:32px;}
 }
