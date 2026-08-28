@@ -1,6 +1,7 @@
 /* ==========================================
-   TECHASH24 CALCULATOR v5.0
-   Complete Calculator Logic
+   TECHASH24 Calculator v4.0
+   Part 4
+   Calculator Logic
 ========================================== */
 
 const display = document.getElementById("display");
@@ -10,248 +11,121 @@ const historyBtn = document.getElementById("historyBtn");
 const historyList = document.getElementById("historyList");
 const clearHistoryBtn = document.getElementById("clearHistory");
 
-const fakeCursor = document.getElementById("fakeCursor");
-
 let history = JSON.parse(localStorage.getItem("history")) || [];
-let justCalculated = false;
 
-const operators = ["+", "-", "*", "/"];
+/* ==========================
+   Append Value
+========================== */
 
-
-/* ==========================================
-   DISPLAY
-========================================== */
-
-function appendValue(value) {
-
-    // If result was just calculated and user enters a number,
-    // start a fresh calculation.
-    if (justCalculated && !operators.includes(value) && value !== "%") {
-        display.value = "";
-        justCalculated = false;
-    }
-
-    // Prevent invalid starting operators
-    if (
-        display.value === "" &&
-        ["*", "/"].includes(value)
-    ) {
-        return;
-    }
-
-    // Prevent double operators
-    const lastChar = display.value.slice(-1);
-
-    if (
-        operators.includes(lastChar) &&
-        operators.includes(value)
-    ) {
-        return;
-    }
-
-    // Prevent multiple decimal points in the same number
-    if (value === ".") {
-
-        const parts = display.value.split(/[+\-*/]/);
-        const currentNumber = parts[parts.length - 1];
-
-        if (currentNumber.includes(".")) {
-            return;
-        }
-
-        // If "." is first character or follows an operator
-        if (
-            display.value === "" ||
-            operators.includes(lastChar)
-        ) {
-            display.value += "0";
-        }
-    }
+function appendValue(value){
 
     display.value += value;
 
-    justCalculated = false;
 }
 
+/* ==========================
+   Clear Display
+========================== */
 
-/* ==========================================
-   CLEAR
-========================================== */
-
-function clearDisplay() {
+function clearDisplay(){
 
     display.value = "";
-    justCalculated = false;
 
-    if (fakeCursor) {
-        fakeCursor.style.display = "block";
-    }
 }
 
+/* ==========================
+   Delete Last Character
+========================== */
 
-/* ==========================================
-   DELETE LAST CHARACTER
-========================================== */
+function deleteLast(){
 
-function deleteLast() {
+    display.value =
+    display.value.slice(0,-1);
 
-    display.value = display.value.slice(0, -1);
-
-    justCalculated = false;
 }
 
+/* ==========================
+   Toggle + / -
+========================== */
 
-/* ==========================================
-   TOGGLE SIGN
-========================================== */
+function toggleSign(){
 
-function toggleSign() {
+    if(display.value==="") return;
 
-    if (display.value === "" || display.value === "Error") {
-        return;
+    if(display.value.startsWith("-")){
+
+        display.value =
+        display.value.substring(1);
+
     }
 
-    try {
+    else{
 
-        const value = Number(display.value);
-
-        if (isNaN(value)) {
-            return;
-        }
-
-        display.value = String(-value);
-
-    } catch {
-
-        return;
+        display.value =
+        "-" + display.value;
 
     }
 
 }
 
+/* ==========================
+   Percentage
+========================== */
 
-/* ==========================================
-   PERCENTAGE
-========================================== */
+function convertPercent(expression){
 
-function convertPercent(expression) {
+    return expression.replace(/(\d+(\.\d+)?)%/g,function(match,num){
 
-    return expression.replace(
-        /(\d+(?:\.\d+)?)%/g,
-        "($1/100)"
-    );
+        return "(" + num + "/100)";
+
+    });
 
 }
 
+/* ==========================
+   Calculate
+========================== */
 
-/* ==========================================
-   VALIDATE EXPRESSION
-========================================== */
+function calculate(){
 
-function isValidExpression(expression) {
+    try{
 
-    if (!expression) {
-        return false;
-    }
+        let expression =
+        convertPercent(display.value);
 
-    // Only allow calculator characters
-    if (!/^[0-9+\-*/%.() ]+$/.test(expression)) {
-        return false;
-    }
+        const result =
+        eval(expression);
 
-    // Expression cannot end with operator
-    if (/[+\-*/.]$/.test(expression)) {
-        return false;
-    }
+        saveHistory(display.value,result);
 
-    // Prevent obvious invalid sequences
-    if (/[+\-*/]{2,}/.test(expression)) {
-        return false;
-    }
-
-    return true;
-}
-
-
-/* ==========================================
-   CALCULATE
-========================================== */
-
-function calculate() {
-
-    try {
-
-        let expression = display.value.trim();
-
-        if (!isValidExpression(expression)) {
-            throw new Error("Invalid expression");
-        }
-
-        expression = convertPercent(expression);
-
-        /*
-            Function() is used only after strict validation.
-            The validation above allows only calculator characters.
-        */
-        const result = Function(
-            '"use strict"; return (' + expression + ')'
-        )();
-
-        if (
-            typeof result !== "number" ||
-            !Number.isFinite(result)
-        ) {
-            throw new Error("Invalid result");
-        }
-
-        // Avoid ugly floating-point results
-        const roundedResult =
-            Number.parseFloat(result.toFixed(12));
-
-        saveHistory(
-            display.value,
-            roundedResult
-        );
-
-        display.value = roundedResult;
-
-        justCalculated = true;
+        display.value=result;
 
     }
 
-    catch {
+    catch{
 
-        display.value = "Error";
-        justCalculated = true;
+        display.value="Error";
 
-        setTimeout(() => {
+        setTimeout(function(){
 
-            if (display.value === "Error") {
-                display.value = "";
-                justCalculated = false;
-            }
+            display.value="";
 
-        }, 1000);
+        },1200);
 
     }
 
 }
-
-
 /* ==========================================
-   HISTORY
+   PART 5
+   History System
 ========================================== */
 
 function saveHistory(expression, result) {
 
-    const item = {
-        expression: expression,
-        result: result
-    };
+    const item = expression + " = " + result;
 
     history.unshift(item);
 
-    // Keep only last 20 calculations
     if (history.length > 20) {
         history.pop();
     }
@@ -262,12 +136,8 @@ function saveHistory(expression, result) {
     );
 
     loadHistory();
+
 }
-
-
-/* ==========================================
-   LOAD HISTORY
-========================================== */
 
 function loadHistory() {
 
@@ -276,61 +146,29 @@ function loadHistory() {
     if (history.length === 0) {
 
         historyList.innerHTML =
-            '<p class="empty-history">No history yet</p>';
+        '<p class="empty-history">No history yet</p>';
 
         return;
+
     }
 
     history.forEach(function(item) {
 
         const div =
-            document.createElement("div");
+        document.createElement("div");
 
         div.className = "history-item";
 
-        /*
-            Supports both the new object format
-            and old string-format history.
-        */
+        div.textContent = item;
 
-        if (typeof item === "object") {
+        div.onclick = function() {
 
-            div.innerHTML = `
-                <div class="history-expression">
-                    ${escapeHTML(item.expression)}
-                </div>
+            display.value =
+            item.split("=")[0].trim();
 
-                <div class="history-result">
-                    = ${escapeHTML(String(item.result))}
-                </div>
-            `;
+            historyPopup.style.display = "none";
 
-            div.onclick = function() {
-
-                display.value =
-                    item.expression;
-
-                historyPopup.style.display =
-                    "none";
-
-                justCalculated = false;
-            };
-
-        } else {
-
-            div.textContent = item;
-
-            div.onclick = function() {
-
-                display.value =
-                    item.split("=")[0].trim();
-
-                historyPopup.style.display =
-                    "none";
-
-                justCalculated = false;
-            };
-        }
+        };
 
         historyList.appendChild(div);
 
@@ -338,53 +176,29 @@ function loadHistory() {
 
 }
 
+/* ==========================
+   History Button
+========================== */
 
-/* ==========================================
-   HTML ESCAPE
-========================================== */
+historyBtn.onclick = function () {
 
-function escapeHTML(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-
-/* ==========================================
-   HISTORY BUTTON
-========================================== */
-
-historyBtn.onclick = function(event) {
-
-    event.stopPropagation();
-
-    if (
-        historyPopup.style.display === "flex"
-    ) {
+    if (historyPopup.style.display === "flex") {
 
         historyPopup.style.display = "none";
 
     } else {
 
         historyPopup.style.display = "flex";
-        loadHistory();
 
     }
 
 };
 
+/* ==========================
+   Clear History
+========================== */
 
-/* ==========================================
-   CLEAR HISTORY
-========================================== */
-
-clearHistoryBtn.onclick = function(event) {
-
-    event.stopPropagation();
+clearHistoryBtn.onclick = function () {
 
     history = [];
 
@@ -394,18 +208,15 @@ clearHistoryBtn.onclick = function(event) {
 
 };
 
+/* ==========================
+   Close Popup
+========================== */
 
-/* ==========================================
-   CLOSE HISTORY POPUP
-========================================== */
-
-window.addEventListener("click", function(event) {
+window.addEventListener("click", function(e) {
 
     if (
-        historyPopup &&
-        historyBtn &&
-        !historyPopup.contains(event.target) &&
-        !historyBtn.contains(event.target)
+        !historyPopup.contains(e.target) &&
+        !historyBtn.contains(e.target)
     ) {
 
         historyPopup.style.display = "none";
@@ -414,208 +225,208 @@ window.addEventListener("click", function(event) {
 
 });
 
+/* ==========================
+   Load History on Startup
+========================== */
 
+loadHistory();
 /* ==========================================
-   KEYBOARD SUPPORT
+   PART 6
+   Keyboard + Custom Cursor
 ========================================== */
 
-document.addEventListener("keydown", function(event) {
+/* ==========================
+   Keyboard Support
+========================== */
 
-    const key = event.key;
+document.addEventListener("keydown", function (e) {
+
+    const key = e.key;
 
     // Numbers
-    if (/^[0-9]$/.test(key)) {
-
+    if (!isNaN(key)) {
         appendValue(key);
-
         return;
     }
-
 
     // Operators
-    if (operators.includes(key)) {
-
+    if (["+", "-", "*", "/", "."].includes(key)) {
         appendValue(key);
-
         return;
     }
-
-
-    // Decimal
-    if (key === ".") {
-
-        appendValue(".");
-
-        return;
-    }
-
 
     // Percentage
     if (key === "%") {
-
         appendValue("%");
-
         return;
     }
 
-
-    // Enter / =
-    if (
-        key === "Enter" ||
-        key === "="
-    ) {
-
-        event.preventDefault();
-
+    // Enter = Calculate
+    if (key === "Enter") {
+        e.preventDefault();
         calculate();
-
         return;
     }
-
 
     // Backspace
     if (key === "Backspace") {
-
-        event.preventDefault();
-
         deleteLast();
-
         return;
     }
 
-
-    // Escape
+    // Escape = Clear
     if (key === "Escape") {
-
         clearDisplay();
-
         return;
     }
 
 });
 
+/* Mouse Click Effect */
 
+document.addEventListener("mousedown", function(){
+
+    cursor.classList.add("active");
+
+});
+
+document.addEventListener("mouseup", function(){
+
+    cursor.classList.remove("active");
+
+});
+
+/* ==========================
+   Display Cursor
+========================== */
+
+const fakeCursor =
+document.getElementById("fakeCursor");
+
+display.addEventListener("focus", function(){
+
+    fakeCursor.style.display = "block";
+
+});
+
+display.addEventListener("blur", function(){
+
+    fakeCursor.style.display = "none";
+
+});
+
+/* ==========================
+   Initial Focus
+========================== */
+
+window.onload = function(){
+
+    display.focus();
+
+};
 /* ==========================================
-   MOUSE CLICK EFFECT
+   PART 7
+   Final Improvements
 ========================================== */
 
-document.addEventListener(
-    "mousedown",
-    function() {
+/* ==========================
+   Prevent Double Operators
+========================== */
 
-        const cursor =
-            document.getElementById("cursor");
+const operators = ["+", "-", "*", "/", "."];
 
-        if (cursor) {
-            cursor.classList.add("active");
+const oldAppendValue = appendValue;
+
+appendValue = function(value){
+
+    const lastChar =
+    display.value.slice(-1);
+
+    if(
+        operators.includes(lastChar) &&
+        operators.includes(value)
+    ){
+        return;
+    }
+
+    oldAppendValue(value);
+
+};
+
+/* ==========================
+   Better Percentage
+========================== */
+
+const oldCalculate = calculate;
+
+calculate = function(){
+
+    try{
+
+        let expression = display.value;
+
+        expression = expression.replace(
+            /(\d+(\.\d+)?)%/g,
+            "($1/100)"
+        );
+
+        const result = eval(expression);
+
+        if(
+            result === Infinity ||
+            result === -Infinity ||
+            isNaN(result)
+        ){
+
+            throw Error();
+
         }
+
+        saveHistory(display.value,result);
+
+        display.value=result;
 
     }
-);
 
+    catch{
 
-document.addEventListener(
-    "mouseup",
-    function() {
+        display.value="Error";
 
-        const cursor =
-            document.getElementById("cursor");
+        setTimeout(function(){
 
-        if (cursor) {
-            cursor.classList.remove("active");
-        }
+            display.value="";
+
+        },1000);
 
     }
-);
 
+};
 
-/* ==========================================
-   FAKE DISPLAY CURSOR
-========================================== */
+/* ==========================
+   Button Press Animation
+========================== */
 
-if (display && fakeCursor) {
+document.querySelectorAll(".buttons button")
+.forEach(function(btn){
 
-    display.addEventListener(
-        "focus",
-        function() {
+    btn.addEventListener("click",function(){
 
-            fakeCursor.style.display =
-                "block";
+        btn.style.transform="scale(.92)";
 
-        }
-    );
+        setTimeout(function(){
 
+            btn.style.transform="";
 
-    display.addEventListener(
-        "blur",
-        function() {
-
-            fakeCursor.style.display =
-                "none";
-
-        }
-    );
-
-}
-
-
-/* ==========================================
-   BUTTON PRESS ANIMATION
-========================================== */
-
-document
-    .querySelectorAll(".buttons button")
-    .forEach(function(button) {
-
-        button.addEventListener(
-            "mousedown",
-            function() {
-
-                button.classList.add("pressed");
-
-            }
-        );
-
-
-        button.addEventListener(
-            "mouseup",
-            function() {
-
-                button.classList.remove("pressed");
-
-            }
-        );
-
-
-        button.addEventListener(
-            "mouseleave",
-            function() {
-
-                button.classList.remove("pressed");
-
-            }
-        );
+        },120);
 
     });
 
+});
 
-/* ==========================================
-   INITIALIZE
-========================================== */
+/* ==========================
+   Calculator Ready
+========================== */
 
-window.addEventListener(
-    "load",
-    function() {
-
-        loadHistory();
-
-        if (display) {
-            display.focus();
-        }
-
-        console.log(
-            "TECHASH24 Calculator v5.0 Loaded Successfully! 🚀"
-        );
-
-    }
+console.log(
+    "TECHASH24 Calculator v4.0 Loaded Successfully!"
 );
