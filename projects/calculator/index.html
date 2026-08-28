@@ -7,43 +7,43 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260828-2">
 </head>
 <body>
 <div class="background"></div>
 <div class="calculator">
 <div class="title"><h1>TECHASH24</h1><p>Futuristic Calculator</p></div>
 <div class="display">
-<div class="display-top"><button id="historyBtn" class="history-btn" title="History">🕒</button></div>
+<div class="display-top"><button type="button" id="historyBtn" class="history-btn" title="History">🕒</button></div>
 <div class="display-box"><span id="fakeCursor"></span><input type="text" id="display" placeholder="0" autocomplete="off" readonly></div>
 </div>
 <div class="buttons">
-<button class="clear" onclick="clearDisplay()">AC</button>
-<button class="special" onclick="deleteLast()">⌫</button>
-<button class="special" onclick="appendValue('%')">%</button>
-<button class="operator" onclick="appendValue('/')">÷</button>
-<button onclick="appendValue('7')">7</button>
-<button onclick="appendValue('8')">8</button>
-<button onclick="appendValue('9')">9</button>
-<button class="operator" onclick="appendValue('*')">×</button>
-<button onclick="appendValue('4')">4</button>
-<button onclick="appendValue('5')">5</button>
-<button onclick="appendValue('6')">6</button>
-<button class="operator" onclick="appendValue('-')">−</button>
-<button onclick="appendValue('1')">1</button>
-<button onclick="appendValue('2')">2</button>
-<button onclick="appendValue('3')">3</button>
-<button class="operator" onclick="appendValue('+')">+</button>
-<button onclick="toggleSign()">±</button>
-<button onclick="appendValue('0')">0</button>
-<button onclick="appendValue('.')">.</button>
-<button class="equal" onclick="calculate()">=</button>
+<button type="button" class="clear" onclick="clearDisplay()">AC</button>
+<button type="button" class="special" onclick="deleteLast()">⌫</button>
+<button type="button" class="special" onclick="appendValue('%')">%</button>
+<button type="button" class="operator" onclick="appendValue('/')">÷</button>
+<button type="button" onclick="appendValue('7')">7</button>
+<button type="button" onclick="appendValue('8')">8</button>
+<button type="button" onclick="appendValue('9')">9</button>
+<button type="button" class="operator" onclick="appendValue('*')">×</button>
+<button type="button" onclick="appendValue('4')">4</button>
+<button type="button" onclick="appendValue('5')">5</button>
+<button type="button" onclick="appendValue('6')">6</button>
+<button type="button" class="operator" onclick="appendValue('-')">−</button>
+<button type="button" onclick="appendValue('1')">1</button>
+<button type="button" onclick="appendValue('2')">2</button>
+<button type="button" onclick="appendValue('3')">3</button>
+<button type="button" class="operator" onclick="appendValue('+')">+</button>
+<button type="button" onclick="toggleSign()">±</button>
+<button type="button" onclick="appendValue('0')">0</button>
+<button type="button" onclick="appendValue('.')">.</button>
+<button type="button" class="equal" onclick="calculate()">=</button>
 </div>
 </div>
 <div id="historyPopup" class="history-popup">
-<div class="history-header"><h3>Calculation History</h3><button id="clearHistory">🗑</button></div>
+<div class="history-header"><h3>Calculation History</h3><button type="button" id="clearHistory">🗑</button></div>
 <div id="historyList"><p class="empty-history">No history yet</p></div>
 </div>
-<script src="script.js"></script>
+<script src="script.js?v=20260828-2"></script>
 </body>
 </html>
