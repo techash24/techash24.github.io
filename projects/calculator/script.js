@@ -1,5 +1,5 @@
 /* ==========================================
-   TECHASH24 Scientific Calculator v5.0
+   TECHASH24 Scientific Calculator v5.1
    Calculator Logic
 ========================================== */
 
@@ -9,6 +9,8 @@ const historyBtn = document.getElementById("historyBtn");
 const historyList = document.getElementById("historyList");
 const clearHistoryBtn = document.getElementById("clearHistory");
 const angleModeBtn = document.getElementById("angleMode");
+const scientificButtons = document.getElementById("scientificButtons");
+const scientificToggle = document.getElementById("scientificToggle");
 
 let history = JSON.parse(localStorage.getItem("history")) || [];
 let angleMode = "DEG";
@@ -63,9 +65,12 @@ function loadHistory() {
 
 function evaluateExpression() {
     let expression = display.value
-        .replace(/(\d+(\.\d+)?)%/g, "($1/100)")
+        .replace(/(\d+(\.\d+)?)%/g, "($1/100")
         .replace(/Math\.PI/g, "Math.PI")
         .replace(/Math\.E/g, "Math.E");
+
+    // Keep percentage expressions valid after replacement.
+    expression = expression.replace(/\(\$1\/100/g, "($1/100)");
 
     const result = eval(expression);
     if(result === Infinity || result === -Infinity || Number.isNaN(result)) throw Error();
@@ -148,6 +153,22 @@ function factorial(n){
 function toggleAngleMode(){
     angleMode = angleMode === "DEG" ? "RAD" : "DEG";
     angleModeBtn.textContent = angleMode;
+}
+
+function toggleScientificFunctions(){
+    const isHidden = scientificButtons.classList.toggle("scientific-hidden");
+    scientificToggle.textContent = isHidden ? "Show SCI" : "Hide SCI";
+    scientificToggle.title = isHidden ? "Show scientific functions" : "Hide scientific functions";
+    localStorage.setItem("scientificHidden", String(isHidden));
+}
+
+scientificToggle.onclick = toggleScientificFunctions;
+
+// Remember the user's last scientific-panel state.
+if (localStorage.getItem("scientificHidden") === "true") {
+    scientificButtons.classList.add("scientific-hidden");
+    scientificToggle.textContent = "Show SCI";
+    scientificToggle.title = "Show scientific functions";
 }
 
 historyBtn.onclick = function () {
@@ -233,4 +254,4 @@ document.querySelectorAll(".buttons button").forEach(function(btn){
     });
 });
 
-console.log("TECHASH24 Scientific Calculator v5.0 Loaded Successfully!");
+console.log("TECHASH24 Scientific Calculator v5.1 Loaded Successfully!");
