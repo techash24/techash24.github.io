@@ -1,5 +1,5 @@
 /* ==========================================
-   TECHASH24 Scientific Calculator v5.1
+   TECHASH24 Scientific Calculator v5.2
    Calculator Logic
 ========================================== */
 
@@ -123,8 +123,9 @@ function toggleAngleMode(){
 
 function toggleScientificFunctions(){
     const isHidden = scientificButtons.classList.toggle("scientific-hidden");
-    scientificToggle.textContent = isHidden ? "Show SCI" : "Hide SCI";
+    scientificToggle.textContent = isHidden ? "⌄" : "⌃";
     scientificToggle.title = isHidden ? "Show scientific functions" : "Hide scientific functions";
+    scientificToggle.setAttribute("aria-label", scientificToggle.title);
     localStorage.setItem("scientificHidden", String(isHidden));
 }
 
@@ -132,8 +133,9 @@ scientificToggle.onclick = toggleScientificFunctions;
 
 if(localStorage.getItem("scientificHidden") === "true"){
     scientificButtons.classList.add("scientific-hidden");
-    scientificToggle.textContent = "Show SCI";
+    scientificToggle.textContent = "⌄";
     scientificToggle.title = "Show scientific functions";
+    scientificToggle.setAttribute("aria-label", scientificToggle.title);
 }
 
 historyBtn.onclick = function(){
@@ -174,4 +176,4 @@ document.querySelectorAll(".buttons button").forEach(function(btn){
     });
 });
 
-console.log("TECHASH24 Scientific Calculator v5.1 Loaded Successfully!");
+console.log("TECHASH24 Scientific Calculator v5.2 Loaded Successfully!");
