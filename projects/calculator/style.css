@@ -1,22 +1,2731 @@
-/* ==========================================
-   TECHASH24 Scientific Calculator v5.1
-   style.css
-========================================== */
+/* =========================================================
+   NOVACALC
+   Main calculator engine
+========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-:root{--primary:#00d9ff;--primary-light:#4be8ff;--success:#00ff88;--danger:#ff3b5f;--warning:#ffb400;--bg1:#020817;--bg2:#081120;--bg3:#0b1d35;--text:#ffffff;--gray:#9db5c9;}
-html{scroll-behavior:smooth;}
-body{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));overflow:auto;position:relative;padding:20px 0;}
-.background{position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at top left,rgba(0,217,255,.22),transparent 35%),radial-gradient(circle at bottom right,rgba(0,255,136,.15),transparent 35%);animation:bgMove 10s linear infinite alternate;}
-@keyframes bgMove{from{transform:scale(1);}to{transform:scale(1.15);}}
-.calculator{width:390px;padding:24px;border-radius:25px;background:rgba(255,255,255,.08);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.15);box-shadow:0 0 35px rgba(0,217,255,.35),0 25px 45px rgba(0,0,0,.45);}
-.title{text-align:center;margin-bottom:22px;}.title h1{color:var(--primary);font-size:38px;letter-spacing:2px;text-shadow:0 0 18px cyan;}.title p{color:var(--gray);margin-top:5px;}
-.display{margin-bottom:18px;}.display-top{display:flex;justify-content:flex-end;align-items:center;gap:9px;margin-bottom:8px;}.history-btn,.scientific-toggle{height:42px;border-radius:12px;border:2px solid var(--primary);background:#11243f;color:var(--primary);cursor:pointer;font-weight:700;transition:.3s;}.history-btn{width:42px;font-size:18px;border-radius:50%;}.scientific-toggle{padding:0 13px;font-size:13px;letter-spacing:.4px;}.history-btn:hover,.scientific-toggle:hover{background:var(--primary);color:#081120;box-shadow:0 0 15px rgba(0,217,255,.35);}.display-box{position:relative;}
-#display{width:100%;height:80px;border:none;outline:none;background:#06111f;color:var(--primary);border-radius:18px;border:2px solid var(--primary);text-align:right;font-size:36px;padding:18px;box-shadow:inset 0 0 15px rgba(0,217,255,.15),0 0 20px rgba(0,217,255,.25);caret-color:transparent;}
-.buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;}.buttons button{height:66px;border:none;border-radius:16px;font-size:22px;font-weight:600;cursor:pointer;transition:.25s;background:#10213b;color:white;}.buttons button:hover{transform:translateY(-4px);box-shadow:0 0 18px rgba(0,217,255,.45);}.buttons button:active{transform:scale(.95);}
-.scientific-buttons{margin-bottom:13px;max-height:300px;overflow:hidden;opacity:1;transform:translateY(0);transition:max-height .3s ease,opacity .2s ease,transform .3s ease,margin .3s ease;}.scientific-buttons.scientific-hidden{max-height:0;opacity:0;transform:translateY(-8px);margin-bottom:0;pointer-events:none;}.scientific-buttons button{height:44px;font-size:16px;background:linear-gradient(135deg,#172e4d,#10213b);color:var(--primary);border:1px solid rgba(0,217,255,.25);}.scientific-buttons button:hover{box-shadow:0 0 15px rgba(0,217,255,.35);}.scientific-buttons .mode-button{color:#000;background:linear-gradient(135deg,#00d9ff,#00a8ff);font-weight:700;}
-.operator{background:linear-gradient(135deg,#00d9ff,#00a8ff)!important;color:#06111f!important;}.operator:hover{box-shadow:0 0 22px cyan;}.equal{background:linear-gradient(135deg,#00ff88,#00d76f)!important;color:#000!important;font-size:29px;font-weight:700;}.equal:hover{box-shadow:0 0 25px #00ff88;}.clear{background:linear-gradient(135deg,#ff3b5f,#ff1845)!important;}.clear:hover{box-shadow:0 0 20px #ff3b5f;}.special{background:linear-gradient(135deg,#ffb400,#ff9800)!important;color:#000!important;}
-.history-popup{position:fixed;right:25px;top:50%;transform:translateY(-50%);width:300px;height:420px;background:#081120;border:2px solid var(--primary);border-radius:20px;box-shadow:0 0 25px cyan;display:none;flex-direction:column;overflow:hidden;z-index:9999;}.history-header{display:flex;justify-content:space-between;align-items:center;padding:15px;background:#10213b;}.history-header h3{color:var(--primary);}#clearHistory{width:40px;height:40px;border:none;border-radius:10px;background:#ff3b5f;color:white;cursor:pointer;}#historyList{flex:1;overflow-y:auto;padding:15px;}.history-item{padding:12px;margin-bottom:10px;border-radius:12px;background:#10213b;color:white;cursor:pointer;transition:.25s;}.history-item:hover{background:#00d9ff;color:#06111f;}.empty-history{color:#8ba6c2;text-align:center;margin-top:30px;}
-.cursor.active{width:34px;height:34px;background:rgba(0,217,255,.2);}#fakeCursor{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:2px;height:36px;background:#00d9ff;animation:blink 1s infinite;}@keyframes blink{50%{opacity:0;}}
-@media (max-width:480px){.calculator{width:calc(100vw - 24px);padding:20px;}.title h1{font-size:34px;}.buttons{gap:10px;}.buttons button{height:60px;font-size:20px;}.scientific-buttons{gap:7px;}.scientific-buttons button{height:42px;font-size:14px;}#display{height:76px;font-size:31px;}.scientific-toggle{font-size:12px;padding:0 10px;}}
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const state = {
+
+    expression: "",
+
+    memory: 0,
+
+    hasMemory: false,
+
+    history:
+        JSON.parse(
+            localStorage.getItem("novaHistory") || "[]"
+        ),
+
+    settings:
+        JSON.parse(
+            localStorage.getItem("novaSettings") || "{}"
+        )
+
+};
+
+
+state.settings = {
+
+    theme: "system",
+
+    angle: "DEG",
+
+    precision: 10,
+
+    thousands: true,
+
+    sound: false,
+
+    haptic: true,
+
+    ...state.settings
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = selector =>
+    document.querySelector(selector);
+
+const $$ = selector =>
+    [...document.querySelectorAll(selector)];
+
+
+function saveData() {
+
+    localStorage.setItem(
+        "novaHistory",
+        JSON.stringify(state.history)
+    );
+
+    localStorage.setItem(
+        "novaSettings",
+        JSON.stringify(state.settings)
+    );
+
+}
+
+
+function formatNumber(number) {
+
+    if (!Number.isFinite(number)) {
+
+        throw new Error(
+            "The result is not a finite number."
+        );
+
+    }
+
+    const precision =
+        Number(state.settings.precision);
+
+    let value =
+        Number(
+            number.toPrecision(
+                Math.min(
+                    15,
+                    precision + 2
+                )
+            )
+        );
+
+    if (
+        Math.abs(value) < 1e-12
+    ) {
+
+        value = 0;
+
+    }
+
+    let text =
+        String(value);
+
+    if (
+        state.settings.thousands &&
+        !text.includes("e")
+    ) {
+
+        let parts =
+            text.split(".");
+
+        parts[0] =
+            parts[0].replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+            );
+
+        text =
+            parts.join(".");
+
+    }
+
+    return text;
+
+}
+
+
+/* =========================================================
+   ANGLE
+========================================================= */
+
+function toRadians(value) {
+
+    if (
+        state.settings.angle === "DEG"
+    ) {
+
+        return value * Math.PI / 180;
+
+    }
+
+    if (
+        state.settings.angle === "GRAD"
+    ) {
+
+        return value * Math.PI / 200;
+
+    }
+
+    return value;
+
+}
+
+
+function fromRadians(value) {
+
+    if (
+        state.settings.angle === "DEG"
+    ) {
+
+        return value * 180 / Math.PI;
+
+    }
+
+    if (
+        state.settings.angle === "GRAD"
+    ) {
+
+        return value * 200 / Math.PI;
+
+    }
+
+    return value;
+
+}
+
+
+/* =========================================================
+   FACTORIAL
+========================================================= */
+
+function factorial(number) {
+
+    if (
+        !Number.isInteger(number) ||
+        number < 0
+    ) {
+
+        throw new Error(
+            "Factorial requires a non-negative whole number."
+        );
+
+    }
+
+    if (number > 170) {
+
+        throw new Error(
+            "Number is too large for factorial."
+        );
+
+    }
+
+    let result = 1;
+
+    for (
+        let i = 2;
+        i <= number;
+        i++
+    ) {
+
+        result *= i;
+
+    }
+
+    return result;
+
+}
+
+
+/* =========================================================
+   EXPRESSION PARSER
+========================================================= */
+
+function evaluateExpression(expression) {
+
+    let value =
+        expression
+            .replaceAll("×", "*")
+            .replaceAll("÷", "/")
+            .replaceAll("−", "-")
+            .replace(/,/g, "")
+            .trim();
+
+
+    if (!value) {
+
+        return 0;
+
+    }
+
+
+    /*
+       Convert percentage into division by 100.
+    */
+
+    value =
+        value.replace(
+            /(\d+(?:\.\d+)?)%/g,
+            "($1/100)"
+        );
+
+
+    /*
+       Constants
+    */
+
+    value =
+        value.replace(
+            /π/g,
+            "Math.PI"
+        );
+
+
+    /*
+       Mathematical functions
+    */
+
+    value =
+        value.replace(
+            /\bsin\(/g,
+            "Math.sin(toRadians("
+        );
+
+    value =
+        value.replace(
+            /\bcos\(/g,
+            "Math.cos(toRadians("
+        );
+
+    value =
+        value.replace(
+            /\btan\(/g,
+            "Math.tan(toRadians("
+        );
+
+
+    value =
+        value.replace(
+            /\basin\(/g,
+            "fromRadians(Math.asin("
+        );
+
+    value =
+        value.replace(
+            /\bacos\(/g,
+            "fromRadians(Math.acos("
+        );
+
+    value =
+        value.replace(
+            /\batan\(/g,
+            "fromRadians(Math.atan("
+        );
+
+
+    value =
+        value.replace(
+            /\bsinh\(/g,
+            "Math.sinh("
+        );
+
+    value =
+        value.replace(
+            /\bcosh\(/g,
+            "Math.cosh("
+        );
+
+    value =
+        value.replace(
+            /\btanh\(/g,
+            "Math.tanh("
+        );
+
+
+    value =
+        value.replace(
+            /\blog\(/g,
+            "Math.log10("
+        );
+
+    value =
+        value.replace(
+            /\bln\(/g,
+            "Math.log("
+        );
+
+    value =
+        value.replace(
+            /\bsqrt\(/g,
+            "Math.sqrt("
+        );
+
+    value =
+        value.replace(
+            /\bcbrt\(/g,
+            "Math.cbrt("
+        );
+
+    value =
+        value.replace(
+            /\babs\(/g,
+            "Math.abs("
+        );
+
+    value =
+        value.replace(
+            /\bfloor\(/g,
+            "Math.floor("
+        );
+
+    value =
+        value.replace(
+            /\bceil\(/g,
+            "Math.ceil("
+        );
+
+    value =
+        value.replace(
+            /\bexp\(/g,
+            "Math.exp("
+        );
+
+
+    /*
+       Power
+    */
+
+    value =
+        value.replace(
+            /\^/g,
+            "**"
+        );
+
+
+    /*
+       Basic safety validation.
+    */
+
+    if (
+        !/^[0-9+\-*/%().,\sA-Za-z_*]+$/.test(
+            value
+        )
+    ) {
+
+        throw new Error(
+            "Invalid expression."
+        );
+
+    }
+
+
+    if (
+        value.includes("/0")
+    ) {
+
+        throw new Error(
+            "Cannot divide by zero."
+        );
+
+    }
+
+
+    /*
+       Controlled mathematical evaluation.
+
+       Only the functions already transformed
+       above are available.
+    */
+
+    const result =
+        Function(
+            "Math",
+            "toRadians",
+            "fromRadians",
+            `"use strict"; return (${value});`
+        )(
+            Math,
+            toRadians,
+            fromRadians
+        );
+
+
+    if (
+        typeof result !== "number" ||
+        !Number.isFinite(result)
+    ) {
+
+        throw new Error(
+            "Invalid mathematical result."
+        );
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   DISPLAY
+========================================================= */
+
+function renderCalculator() {
+
+    $("#expression").textContent =
+        state.expression;
+
+
+    try {
+
+        if (state.expression) {
+
+            $("#result").textContent =
+                formatNumber(
+                    evaluateExpression(
+                        state.expression
+                    )
+                );
+
+        } else {
+
+            $("#result").textContent = "0";
+
+        }
+
+        $("#errorMessage").textContent = "";
+
+    } catch (error) {
+
+        $("#result").textContent = "0";
+
+    }
+
+
+    $("#memoryIndicator").style.display =
+        state.hasMemory
+            ? "inline-block"
+            : "none";
+
+
+    $("#angleDisplay").textContent =
+        state.settings.angle;
+
+}
+
+
+/* =========================================================
+   BUTTON INPUT
+========================================================= */
+
+function inputValue(value) {
+
+    if (value === "±") {
+
+        const match =
+            state.expression.match(
+                /(\d+(?:\.\d+)?)$/
+            );
+
+        if (match) {
+
+            const number =
+                match[1];
+
+            state.expression =
+                state.expression.slice(
+                    0,
+                    -number.length
+                ) +
+                `(-${number})`;
+
+        }
+
+        renderCalculator();
+
+        return;
+
+    }
+
+
+    state.expression += value;
+
+    renderCalculator();
+
+
+    /*
+       Haptic feedback
+    */
+
+    if (
+        state.settings.haptic &&
+        navigator.vibrate
+    ) {
+
+        navigator.vibrate(7);
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+function clearCalculator() {
+
+    state.expression = "";
+
+    $("#errorMessage").textContent = "";
+
+    renderCalculator();
+
+}
+
+
+/* =========================================================
+   BACKSPACE
+========================================================= */
+
+function backspace() {
+
+    state.expression =
+        state.expression.slice(
+            0,
+            -1
+        );
+
+    renderCalculator();
+
+}
+
+
+/* =========================================================
+   CALCULATE
+========================================================= */
+
+function calculate() {
+
+    if (!state.expression) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const value =
+            evaluateExpression(
+                state.expression
+            );
+
+        const result =
+            formatNumber(value);
+
+
+        $("#result").textContent =
+            result;
+
+        $("#errorMessage").textContent =
+            "";
+
+
+        addHistory(
+            state.expression,
+            result
+        );
+
+    } catch (error) {
+
+        $("#errorMessage").textContent =
+            error.message ||
+            "Invalid expression.";
+
+    }
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function addHistory(
+    expression,
+    result
+) {
+
+    state.history.unshift({
+
+        expression,
+
+        result,
+
+        timestamp:
+            new Date().toISOString()
+
+    });
+
+
+    /*
+       Keep last 200 calculations.
+    */
+
+    state.history =
+        state.history.slice(
+            0,
+            200
+        );
+
+
+    saveData();
+
+    renderHistory();
+
+}
+
+
+function renderHistory() {
+
+    const search =
+        (
+            $("#historySearch")?.value ||
+            ""
+        ).toLowerCase();
+
+
+    const filtered =
+        state.history.filter(
+            item =>
+                (
+                    item.expression +
+                    item.result
+                )
+                .toLowerCase()
+                .includes(search)
+        );
+
+
+    if (!filtered.length) {
+
+        $("#historyList").innerHTML =
+            `<p class="muted">
+                No calculations found.
+             </p>`;
+
+        return;
+
+    }
+
+
+    $("#historyList").innerHTML =
+        filtered.map(
+            item => {
+
+                const index =
+                    state.history.indexOf(
+                        item
+                    );
+
+
+                return `
+                    <div class="history-item">
+
+                        <div>
+
+                            <div class="history-expression">
+                                ${escapeHTML(
+                                    item.expression
+                                )}
+                            </div>
+
+                            <div class="history-result">
+                                = ${escapeHTML(
+                                    item.result
+                                )}
+                            </div>
+
+                            <div class="history-time">
+                                ${new Date(
+                                    item.timestamp
+                                ).toLocaleString()}
+                            </div>
+
+                        </div>
+
+                        <div class="history-actions">
+
+                            <button
+                                onclick="reuseHistory(${index})">
+                                Use
+                            </button>
+
+                            <button
+                                onclick="copyText('${escapeJS(item.result)}')">
+                                Copy
+                            </button>
+
+                            <button
+                                onclick="deleteHistory(${index})">
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+function reuseHistory(index) {
+
+    state.expression =
+        state.history[index].expression;
+
+    document
+        .querySelector(
+            '[data-view="standard"]'
+        )
+        .click();
+
+    renderCalculator();
+
+}
+
+
+function deleteHistory(index) {
+
+    state.history.splice(
+        index,
+        1
+    );
+
+    saveData();
+
+    renderHistory();
+
+}
+
+
+/* =========================================================
+   SAFE HTML HELPERS
+========================================================= */
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+function escapeJS(text) {
+
+    return String(text)
+        .replaceAll("\\", "\\\\")
+        .replaceAll("'", "\\'");
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyText(text) {
+
+    try {
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+        showToast("Copied");
+
+    } catch {
+
+        showToast(
+            "Copy is unavailable"
+        );
+
+    }
+
+}
+
+
+function showToast(message) {
+
+    const toast =
+        document.createElement(
+            "div"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.style.position =
+        "fixed";
+
+    toast.style.bottom =
+        "25px";
+
+    toast.style.left =
+        "50%";
+
+    toast.style.transform =
+        "translateX(-50%)";
+
+    toast.style.background =
+        "var(--text)";
+
+    toast.style.color =
+        "var(--background)";
+
+    toast.style.padding =
+        "10px 17px";
+
+    toast.style.borderRadius =
+        "999px";
+
+    toast.style.zIndex =
+        "100";
+
+    document.body.appendChild(
+        toast
+    );
+
+    setTimeout(
+        () => toast.remove(),
+        1300
+    );
+
+}
+
+
+/* =========================================================
+   MEMORY
+========================================================= */
+
+$$("[data-memory]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const action =
+                button.dataset.memory;
+
+
+            try {
+
+                const value =
+                    evaluateExpression(
+                        state.expression ||
+                        "0"
+                    );
+
+
+                switch (action) {
+
+                    case "MC":
+
+                        state.memory = 0;
+
+                        state.hasMemory =
+                            false;
+
+                        break;
+
+
+                    case "MR":
+
+                        state.expression +=
+                            String(
+                                state.memory
+                            );
+
+                        break;
+
+
+                    case "M+":
+
+                        state.memory +=
+                            value;
+
+                        state.hasMemory =
+                            true;
+
+                        break;
+
+
+                    case "M-":
+
+                        state.memory -=
+                            value;
+
+                        state.hasMemory =
+                            true;
+
+                        break;
+
+
+                    case "MS":
+
+                        state.memory =
+                            value;
+
+                        state.hasMemory =
+                            true;
+
+                        break;
+
+                }
+
+
+                saveData();
+
+                renderCalculator();
+
+            } catch {
+
+                $("#errorMessage")
+                    .textContent =
+                    "Memory operation failed.";
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   STANDARD KEYPAD
+========================================================= */
+
+$$("[data-value]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () =>
+            inputValue(
+                button.dataset.value
+            )
+    );
+
+});
+
+
+$$("[data-action]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const action =
+                button.dataset.action;
+
+
+            if (
+                action === "clear"
+            ) {
+
+                clearCalculator();
+
+            }
+
+
+            if (
+                action === "backspace"
+            ) {
+
+                backspace();
+
+            }
+
+
+            if (
+                action === "equals"
+            ) {
+
+                calculate();
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            ["INPUT", "SELECT"]
+            .includes(
+                event.target.tagName
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        const key =
+            event.key;
+
+
+        if (
+            /^[0-9.]$/.test(key)
+        ) {
+
+            event.preventDefault();
+
+            inputValue(key);
+
+            return;
+
+        }
+
+
+        if (key === "+") {
+
+            inputValue("+");
+
+            return;
+
+        }
+
+
+        if (key === "-") {
+
+            inputValue("−");
+
+            return;
+
+        }
+
+
+        if (key === "*") {
+
+            inputValue("×");
+
+            return;
+
+        }
+
+
+        if (key === "/") {
+
+            inputValue("÷");
+
+            return;
+
+        }
+
+
+        if (key === "%") {
+
+            inputValue("%");
+
+            return;
+
+        }
+
+
+        if (key === "(") {
+
+            inputValue("(");
+
+            return;
+
+        }
+
+
+        if (key === ")") {
+
+            inputValue(")");
+
+            return;
+
+        }
+
+
+        if (key === "Enter") {
+
+            event.preventDefault();
+
+            calculate();
+
+            return;
+
+        }
+
+
+        if (key === "Backspace") {
+
+            backspace();
+
+            return;
+
+        }
+
+
+        if (key === "Escape") {
+
+            clearCalculator();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   COPY BUTTONS
+========================================================= */
+
+$("#copyExpression")
+    .addEventListener(
+        "click",
+        () =>
+            copyText(
+                state.expression
+            )
+    );
+
+
+$("#copyResult")
+    .addEventListener(
+        "click",
+        () =>
+            copyText(
+                $("#result").textContent
+            )
+    );
+
+
+$("#shareCalculation")
+    .addEventListener(
+        "click",
+        async () => {
+
+            const text =
+                `${state.expression} = ${$("#result").textContent}`;
+
+
+            if (
+                navigator.share
+            ) {
+
+                await navigator.share({
+                    text
+                });
+
+            } else {
+
+                copyText(text);
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+$$(".nav-item")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const view =
+                button.dataset.view;
+
+
+            $$(".nav-item")
+            .forEach(
+                item =>
+                    item.classList.toggle(
+                        "active",
+                        item === button
+                    )
+            );
+
+
+            $$(".page")
+            .forEach(
+                page =>
+                    page.classList.toggle(
+                        "active",
+                        page.id === view
+                    )
+            );
+
+
+            $("#pageTitle").textContent =
+                button.textContent.trim();
+
+
+            $("#sidebar")
+                .classList.remove(
+                    "open"
+                );
+
+
+            if (
+                view === "history"
+            ) {
+
+                renderHistory();
+
+            }
+
+        }
+    );
+
+});
+
+
+$("#menuButton")
+    .addEventListener(
+        "click",
+        () =>
+            $("#sidebar")
+                .classList.toggle(
+                    "open"
+                )
+    );
+
+
+/* =========================================================
+   SCIENTIFIC
+========================================================= */
+
+$$("[data-scientific]")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const action =
+                button.dataset.scientific;
+
+            const input =
+                $("#scientificInput");
+
+
+            const current =
+                input.value;
+
+
+            switch (action) {
+
+                case "sin":
+                case "cos":
+                case "tan":
+                case "asin":
+                case "acos":
+                case "atan":
+                case "sinh":
+                case "cosh":
+                case "tanh":
+                case "log":
+                case "ln":
+                case "sqrt":
+                case "floor":
+                case "ceil":
+                case "abs":
+                case "exp":
+
+                    input.value +=
+                        action + "(";
+
+                    break;
+
+
+                case "square":
+
+                    input.value =
+                        `(${current})^2`;
+
+                    break;
+
+
+                case "cube":
+
+                    input.value =
+                        `(${current})^3`;
+
+                    break;
+
+
+                case "power":
+
+                    input.value += "^";
+
+                    break;
+
+
+                case "inverse":
+
+                    input.value =
+                        `1/(${current})`;
+
+                    break;
+
+
+                case "factorial":
+
+                    try {
+
+                        const value =
+                            evaluateExpression(
+                                current
+                            );
+
+                        input.value =
+                            String(
+                                factorial(value)
+                            );
+
+                    } catch {
+
+                        input.value =
+                            current + "!";
+
+                    }
+
+                    break;
+
+
+                case "absolute":
+
+                    input.value =
+                        `abs(${current})`;
+
+                    break;
+
+
+                case "tenPower":
+
+                    input.value =
+                        `10^(${current})`;
+
+                    break;
+
+
+                case "pi":
+
+                    input.value += "π";
+
+                    break;
+
+
+                case "e":
+
+                    input.value += "e";
+
+                    break;
+
+
+                case "random":
+
+                    input.value +=
+                        Math.random();
+
+                    break;
+
+            }
+
+        }
+    );
+
+});
+
+
+$("#angleMode")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.angle =
+                event.target.value;
+
+            saveData();
+
+            renderCalculator();
+
+        }
+    );
+
+
+$("#scientificEquals")
+    .addEventListener(
+        "click",
+        () => {
+
+            const expression =
+                $("#scientificInput")
+                    .value;
+
+
+            try {
+
+                const value =
+                    evaluateExpression(
+                        expression
+                    );
+
+                const result =
+                    formatNumber(value);
+
+
+                $("#scientificExpression")
+                    .textContent =
+                    expression;
+
+
+                $("#scientificResult")
+                    .textContent =
+                    result;
+
+
+                addHistory(
+                    expression,
+                    result
+                );
+
+            } catch (error) {
+
+                $("#scientificResult")
+                    .textContent =
+                    "Error";
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   UNIT CONVERTER
+========================================================= */
+
+const units = {
+
+    Length: {
+        m: 1,
+        km: 1000,
+        cm: .01,
+        mm: .001,
+        mile: 1609.344,
+        yard: .9144,
+        foot: .3048,
+        inch: .0254
+    },
+
+    Area: {
+        "m²": 1,
+        "km²": 1000000,
+        "cm²": .0001,
+        "ft²": .09290304,
+        acre: 4046.8564224
+    },
+
+    Volume: {
+        L: 1,
+        mL: .001,
+        "m³": 1000,
+        "cm³": .001,
+        gallon: 3.785411784
+    },
+
+    Mass: {
+        kg: 1,
+        g: .001,
+        mg: .000001,
+        lb: .45359237,
+        oz: .028349523125
+    },
+
+    Speed: {
+        "m/s": 1,
+        "km/h": 1 / 3.6,
+        mph: .44704,
+        knot: .514444
+    },
+
+    Time: {
+        second: 1,
+        minute: 60,
+        hour: 3600,
+        day: 86400,
+        week: 604800
+    },
+
+    Pressure: {
+        Pa: 1,
+        kPa: 1000,
+        bar: 100000,
+        atm: 101325,
+        psi: 6894.757293
+    },
+
+    Energy: {
+        J: 1,
+        kJ: 1000,
+        Wh: 3600,
+        kWh: 3600000,
+        cal: 4.184
+    },
+
+    Power: {
+        W: 1,
+        kW: 1000,
+        MW: 1000000,
+        hp: 745.699872
+    },
+
+    Frequency: {
+        Hz: 1,
+        kHz: 1000,
+        MHz: 1000000,
+        GHz: 1000000000
+    },
+
+    "Data Storage": {
+        B: 1,
+        KB: 1024,
+        MB: 1024 ** 2,
+        GB: 1024 ** 3,
+        TB: 1024 ** 4
+    },
+
+    Angle: {
+        degree: 1,
+        radian: 180 / Math.PI,
+        gradian: .9
+    }
+
+};
+
+
+function populateUnitCategories() {
+
+    $("#unitCategory").innerHTML =
+        Object.keys(units)
+            .map(
+                category =>
+                    `<option>${category}</option>`
+            )
+            .join("");
+
+    populateUnitOptions();
+
+}
+
+
+function populateUnitOptions() {
+
+    const category =
+        $("#unitCategory").value;
+
+
+    const options =
+        Object.keys(
+            units[category]
+        );
+
+
+    $("#unitFrom").innerHTML =
+        options
+            .map(
+                unit =>
+                    `<option>${unit}</option>`
+            )
+            .join("");
+
+
+    $("#unitTo").innerHTML =
+        options
+            .map(
+                unit =>
+                    `<option>${unit}</option>`
+            )
+            .join("");
+
+}
+
+
+$("#unitCategory")
+    .addEventListener(
+        "change",
+        populateUnitOptions
+    );
+
+
+$("#convertUnit")
+    .addEventListener(
+        "click",
+        () => {
+
+            const category =
+                $("#unitCategory").value;
+
+
+            const value =
+                Number(
+                    $("#unitValue").value
+                );
+
+
+            const from =
+                $("#unitFrom").value;
+
+
+            const to =
+                $("#unitTo").value;
+
+
+            const result =
+                value *
+                units[category][from] /
+                units[category][to];
+
+
+            $("#unitResult")
+                .textContent =
+                `${formatNumber(result)} ${to}`;
+
+        }
+    );
+
+
+populateUnitCategories();
+
+
+/* =========================================================
+   PERCENTAGE
+========================================================= */
+
+$("#calculatePercent")
+    .addEventListener(
+        "click",
+        () => {
+
+            const percentage =
+                Number(
+                    $("#percentValue").value
+                );
+
+            const number =
+                Number(
+                    $("#percentNumber").value
+                );
+
+
+            const result =
+                percentage *
+                number /
+                100;
+
+
+            $("#percentResult")
+                .textContent =
+                formatNumber(result);
+
+        }
+    );
+
+
+$("#calculateChange")
+    .addEventListener(
+        "click",
+        () => {
+
+            const original =
+                Number(
+                    $("#changeOriginal").value
+                );
+
+            const percentage =
+                Number(
+                    $("#changePercent").value
+                );
+
+
+            const type =
+                $("#changeType").value;
+
+
+            const multiplier =
+                type === "increase"
+                    ? 1 + percentage / 100
+                    : 1 - percentage / 100;
+
+
+            const result =
+                original *
+                multiplier;
+
+
+            $("#changeResult")
+                .textContent =
+                formatNumber(result);
+
+        }
+    );
+
+
+$("#calculateGST")
+    .addEventListener(
+        "click",
+        () => {
+
+            const amount =
+                Number(
+                    $("#gstAmount").value
+                );
+
+            const rate =
+                Number(
+                    $("#gstRate").value
+                );
+
+
+            const gst =
+                amount *
+                rate /
+                100;
+
+
+            $("#gstResult")
+                .textContent =
+                `GST: ${formatNumber(gst)}
+                 | Final: ${formatNumber(amount + gst)}`;
+
+        }
+    );
+
+
+$("#calculateDiscount")
+    .addEventListener(
+        "click",
+        () => {
+
+            const price =
+                Number(
+                    $("#discountPrice").value
+                );
+
+            const rate =
+                Number(
+                    $("#discountRate").value
+                );
+
+
+            const discount =
+                price *
+                rate /
+                100;
+
+
+            $("#discountResult")
+                .textContent =
+                `Discount: ${formatNumber(discount)}
+                 | Final: ${formatNumber(price - discount)}`;
+
+        }
+    );
+
+
+/* =========================================================
+   FINANCE
+========================================================= */
+
+$("#simpleInterest")
+    .addEventListener(
+        "click",
+        () => {
+
+            const P =
+                Number(
+                    $("#siPrincipal").value
+                );
+
+            const R =
+                Number(
+                    $("#siRate").value
+                );
+
+            const T =
+                Number(
+                    $("#siTime").value
+                );
+
+
+            const interest =
+                P * R * T / 100;
+
+
+            $("#siResult")
+                .textContent =
+                `Interest: ${formatNumber(interest)}
+                 | Amount: ${formatNumber(P + interest)}`;
+
+        }
+    );
+
+
+$("#compoundInterest")
+    .addEventListener(
+        "click",
+        () => {
+
+            const P =
+                Number(
+                    $("#ciPrincipal").value
+                );
+
+            const R =
+                Number(
+                    $("#ciRate").value
+                ) / 100;
+
+            const T =
+                Number(
+                    $("#ciTime").value
+                );
+
+            const N =
+                Number(
+                    $("#ciFrequency").value
+                ) || 1;
+
+
+            const amount =
+                P *
+                Math.pow(
+                    1 + R / N,
+                    N * T
+                );
+
+
+            $("#ciResult")
+                .textContent =
+                `Amount: ${formatNumber(amount)}
+                 | Interest: ${formatNumber(amount - P)}`;
+
+        }
+    );
+
+
+$("#calculateEMI")
+    .addEventListener(
+        "click",
+        () => {
+
+            const P =
+                Number(
+                    $("#emiPrincipal").value
+                );
+
+            const annualRate =
+                Number(
+                    $("#emiRate").value
+                );
+
+            const years =
+                Number(
+                    $("#emiYears").value
+                );
+
+
+            const monthlyRate =
+                annualRate /
+                1200;
+
+
+            const months =
+                years * 12;
+
+
+            let emi;
+
+
+            if (
+                monthlyRate === 0
+            ) {
+
+                emi =
+                    P / months;
+
+            } else {
+
+                emi =
+                    P *
+                    monthlyRate *
+                    Math.pow(
+                        1 + monthlyRate,
+                        months
+                    ) /
+                    (
+                        Math.pow(
+                            1 + monthlyRate,
+                            months
+                        ) - 1
+                    );
+
+            }
+
+
+            $("#emiResult")
+                .textContent =
+                `Monthly EMI: ${formatNumber(emi)}
+                 | Total: ${formatNumber(emi * months)}`;
+
+        }
+    );
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+$("#calculateDateDifference")
+    .addEventListener(
+        "click",
+        () => {
+
+            const first =
+                new Date(
+                    $("#date1").value
+                );
+
+            const second =
+                new Date(
+                    $("#date2").value
+                );
+
+
+            const days =
+                Math.abs(
+                    Math.round(
+                        (
+                            second -
+                            first
+                        ) /
+                        86400000
+                    )
+                );
+
+
+            $("#dateDifferenceResult")
+                .textContent =
+                `${days} days`;
+
+        }
+    );
+
+
+$("#calculateDateAdd")
+    .addEventListener(
+        "click",
+        () => {
+
+            const date =
+                new Date(
+                    $("#baseDate").value
+                );
+
+            const days =
+                Number(
+                    $("#numberDays").value
+                );
+
+
+            date.setDate(
+                date.getDate() + days
+            );
+
+
+            $("#dateAddResult")
+                .textContent =
+                date.toLocaleDateString(
+                    undefined,
+                    {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                    }
+                );
+
+        }
+    );
+
+
+$("#calculateAge")
+    .addEventListener(
+        "click",
+        () => {
+
+            const birth =
+                new Date(
+                    $("#birthDate").value
+                );
+
+            const today =
+                new Date();
+
+
+            let age =
+                today.getFullYear() -
+                birth.getFullYear();
+
+
+            const birthday =
+                new Date(
+                    today.getFullYear(),
+                    birth.getMonth(),
+                    birth.getDate()
+                );
+
+
+            if (
+                today < birthday
+            ) {
+
+                age--;
+
+            }
+
+
+            $("#ageResult")
+                .textContent =
+                `${Math.max(0, age)} years old`;
+
+        }
+    );
+
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const constants = [
+
+    [
+        "π",
+        "Pi",
+        "3.141592653589793"
+    ],
+
+    [
+        "e",
+        "Euler's Number",
+        "2.718281828459045"
+    ],
+
+    [
+        "φ",
+        "Golden Ratio",
+        "1.618033988749895"
+    ],
+
+    [
+        "c",
+        "Speed of Light",
+        "299792458 m/s"
+    ],
+
+    [
+        "G",
+        "Gravitational Constant",
+        "6.67430 × 10⁻¹¹ m³ kg⁻¹ s⁻²"
+    ],
+
+    [
+        "h",
+        "Planck Constant",
+        "6.62607015 × 10⁻³⁴ J·s"
+    ],
+
+    [
+        "e",
+        "Electron Charge",
+        "1.602176634 × 10⁻¹⁹ C"
+    ],
+
+    [
+        "Nₐ",
+        "Avogadro Constant",
+        "6.02214076 × 10²³ mol⁻¹"
+    ]
+
+];
+
+
+$("#constantsGrid")
+    .innerHTML =
+        constants
+            .map(
+                constant => `
+
+                    <div class="constant">
+
+                        <div class="constant-name">
+                            ${constant[0]}
+                            — ${constant[1]}
+                        </div>
+
+                        <div class="constant-value">
+                            ${constant[2]}
+                        </div>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+
+/* =========================================================
+   EQUATION SOLVER
+========================================================= */
+
+$("#solveEquation")
+    .addEventListener(
+        "click",
+        () => {
+
+            const equation =
+                $("#equationInput")
+                    .value
+                    .replace(/\s/g, "");
+
+
+            try {
+
+                /*
+                   Linear equation:
+                   ax + b = cx + d
+                */
+
+                if (
+                    !equation.includes("^")
+                ) {
+
+                    const parts =
+                        equation.split("=");
+
+
+                    if (
+                        parts.length !== 2
+                    ) {
+
+                        throw new Error(
+                            "Use an equation containing =."
+                        );
+
+                    }
+
+
+                    const left =
+                        parts[0];
+
+                    const right =
+                        parts[1];
+
+
+                    /*
+                       Determine coefficients
+                       numerically.
+                    */
+
+                    function f(x) {
+
+                        return (
+                            evaluateExpression(
+                                left.replace(
+                                    /x/g,
+                                    `(${x})`
+                                )
+                            ) -
+                            evaluateExpression(
+                                right.replace(
+                                    /x/g,
+                                    `(${x})`
+                                )
+                            )
+                        );
+
+                    }
+
+
+                    const f0 =
+                        f(0);
+
+                    const f1 =
+                        f(1);
+
+                    const coefficient =
+                        f1 - f0;
+
+
+                    if (
+                        Math.abs(coefficient)
+                        < 1e-12
+                    ) {
+
+                        throw new Error(
+                            "No unique linear solution."
+                        );
+
+                    }
+
+
+                    const x =
+                        -f0 /
+                        coefficient;
+
+
+                    $("#equationResult")
+                        .innerHTML =
+                        `
+                            <p>
+                                Move the x terms
+                                and constants to
+                                opposite sides.
+                            </p>
+
+                            <strong>
+                                x = ${formatNumber(x)}
+                            </strong>
+                        `;
+
+                    return;
+
+                }
+
+
+                /*
+                   Basic quadratic parser
+                */
+
+                const normalized =
+                    equation
+                        .replaceAll(
+                            "²",
+                            "^2"
+                        )
+                        .replaceAll(
+                            " ",
+                            ""
+                        );
+
+
+                const match =
+                    normalized.match(
+                        /^([+-]?\d*\.?\d*)x\^2([+-]?\d*\.?\d*)x([+-]?\d*\.?\d*)=0$/
+                    );
+
+
+                if (!match) {
+
+                    throw new Error(
+                        "Quadratic format should look like ax² + bx + c = 0."
+                    );
+
+                }
+
+
+                const a =
+                    Number(
+                        match[1] === "" ||
+                        match[1] === "+"
+                            ? 1
+                            : match[1] === "-"
+                                ? -1
+                                : match[1]
+                    );
+
+
+                const b =
+                    Number(
+                        match[2] || 0
+                    );
+
+
+                const c =
+                    Number(
+                        match[3] || 0
+                    );
+
+
+                const D =
+                    b * b -
+                    4 * a * c;
+
+
+                if (D < 0) {
+
+                    $("#equationResult")
+                        .innerHTML =
+                        `
+                            Discriminant:
+                            <b>
+                                ${formatNumber(D)}
+                            </b>
+
+                            <br><br>
+
+                            No real roots.
+                        `;
+
+                    return;
+
+                }
+
+
+                const x1 =
+                    (
+                        -b +
+                        Math.sqrt(D)
+                    ) /
+                    (2 * a);
+
+
+                const x2 =
+                    (
+                        -b -
+                        Math.sqrt(D)
+                    ) /
+                    (2 * a);
+
+
+                $("#equationResult")
+                    .innerHTML =
+                    `
+                        <p>
+                            a = ${a},
+                            b = ${b},
+                            c = ${c}
+                        </p>
+
+                        <p>
+                            Discriminant:
+                            <b>
+                                D = ${formatNumber(D)}
+                            </b>
+                        </p>
+
+                        <strong>
+                            x₁ =
+                            ${formatNumber(x1)}
+                        </strong>
+
+                        <br>
+
+                        <strong>
+                            x₂ =
+                            ${formatNumber(x2)}
+                        </strong>
+                    `;
+
+            } catch (error) {
+
+                $("#equationResult")
+                    .textContent =
+                    error.message;
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function applySettings() {
+
+    const theme =
+        state.settings.theme;
+
+
+    if (
+        theme === "light"
+    ) {
+
+        document.body
+            .classList
+            .add("light");
+
+    } else if (
+        theme === "dark"
+    ) {
+
+        document.body
+            .classList
+            .remove("light");
+
+    } else {
+
+        document.body
+            .classList
+            .toggle(
+                "light",
+                window.matchMedia(
+                    "(prefers-color-scheme: light)"
+                ).matches
+            );
+
+    }
+
+
+    $("#theme").value =
+        state.settings.theme;
+
+
+    $("#angleSetting").value =
+        state.settings.angle;
+
+
+    $("#angleMode").value =
+        state.settings.angle;
+
+
+    $("#decimalPrecision").value =
+        state.settings.precision;
+
+
+    $("#thousands").checked =
+        state.settings.thousands;
+
+
+    $("#buttonSound").checked =
+        state.settings.sound;
+
+
+    $("#haptic").checked =
+        state.settings.haptic;
+
+
+    renderCalculator();
+
+}
+
+
+$("#theme")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.theme =
+                event.target.value;
+
+            saveData();
+
+            applySettings();
+
+        }
+    );
+
+
+$("#angleSetting")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.angle =
+                event.target.value;
+
+            saveData();
+
+            applySettings();
+
+        }
+    );
+
+
+$("#decimalPrecision")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.precision =
+                Math.max(
+                    0,
+                    Math.min(
+                        15,
+                        Number(
+                            event.target.value
+                        )
+                    )
+                );
+
+            saveData();
+
+            renderCalculator();
+
+        }
+    );
+
+
+$("#thousands")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.thousands =
+                event.target.checked;
+
+            saveData();
+
+            renderCalculator();
+
+        }
+    );
+
+
+$("#buttonSound")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.sound =
+                event.target.checked;
+
+            saveData();
+
+        }
+    );
+
+
+$("#haptic")
+    .addEventListener(
+        "change",
+        event => {
+
+            state.settings.haptic =
+                event.target.checked;
+
+            saveData();
+
+        }
+    );
+
+
+$("#resetSettings")
+    .addEventListener(
+        "click",
+        () => {
+
+            state.settings = {
+
+                theme: "system",
+
+                angle: "DEG",
+
+                precision: 10,
+
+                thousands: true,
+
+                sound: false,
+
+                haptic: true
+
+            };
+
+
+            saveData();
+
+            applySettings();
+
+        }
+    );
+
+
+/* =========================================================
+   HISTORY EVENTS
+========================================================= */
+
+$("#historySearch")
+    .addEventListener(
+        "input",
+        renderHistory
+    );
+
+
+$("#clearHistory")
+    .addEventListener(
+        "click",
+        () => {
+
+            state.history = [];
+
+            saveData();
+
+            renderHistory();
+
+        }
+    );
+
+
+/* =========================================================
+   THEME BUTTON
+========================================================= */
+
+$("#themeButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                state.settings.theme === "dark"
+            ) {
+
+                state.settings.theme =
+                    "light";
+
+            } else {
+
+                state.settings.theme =
+                    "dark";
+
+            }
+
+
+            saveData();
+
+            applySettings();
+
+        }
+    );
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+applySettings();
+
+renderHistory();
+
+renderCalculator();
