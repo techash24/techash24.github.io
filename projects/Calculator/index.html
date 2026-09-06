@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#121316">
+    <title>One UI Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            One UI <span>Calculator</span>
+        </div>
+
+        <div class="header-actions">
+            <button class="icon-btn" id="historyBtn" aria-label="History">↺</button>
+            <button class="icon-btn" id="aiBtn" aria-label="AI Solver">✦</button>
+        </div>
+    </header>
+
+    <!-- DISPLAY -->
+    <section class="display">
+        <div class="expression" id="expression"></div>
+        <div class="result" id="result">0</div>
+    </section>
+
+    <!-- MEMORY -->
+    <div class="memory-row">
+        <button class="memory-btn" data-memory="MC">MC</button>
+        <button class="memory-btn" data-memory="M+">M+</button>
+        <button class="memory-btn" data-memory="M-">M−</button>
+        <button class="memory-btn" data-memory="MR">MR</button>
+    </div>
+
+    <!-- MODE -->
+    <div class="mode-row">
+        <span class="mode-title" id="modeTitle">Standard</span>
+
+        <div class="mode-switch">
+            <button id="standardMode" class="active">Standard</button>
+            <button id="scientificMode">Scientific</button>
+        </div>
+    </div>
+
+    <!-- SCIENTIFIC -->
+    <section class="scientific" id="scientificPanel">
+        <div class="grid scientific-grid">
+            <button class="btn function" data-action="sin">sin</button>
+            <button class="btn function" data-action="cos">cos</button>
+            <button class="btn function" data-action="tan">tan</button>
+            <button class="btn function" data-action="log">log</button>
+
+            <button class="btn function" data-action="sqrt">√</button>
+            <button class="btn function" data-action="square">x²</button>
+            <button class="btn function" data-action="power">xʸ</button>
+            <button class="btn function" data-action="pi">π</button>
+        </div>
+    </section>
+
+    <!-- KEYPAD -->
+    <main class="keypad">
+
+        <div class="grid">
+
+            <button class="btn function" data-action="clear">AC</button>
+            <button class="btn function" data-action="paren">( )</button>
+            <button class="btn function" data-action="percent">%</button>
+            <button class="btn operator" data-value="÷">÷</button>
+
+            <button class="btn number" data-value="7">7</button>
+            <button class="btn number" data-value="8">8</button>
+            <button class="btn number" data-value="9">9</button>
+            <button class="btn operator" data-value="×">×</button>
+
+            <button class="btn number" data-value="4">4</button>
+            <button class="btn number" data-value="5">5</button>
+            <button class="btn number" data-value="6">6</button>
+            <button class="btn operator" data-value="−">−</button>
+
+            <button class="btn number" data-value="1">1</button>
+            <button class="btn number" data-value="2">2</button>
+            <button class="btn number" data-value="3">3</button>
+            <button class="btn operator" data-value="+">+</button>
+
+            <button class="btn function" data-action="backspace">⌫</button>
+            <button class="btn number" data-value="0">0</button>
+            <button class="btn number" data-value=".">.</button>
+            <button class="btn equals" data-action="equals">=</button>
+
+        </div>
+
+    </main>
+
+    <!-- AI PANEL -->
+    <section class="ai-panel" id="aiPanel">
+
+        <div class="ai-header">
+            <div class="ai-title">
+                AI <span>Smart Solver</span>
+            </div>
+
+            <button class="close-ai" id="closeAi">×</button>
+        </div>
+
+        <div class="ai-content">
+
+            <div class="ai-intro">
+                <strong>✨ Solve with AI-style assistance</strong>
+                <p>
+                    Try percentages, equations, square roots,
+                    or normal calculations.
+                </p>
+            </div>
+
+            <div class="ai-input-area">
+                <input
+                    type="text"
+                    id="aiInput"
+                    class="ai-input"
+                    placeholder="e.g. 25% of 240"
+                    autocomplete="off"
+                >
+
+                <button class="solve-btn" id="solveBtn">
+                    Solve
+                </button>
+            </div>
+
+            <div class="examples">
+                <button class="example">25% of 240</button>
+                <button class="example">3x + 5 = 20</button>
+                <button class="example">sqrt 144</button>
+                <button class="example">15% tip on 45</button>
+            </div>
+
+            <div class="ai-answer" id="aiAnswer"></div>
+
+        </div>
+
+    </section>
+
+    <!-- HISTORY PANEL -->
+    <section class="history-panel" id="historyPanel">
+
+        <div class="history-header">
+            <strong>Calculation History</strong>
+
+            <div class="history-actions">
+                <button class="small-action" id="clearHistory">
+                    Clear
+                </button>
+
+                <button class="close-history" id="closeHistory">
+                    ×
+                </button>
+            </div>
+        </div>
+
+        <div class="history-list" id="historyList"></div>
+
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
