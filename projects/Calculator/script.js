@@ -1247,7 +1247,10 @@ document.querySelectorAll(".example").forEach(example => {
 
 document.addEventListener("keydown", event => {
 
-    if (document.activeElement === aiInput) {
+    if (
+        document.activeElement === aiInput ||
+        document.activeElement === trigInput
+    ) {
         return;
     }
 
