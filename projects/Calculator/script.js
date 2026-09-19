@@ -947,6 +947,39 @@ function solveAI(problem) {
         return;
     }
 
+    /* ---------- NUMERICAL TRIGONOMETRY ---------- */
+
+    const trigArithmetic = original
+        .replace(/what is/gi, "")
+        .replace(/calculate/gi, "")
+        .replace(/solve/gi, "")
+        .replace(/equals/gi, "")
+        .replace(/×/g, "*")
+        .replace(/÷/g, "/")
+        .replace(/−/g, "-")
+        .trim();
+
+    if (/^(?:sin|cos|tan)\\s*\\([^()]+\\)(?:\\s*[+\\-*/]\\s*(?:sin|cos|tan)\\s*\\([^()]+\\))*$/i.test(trigArithmetic)) {
+        try {
+            const answer = evaluateExpression(trigArithmetic);
+
+            showAISolution(
+                "Trigonometric Calculation",
+                [
+                    `Expression: ${trigArithmetic}`,
+                    `Angle mode: ${angleMode}`,
+                    "The calculator evaluated each trigonometric function and then combined the results."
+                ],
+                formatNumber(answer)
+            );
+
+            return;
+        } catch (error) {
+            showAIError(error.message || "Unable to evaluate the trigonometric expression.");
+            return;
+        }
+    }
+
     /* ---------- BASIC MATH ---------- */
 
     let arithmetic = original
@@ -1259,6 +1292,27 @@ document.addEventListener("keydown", event => {
     if (key === "(" || key === ")") {
         toggleParenthesis();
         return;
+    }
+
+    /* Allow typing trig functions directly from the keyboard. */
+    if (/^[a-zA-Z]$/.test(key)) {
+        const current = expression.toLowerCase();
+        if (current.endsWith("si") && key.toLowerCase() === "n") {
+            appendValue("n");
+            return;
+        }
+        if (current.endsWith("co") && key.toLowerCase() === "s") {
+            appendValue("s");
+            return;
+        }
+        if (current.endsWith("co") && key.toLowerCase() === "t") {
+            appendValue("t");
+            return;
+        }
+        if (current.endsWith("si") || current.endsWith("cos") || current.endsWith("tan")) {
+            appendValue(key);
+            return;
+        }
     }
 
     if (key === "Enter" || key === "=") {
