@@ -959,7 +959,7 @@ function solveAI(problem) {
         .replace(/−/g, "-")
         .trim();
 
-    if (/^(?:sin|cos|tan)\\s*\\([^()]+\\)(?:\\s*[+\\-*/]\\s*(?:sin|cos|tan)\\s*\\([^()]+\\))*$/i.test(trigArithmetic)) {
+    if (/^(?:sin|cos|tan)\s*\\([^()]+\\)(?:\s*[+\-*/]\s*(?:sin|cos|tan)\s*\\([^()]+\\))*$/i.test(trigArithmetic)) {
         try {
             const answer = evaluateExpression(trigArithmetic);
 
@@ -1294,25 +1294,25 @@ document.addEventListener("keydown", event => {
         return;
     }
 
-    /* Allow typing trig functions directly from the keyboard. */
+    /* Allow typing sin/cos/tan directly from the keyboard. */
     if (/^[a-zA-Z]$/.test(key)) {
+        const letter = key.toLowerCase();
         const current = expression.toLowerCase();
-        if (current.endsWith("si") && key.toLowerCase() === "n") {
-            appendValue("n");
-            return;
+        const suffixMatch = current.match(/(?:^|[^a-z])(s|si|c|co|t|ta)$/);
+        const prefix = suffixMatch ? suffixMatch[1] : "";
+        const allowedNext = {
+            "": ["s", "c", "t"],
+            "s": ["i"],
+            "si": ["n"],
+            "c": ["o"],
+            "co": ["s", "t"],
+            "t": ["a"],
+            "ta": ["n"]
+        };
+        if ((allowedNext[prefix] || []).includes(letter)) {
+            appendValue(letter);
         }
-        if (current.endsWith("co") && key.toLowerCase() === "s") {
-            appendValue("s");
-            return;
-        }
-        if (current.endsWith("co") && key.toLowerCase() === "t") {
-            appendValue("t");
-            return;
-        }
-        if (current.endsWith("si") || current.endsWith("cos") || current.endsWith("tan")) {
-            appendValue(key);
-            return;
-        }
+        return;
     }
 
     if (key === "Enter" || key === "=") {
