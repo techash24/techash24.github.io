@@ -1283,3 +1283,273 @@ document.addEventListener("keydown", event => {
 
 renderHistory();
 updateDisplay();
+
+/* =========================================================
+   TRIGONOMETRIC IDENTITY SOLVER
+   ========================================================= */
+
+const trigMode = document.getElementById("trigMode");
+const trigPanel = document.getElementById("trigPanel");
+const trigInput = document.getElementById("trigInput");
+const trigAnswer = document.getElementById("trigAnswer");
+const trigSolveBtn = document.getElementById("trigSolveBtn");
+
+function normalizeTrigInput(value) {
+    return value
+        .trim()
+        .toLowerCase()
+        .replaceAll("²", "^2")
+        .replaceAll("³", "^3")
+        .replaceAll("₁", "1")
+        .replaceAll("₁", "1")
+        .replaceAll("−", "-")
+        .replaceAll("×", "*")
+        .replace(/\s+/g, "")
+        .replace(/sina/g, "sinA")
+        .replace(/cosa/g, "cosA")
+        .replace(/tana/g, "tanA")
+        .replace(/cota/g, "cotA")
+        .replace(/seca/g, "secA")
+        .replace(/coseca/g, "cosecA")
+        .replace(/sin\^2a/g, "sin²A")
+        .replace(/cos\^2a/g, "cos²A")
+        .replace(/tan\^2a/g, "tan²A")
+        .replace(/cot\^2a/g, "cot²A")
+        .replace(/sec\^2a/g, "sec²A")
+        .replace(/cosec\^2a/g, "cosec²A");
+}
+
+function showTrigSolution(title, steps, answer) {
+    trigAnswer.innerHTML = `
+        <div class="answer-card">
+            <h3>📐 ${escapeHTML(title)}</h3>
+            ${steps.map((step, index) => `
+                <div class="step">
+                    <b>${index + 1}.</b>
+                    ${escapeHTML(step)}
+                </div>
+            `).join("")}
+            <div class="final-answer">
+                Final Answer: ${escapeHTML(answer)}
+            </div>
+        </div>
+    `;
+}
+
+function solveTrigIdentity(problem) {
+    const original = problem.trim();
+
+    if (!original) {
+        showAIError("Please enter a trigonometric identity.");
+        return;
+    }
+
+    let text = normalizeTrigInput(original);
+
+    /* ---------- DIRECT IDENTITIES ---------- */
+
+    const direct = [
+        {
+            patterns: ["sin²A+cos²A", "cos²A+sin²A"],
+            steps: [
+                "Use the Pythagorean identity: sin²A + cos²A = 1.",
+                "The expression matches the identity directly."
+            ],
+            answer: "1"
+        },
+        {
+            patterns: ["1+tan²A"],
+            steps: [
+                "Use the Pythagorean identity: 1 + tan²A = sec²A.",
+                "Replace 1 + tan²A with sec²A."
+            ],
+            answer: "sec²A"
+        },
+        {
+            patterns: ["1+cot²A"],
+            steps: [
+                "Use the Pythagorean identity: 1 + cot²A = cosec²A.",
+                "Replace 1 + cot²A with cosec²A."
+            ],
+            answer: "cosec²A"
+        },
+        {
+            patterns: ["sec²A-tan²A", "sec²A-tan²A"],
+            steps: [
+                "Use sec²A = 1 + tan²A.",
+                "sec²A − tan²A = (1 + tan²A) − tan²A.",
+                "The tan²A terms cancel."
+            ],
+            answer: "1"
+        },
+        {
+            patterns: ["cosec²A-cot²A"],
+            steps: [
+                "Use cosec²A = 1 + cot²A.",
+                "cosec²A − cot²A = (1 + cot²A) − cot²A.",
+                "The cot²A terms cancel."
+            ],
+            answer: "1"
+        },
+        {
+            patterns: ["tana*cosa", "cosa*tana"],
+            steps: [
+                "Use tanA = sinA / cosA.",
+                "(sinA / cosA) × cosA = sinA.",
+                "cosA cancels."
+            ],
+            answer: "sinA"
+        },
+        {
+            patterns: ["cota*sina", "sina*cota"],
+            steps: [
+                "Use cotA = cosA / sinA.",
+                "(cosA / sinA) × sinA = cosA.",
+                "sinA cancels."
+            ],
+            answer: "cosA"
+        },
+        {
+            patterns: ["sina/cosa"],
+            steps: [
+                "Use the definition tanA = sinA / cosA.",
+                "Replace sinA / cosA with tanA."
+            ],
+            answer: "tanA"
+        },
+        {
+            patterns: ["cosa/sina"],
+            steps: [
+                "Use the definition cotA = cosA / sinA.",
+                "Replace cosA / sinA with cotA."
+            ],
+            answer: "cotA"
+        },
+        {
+            patterns: ["1/cosa"],
+            steps: [
+                "Use the reciprocal identity secA = 1 / cosA.",
+                "Replace 1 / cosA with secA."
+            ],
+            answer: "secA"
+        },
+        {
+            patterns: ["1/sina"],
+            steps: [
+                "Use the reciprocal identity cosecA = 1 / sinA.",
+                "Replace 1 / sinA with cosecA."
+            ],
+            answer: "cosecA"
+        },
+        {
+            patterns: ["(1-cos²A)/sinA"],
+            steps: [
+                "Use 1 − cos²A = sin²A.",
+                "(1 − cos²A) / sinA = sin²A / sinA.",
+                "Cancel sinA."
+            ],
+            answer: "sinA"
+        },
+        {
+            patterns: ["(1-sin²A)/cosA"],
+            steps: [
+                "Use 1 − sin²A = cos²A.",
+                "(1 − sin²A) / cosA = cos²A / cosA.",
+                "Cancel cosA."
+            ],
+            answer: "cosA"
+        }
+    ];
+
+    const match = direct.find(item => item.patterns.includes(text));
+
+    if (match) {
+        showTrigSolution("Identity Simplified", match.steps, match.answer);
+        return;
+    }
+
+    /* ---------- IDENTITY EQUALITY CHECK ---------- */
+
+    const equalityMap = {
+        "tana=sina/cosa": ["Use tanA = sinA / cosA.", "Both sides are exactly the same by definition."],
+        "cota=cosa/sina": ["Use cotA = cosA / sinA.", "Both sides are exactly the same by definition."],
+        "seca=1/cosa": ["Use secA = 1 / cosA.", "Both sides are exactly the same by definition."],
+        "coseca=1/sina": ["Use cosecA = 1 / sinA.", "Both sides are exactly the same by definition."]
+    };
+
+    if (equalityMap[text]) {
+        showTrigSolution(
+            "Identity Verified",
+            equalityMap[text],
+            "True identity"
+        );
+        return;
+    }
+
+    /* ---------- SIMPLE Pythagorean REARRANGEMENTS ---------- */
+
+    const rearrangements = [
+        ["1-sin²A", "cos²A", "Use sin²A + cos²A = 1, then subtract sin²A from both sides."],
+        ["1-cos²A", "sin²A", "Use sin²A + cos²A = 1, then subtract cos²A from both sides."],
+        ["sec²A-1", "tan²A", "Use sec²A = 1 + tan²A, then subtract 1."],
+        ["cosec²A-1", "cot²A", "Use cosec²A = 1 + cot²A, then subtract 1."]
+    ];
+
+    const rearranged = rearrangements.find(item => item[0] === text);
+
+    if (rearranged) {
+        showTrigSolution(
+            "Identity Simplified",
+            [rearranged[2], `${rearranged[0]} → ${rearranged[1]}`],
+            rearranged[1]
+        );
+        return;
+    }
+
+    showTrigSolution(
+        "Try a standard identity",
+        [
+            "I could not match this expression to the built-in Class 11 identity rules yet.",
+            "Try using sin²A + cos²A = 1, 1 + tan²A = sec²A, or 1 + cot²A = cosec²A.",
+            "You can also use definitions such as tanA = sinA / cosA."
+        ],
+        "Not simplified"
+    );
+}
+
+trigMode.addEventListener("click", () => {
+    scientificPanel.classList.remove("visible");
+    trigPanel.classList.add("visible");
+
+    standardMode.classList.remove("active");
+    scientificMode.classList.remove("active");
+    trigMode.classList.add("active");
+
+    modeTitle.textContent = "Trig Identities";
+});
+
+standardMode.addEventListener("click", () => {
+    trigPanel.classList.remove("visible");
+});
+
+scientificMode.addEventListener("click", () => {
+    trigPanel.classList.remove("visible");
+});
+
+trigSolveBtn.addEventListener("click", () => {
+    solveTrigIdentity(trigInput.value);
+});
+
+trigInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        solveTrigIdentity(trigInput.value);
+    }
+});
+
+document.querySelectorAll(".trig-example").forEach(example => {
+    example.addEventListener("click", () => {
+        trigInput.value = example.textContent.trim();
+        solveTrigIdentity(trigInput.value);
+    });
+});
