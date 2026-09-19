@@ -1601,6 +1601,45 @@ function solveTrigIdentity(problem) {
         return;
     }
 
+    /* ---------- SINGLE Pythagorean TERMS ---------- */
+
+    const singleIdentityForms = {
+        "tan²A": {
+            steps: [
+                "Start with the Pythagorean identity: 1 + tan²A = sec²A.",
+                "Subtract 1 from both sides.",
+                "tan²A = sec²A − 1."
+            ],
+            answer: "sec²A − 1"
+        },
+        "cot²A": {
+            steps: [
+                "Start with the Pythagorean identity: 1 + cot²A = cosec²A.",
+                "Subtract 1 from both sides.",
+                "cot²A = cosec²A − 1."
+            ],
+            answer: "cosec²A − 1"
+        },
+        "sec²A": {
+            steps: [
+                "Use the Pythagorean identity: 1 + tan²A = sec²A."
+            ],
+            answer: "1 + tan²A"
+        },
+        "cosec²A": {
+            steps: [
+                "Use the Pythagorean identity: 1 + cot²A = cosec²A."
+            ],
+            answer: "1 + cot²A"
+        }
+    };
+
+    if (singleIdentityForms[text]) {
+        const item = singleIdentityForms[text];
+        showTrigSolution("Identity Form", item.steps, item.answer);
+        return;
+    }
+
     /* ---------- SIMPLE Pythagorean REARRANGEMENTS ---------- */
 
     const rearrangements = [
