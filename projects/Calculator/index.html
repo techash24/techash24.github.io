@@ -45,6 +45,7 @@
         <div class="mode-switch">
             <button id="standardMode" class="active">Standard</button>
             <button id="scientificMode">Scientific</button>
+            <button id="trigMode">Trig</button>
         </div>
     </div>
 
@@ -60,6 +61,35 @@
             <button class="btn function" data-action="square">x²</button>
             <button class="btn function" data-action="power">xʸ</button>
             <button class="btn function" data-action="pi">π</button>
+        </div>
+    </section>    
+    <!-- TRIGONOMETRIC IDENTITY SOLVER -->
+    <section class="trig-panel" id="trigPanel">
+        <div class="trig-card">
+            <div class="trig-intro">
+                <strong>📐 Trigonometric Identity Solver</strong>
+                <p>Simplify common Class 11 identities step-by-step.</p>
+            </div>
+
+            <div class="trig-input-area">
+                <input
+                    type="text"
+                    id="trigInput"
+                    class="trig-input"
+                    placeholder="e.g. sin²A + cos²A"
+                    autocomplete="off"
+                >
+                <button class="solve-btn" id="trigSolveBtn">Solve</button>
+            </div>
+
+            <div class="trig-examples">
+                <button class="trig-example">sin²A + cos²A</button>
+                <button class="trig-example">1 + tan²A</button>
+                <button class="trig-example">sec²A − tan²A</button>
+                <button class="trig-example">(1 − cos²A) / sinA</button>
+            </div>
+
+            <div class="trig-answer" id="trigAnswer"></div>
         </div>
     </section>
 
