@@ -1400,6 +1400,67 @@ function solveTrigIdentity(problem) {
 
     let text = normalizeTrigInput(original);
 
+    /* ---------- NUMERICAL TRIG EXPRESSIONS ---------- */
+
+    const numericalTrig = text
+        .replace(/\s+/g, "")
+        .replaceAll("×", "*")
+        .replaceAll("−", "-")
+        .replaceAll("÷", "/");
+
+    if (/^(?:sin|cos|tan)\([^()]+\)(?:[+\-*/](?:sin|cos|tan)\([^()]+\))*$/i.test(numericalTrig)) {
+        try {
+            const parts = numericalTrig.match(/(?:sin|cos|tan)\([^()]+\)|[+\-*/]/gi) || [];
+            const steps = [];
+
+            for (const part of parts) {
+                if (/^(sin|cos|tan)\(/i.test(part)) {
+                    const match = part.match(/^(sin|cos|tan)\(([^()]+)\)$/i);
+                    const fn = match[1].toLowerCase();
+                    const angle = match[2];
+                    const value = evaluateExpression(part);
+
+                    steps.push(
+                        `${fn}(${angle}) = ${formatNumber(value)}`
+                    );
+                }
+            }
+
+            const answer = evaluateExpression(numericalTrig);
+
+            const simplified = parts.map(part => {
+                if (/^(sin|cos|tan)\(/i.test(part)) {
+                    const match = part.match(/^(sin|cos|tan)\(([^()]+)\)$/i);
+                    return formatNumber(evaluateExpression(part));
+                }
+                return part;
+            }).join("");
+
+            steps.push(`${simplified} = ${formatNumber(answer)}`);
+
+            showTrigSolution(
+                "Trigonometric Calculation",
+                [
+                    `Angle mode: ${angleMode}`,
+                    ...steps
+                ],
+                formatNumber(answer)
+            );
+
+            return;
+        } catch (error) {
+            showTrigSolution(
+                "Calculation Error",
+                [
+                    error.message || "Unable to evaluate this trigonometric expression.",
+                    "Check the angle and make sure the current angle mode is correct."
+                ],
+                "Error"
+            );
+            return;
+        }
+    }
+
     /* ---------- DIRECT IDENTITIES ---------- */
 
     const direct = [
