@@ -1461,6 +1461,59 @@ function solveTrigIdentity(problem) {
         }
     }
 
+    /* ---------- SINGLE TRIGONOMETRIC FUNCTIONS ---------- */
+
+    const singleTrigForms = {
+        "tanA": {
+            steps: [
+                "Use the quotient identity: tanA = sinA / cosA.",
+                "Replace tanA with its sine-cosine form."
+            ],
+            answer: "sinA / cosA"
+        },
+        "cotA": {
+            steps: [
+                "Use the quotient identity: cotA = cosA / sinA.",
+                "Replace cotA with its sine-cosine form."
+            ],
+            answer: "cosA / sinA"
+        },
+        "secA": {
+            steps: [
+                "Use the reciprocal identity: secA = 1 / cosA.",
+                "Replace secA with its reciprocal form."
+            ],
+            answer: "1 / cosA"
+        },
+        "cosecA": {
+            steps: [
+                "Use the reciprocal identity: cosecA = 1 / sinA.",
+                "Replace cosecA with its reciprocal form."
+            ],
+            answer: "1 / sinA"
+        },
+        "sinA": {
+            steps: [
+                "Use the reciprocal/quotient identities to express sine in terms of other functions when needed.",
+                "sinA can be written as tanA × cosA."
+            ],
+            answer: "tanA × cosA"
+        },
+        "cosA": {
+            steps: [
+                "Use the quotient identity tanA = sinA / cosA.",
+                "Rearranging gives cosA = sinA / tanA."
+            ],
+            answer: "sinA / tanA"
+        }
+    };
+
+    if (singleTrigForms[text]) {
+        const item = singleTrigForms[text];
+        showTrigSolution("Trigonometric Form", item.steps, item.answer);
+        return;
+    }
+
     /* ---------- DIRECT IDENTITIES ---------- */
 
     const direct = [
